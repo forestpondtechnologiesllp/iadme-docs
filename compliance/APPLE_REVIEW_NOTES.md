@@ -30,7 +30,7 @@ iadmeappuser@gmail.com
 
 Reviewer Password:
 
-iAdMe@pp_2026
+iAdMeappuser
 
 Notes:
 
@@ -55,7 +55,9 @@ Location access is required to:
 - Determine country feed
 - Support feed ranking and discovery
 
-If location permission is denied, the application cannot generate a personalized feed and content discovery experience.
+Location permission is strongly recommended because iAdMe is a locality-first content platform.
+
+If location access is unavailable, the application continues to function using broader geographic feed discovery.
 
 For review, please allow location permission when prompted.
 
