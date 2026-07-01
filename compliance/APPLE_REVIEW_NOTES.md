@@ -1,100 +1,96 @@
-
-
 # iAdMe — Apple App Review Notes
 
-Last Updated: June 2026
+**Last Updated:** June 2026  
+**Submission:** Version 1.0 (Build 11)
 
 ---
 
 # App Overview
 
-iAdMe is a locality-first short video social platform.
+**iAdMe** is a locality-first short video social platform.
 
-Users can:
+Features:
 
-- Discover nearby and local short videos
-- Upload videos
-- Like, comment, share, and report content
-- Follow creators
-- Send direct messages
-- Receive notifications
-- Unlock premium videos using Stars
-
----
-
-# Reviewer Test Account
-
-Reviewer Email:
-
-iadmeappuser@gmail.com
-
-Reviewer Password:
-
-iAdMeappuser
-
-Notes:
-
-- Reviewer account is a normal user account.
-- Reviewer account is not an administrator account.
-- Reviewer account has access to application features required for review.
+- Short video feed
+- Uploads
+- Likes, comments, shares and reports
+- Follows
+- Direct messages
+- Notifications
+- Premium video unlocks using Stars
 
 ---
 
-# Location Permission Requirement
+# Reviewer Test Accounts
 
-Important:
+## Reviewer Account A
+
+- **Email:** iadme.review@gmail.com
+- **Password:** iadme.review@gmail.com
+- **Display Name:** USER A
+
+## Reviewer Account B
+
+- **Email:** iadmeappuser@gmail.com
+- **Password:** iadmeappuser@gmail.com
+- **Display Name:** USER B
+
+### Notes
+
+- Both reviewer accounts are standard user accounts.
+- Neither account has administrator privileges.
+- Both accounts have full access to all application features required for review.
+- Both accounts contain pre-populated content and interactions for testing.
+
+---
+
+# Location Permission
 
 iAdMe is a locality-first content discovery platform.
 
-Location access is required to:
+Location permission improves nearby, locality, city, state and country feed discovery.
 
-- Determine nearby content
-- Determine locality feed
-- Determine city feed
-- Determine state feed
-- Determine country feed
-- Support feed ranking and discovery
-
-Location permission is strongly recommended because iAdMe is a locality-first content platform.
-
-If location access is unavailable, the application continues to function using broader geographic feed discovery.
-
-For review, please allow location permission when prompted.
+If denied, the app continues using broader geographic content.
 
 ---
 
-# Authentication Flow
+# Authentication & Registration
 
 Email verification is mandatory.
 
-Review flow:
+### New User Registration
 
-1. Login using the reviewer account.
-2. Email verification is required.
-3. Phone verification is optional.
-4. After authentication, the reviewer can access all application features.
+New users are required to:
+
+- Verify their email address
+- Accept the **Terms & Conditions (EULA)**
+- Accept the **Privacy Policy**
+
+### Existing Reviewer Accounts
+
+Returning users may sign in directly using either reviewer account provided above.
 
 ---
 
 # Content Availability
 
-The reviewer account can immediately access available content after login and location permission approval.
+The reviewer accounts contain pre-populated content for testing:
 
-The reviewer can:
-
-- View videos
-- Open creator profiles
-- View comments
-- Create comments
-- Like videos
-- Share videos
-- Report videos
+- Feed
+- Trending
+- Public & premium videos
+- Creator profiles
+- Comments
+- Reactions
+- Direct messages
+- Reporting
+- Blocking
 
 ---
 
 # Upload Testing
 
-The reviewer account can upload videos.
+Reviewer accounts can upload videos.
 
 Reviewers may test:
 
@@ -107,18 +103,7 @@ Reviewers may test:
 
 # Premium Content Testing
 
-The reviewer account is provided with starter Stars.
-
-Reviewers can:
-
-- Unlock premium videos
-- Test premium video playback
-- Test premium content access flows
-
-Current allocation:
-
-- 100 Stars available
-- Sufficient balance to unlock multiple premium videos
+Reviewer accounts include sufficient Stars to test premium video unlocking and playback.
 
 ---
 
@@ -126,39 +111,64 @@ Current allocation:
 
 The application supports direct messaging.
 
-Current implementation supports:
+Supports text messaging, conversation threads and notifications.
 
-- Text messages
-- Conversation threads
-- Notifications
-
-Media attachments are not currently enabled.
+Users can block abusive users directly from the conversation menu.
 
 ---
 
 # Notifications
 
-The application uses Firebase Cloud Messaging.
+The application uses Firebase Cloud Messaging (FCM).
 
-Reviewers may receive:
+Supports like, comment, reply, follow and wallet notifications with deep links.
 
-- Like notifications
-- Comment notifications
-- Reply notifications
-- Follow notifications
-- Wallet notifications
+---
 
-Notification taps deep-link into the appropriate screen.
+# User Safety & Moderation
+
+The application includes multiple moderation and user safety mechanisms.
+
+Users can:
+
+- Report videos
+- Report comments
+- Report user accounts
+- Block abusive users
+
+When a user is blocked:
+
+- The blocked user's profile becomes inaccessible.
+- The blocked user's videos are removed from the blocking user's Feed and Trending.
+- The blocked user's comments and reactions are hidden.
+- Direct messaging between the two users is disabled until the user is unblocked.
+
+Users are also required to accept the **Terms & Conditions (EULA)** and **Privacy Policy** during account registration.
+
+The Terms & Conditions include a **zero-tolerance policy** for objectionable content and abusive users.
+
+---
+
+# Screen Recording
+
+A physical iOS device screen recording has been attached demonstrating:
+
+- User registration
+- Acceptance of the Terms & Conditions
+- Acceptance of the Privacy Policy
+- Reporting objectionable content
+- Reporting abusive users
+- Blocking abusive users
 
 ---
 
 # Account Deletion
 
-Account deletion is available directly inside the application.
+Account deletion is available directly within the application.
 
-Path:
+**Navigation Path**
 
-Profile → Delete Account
+**Profile → Delete Account**
 
 Account deletion requires email OTP verification.
 
@@ -168,9 +178,9 @@ Account deletion requires email OTP verification.
 
 Supported deep links:
 
-- https://iadme.app/v/{videoId}
-- https://iadme.app/video/{videoId}
-- https://iadme.app/profiles/{userId}
+- `https://iadme.app/v/{videoId}`
+- `https://iadme.app/video/{videoId}`
+- `https://iadme.app/profiles/{userId}`
 
 Universal Links and Android App Links are implemented.
 
@@ -178,14 +188,8 @@ Universal Links and Android App Links are implemented.
 
 # Contact
 
-Company:
+**Company:** FORESTPOND TECHNOLOGIES LLP
 
-FORESTPOND TECHNOLOGIES LLP
+**Website:** https://iadme.app
 
-Website:
-
-https://iadme.app
-
-Support:
-
-support@iadme.app
+**Support:** support@iadme.app

@@ -1,0 +1,219 @@
+I think this is the perfect time for a P4 Exit Test.
+
+Don’t test feature-by-feature. Test exactly like a real user would use the app.
+
+⸻
+
+P4 Exit Test Plan (Local Simulator)
+
+Phase 1 — Smoke Test (5 min)
+
+Verify the app still behaves normally after all P4 changes.
+
+□ App launches
+□ Login
+□ Feed loads
+□ Trending loads
+□ Profile loads
+□ Messages loads
+□ Upload screen opens
+□ Logout
+□ Login again
+
+⸻
+
+Phase 2 — Notification Platform
+
+A. Notification History
+
+□ Notification badge appears
+□ Open Notifications
+□ Notifications load
+□ Notification list UI looks correct
+□ Time labels look correct
+□ Mark-all-read works
+□ Badge disappears after opening
+
+⸻
+
+B. Notification Preferences
+
+□ Settings
+□ Notification Preferences opens
+Interactions
+□ Likes
+□ Comments
+□ Replies
+□ Followers
+Communication
+□ Messages
+Wallet & Creator
+□ Wallet
+□ Uploads
+Marketing
+□ Marketing
+For every category
+□ In-App toggle
+□ Push toggle
+□ Toggle persists
+□ Close screen
+□ Reopen
+□ Values remain saved
+
+⸻
+
+Phase 3 — Upload Notifications
+
+Upload one video.
+
+Verify
+
+□ Upload succeeds
+□ Upload processing notification created
+□ Uploads page opens
+□ Processing state visible
+
+(Ready notification will be verified on staging.)
+
+⸻
+
+Phase 4 — Silent Sync
+
+Notifications
+
+□ Leave app
+□ Resume
+□ Badge refreshes
+
+Messages
+
+□ Send test message
+□ Resume app
+□ Message badge refreshes
+
+Uploads
+
+□ Upload processing
+□ Leave app
+□ Resume
+□ Upload list refreshes
+
+⸻
+
+Phase 5 — Regression
+
+Feed
+
+□ Videos play
+□ Premium locked video
+□ Unlock
+□ Comments
+□ Share
+□ Reactions
+□ Creator profile
+
+⸻
+
+Profile
+
+□ Edit profile
+□ Avatar upload
+□ Bio
+□ Followers
+□ Following
+□ Uploads
+□ Activity
+
+⸻
+
+Wallet
+
+□ Wallet opens
+□ Wallet history
+□ Coupon redeem
+
+⸻
+
+Messages
+
+□ Conversation opens
+□ Send message
+□ Receive message
+
+⸻
+
+Upload
+
+□ Upload
+□ Processing
+□ Thumbnail
+
+⸻
+
+Phase 6 — Background
+
+□ Background app
+□ Resume
+□ Feed still works
+□ No duplicate videos
+□ Badges refreshed
+□ Uploads refreshed
+
+⸻
+
+Phase 7 — Console
+
+During the entire test
+
+□ No Flutter exceptions
+□ No red errors
+□ No Riverpod exceptions
+□ No Dio exceptions
+□ No Widget disposed exceptions
+□ No VideoPlayer exceptions
+
+⸻
+
+Phase 8 — Database
+
+Verify
+
+□ notification_preferences rows created
+□ notifications created
+□ uploads still work
+□ videos still process
+□ metrics keys created
+
+⸻
+
+Exit Criteria
+
+Notification Platform
+██████████
+Preferences
+██████████
+Silent Sync
+██████████
+Regression
+██████████
+No Exceptions
+██████████
+
+⸻
+
+After Local Pass
+
+This is the sequence I’d follow:
+
+1. ✅ Local Simulator E2E
+2. Commit (Mobile + Backend + SQL)
+3. Deploy Backend → Staging
+4. Apply SQL migration on Staging
+5. Staging E2E
+6. Android Physical Device
+7. iPhone Physical Device
+8. Deploy Backend → Production (when Apple/Google review pauses)
+9. Build IPA/APK v10 (only if required)
+
+I also recommend one addition to your process:
+
