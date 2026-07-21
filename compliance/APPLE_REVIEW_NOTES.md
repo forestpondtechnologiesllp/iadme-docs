@@ -1,7 +1,7 @@
 # iAdMe — Apple App Review Notes
 
-**Last Updated:** June 2026  
-**Submission:** Version 1.0 (Build 11)
+**Last Updated:** 21 July 2026
+**Submission:** Version 1.0 (Build 14)
 
 ---
 
@@ -41,6 +41,7 @@ Features:
 - Neither account has administrator privileges.
 - Both accounts have full access to all application features required for review.
 - Both accounts contain pre-populated content and interactions for testing.
+- Account B's profile display name is maintained as **USER B** by the reviewer-account repair tool.
 
 ---
 
@@ -98,6 +99,8 @@ Reviewers may test:
 - Video processing
 - Video playback
 - Video visibility
+
+Uploads were enabled and the upload, processing, fee debit and success-notification flow was validated against staging on 21 July 2026.
 
 ---
 
