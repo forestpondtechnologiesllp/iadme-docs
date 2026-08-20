@@ -1,14 +1,12 @@
 # App Store billing for Stars
 
-iOS builds distributed through the App Store sell Stars through Apple
-In-App Purchase. Razorpay remains available only for development, staging,
-web, admin, and non-App-Store distribution paths.
+Every iOS build sells Stars exclusively through Apple In-App Purchase. There
+is no Razorpay or external-checkout override on iOS. Local and staging iOS
+builds use StoreKit's sandbox environment; production and TestFlight builds
+use the same StoreKit code path and are verified by the backend against Apple.
 
-Production iOS release builds automatically use Apple In-App Purchase. For a
-local sandbox test, explicitly build with
-`--dart-define=BILLING_PROVIDER=app_store`. Set
-`--dart-define=BILLING_PROVIDER=razorpay` to force Razorpay in a non-store
-test build.
+`BILLING_PROVIDER` remains available for non-iOS development and Android
+testing, but it cannot select Razorpay on iOS.
 
 ## App Store Connect consumable products
 

@@ -1,7 +1,7 @@
 # iAdMe — Apple App Review Notes
 
-**Last Updated:** 21 July 2026
-**Submission:** Version 1.0 (Build 14)
+**Last Updated:** 19 August 2026
+**Submission:** Version 1.0.2 (Build 28)
 
 ---
 
@@ -107,6 +107,23 @@ Uploads were enabled and the upload, processing, fee debit and success-notificat
 # Premium Content Testing
 
 Reviewer accounts include sufficient Stars to test premium video unlocking and playback.
+
+---
+
+# Stars and In-App Purchase
+
+- New accounts automatically receive a one-time complimentary welcome balance
+  of **100 Stars**.
+- The welcome balance is not purchased, code-based, transferable, or described
+  as having a cash value.
+- Paid Star packs on iOS are sold exclusively through Apple In-App Purchase.
+- The iOS app has no coupon-code field, coupon redemption action, external
+  checkout, or other mechanism for acquiring paid digital content credits.
+- Premium videos are unlocked with Stars after the balance has been credited to
+  the authenticated account.
+
+The reviewer accounts contain a preloaded balance solely so App Review can test
+premium video unlocking without making a purchase.
 
 ---
 
