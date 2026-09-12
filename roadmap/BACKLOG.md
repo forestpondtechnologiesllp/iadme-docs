@@ -2,9 +2,11 @@
 
 Last updated: 2026-09-12
 
-The owner authorized implementation of IADME-001 through IADME-004 on 2026-09-12 as part of the tester fixes. They are implemented locally; deployment and physical-device acceptance remain pending. This replaces their earlier deferred status.
+The owner authorized implementation of IADME-001 through IADME-004 on 2026-09-12 as part of the tester fixes. They are implemented; backend prerequisites and both migrations were subsequently deployed to staging and production on the same date. Mobile store upload and physical-device acceptance remain pending. This replaces their earlier deferred status.
 
 The owner subsequently authorized development and rigorous local testing of IADME-005 through IADME-008, explicitly excluding staging and production deployment. Ad loading, caching and placement changes are implemented in mobile 1.0.4+36. India relevance includes client context and configuration safeguards; live creative selection still requires AdMob serving verification.
+
+The later release authorization covers production mobile artifacts and backend deployment to both environments. See the [build 36 release record](../test-results/RELEASE_BUILD36_2026-09-12.md) for artifact verification, image digest, migrations, backups and deployment checks. Public mobile release remains pending owner internal testing. **IADME-009 remains incomplete and deferred.**
 
 See [implementation and release verification](../test-results/TESTER_FIXES_2026-09-12.md) for the associated feed, login and monitoring fixes, test evidence, migrations and remaining device checks.
 
@@ -12,8 +14,8 @@ See [implementation and release verification](../test-results/TESTER_FIXES_2026-
 
 | ID | Item | Status | Scope |
 | --- | --- | --- | --- |
-| IADME-001 | Registration email: device details and location after permission | Implemented; device acceptance and release pending | Mobile + backend + migration |
-| IADME-002 | Restore a valid session on fresh app launch | Implemented; automated checks passed | Mobile + backend for 90-day sessions |
+| IADME-001 | Registration email: device details and location after permission | Backend deployed; mobile acceptance/release pending | Mobile + backend + migration |
+| IADME-002 | Restore a valid session on fresh app launch | Backend deployed; mobile checks passed; device acceptance pending | Mobile + backend for 90-day sessions |
 | IADME-003 | Optional Face ID / biometric unlock | Implemented; native device acceptance pending | Mobile |
 | IADME-004 | Upload page: explain visible area and exact-location privacy | Implemented; public metadata checked | Mobile copy/UI |
 | IADME-005 | Ads do not repeat at the configured interval in Feed/Trending | Implemented locally; verification recorded below | Mobile placement, pagination and readiness |

@@ -2,6 +2,8 @@
 
 ## Status
 
+**Later release update:** The owner subsequently authorized backend deployment and production mobile builds. Both backend migrations and the API/worker release are now deployed to staging and production; see [RELEASE_BUILD36_2026-09-12.md](RELEASE_BUILD36_2026-09-12.md). The build-35 results and no-deployment statements below remain the historical development record. Owner internal testing and public mobile release remain pending.
+
 Implemented locally in the mobile and backend repositories. Mobile version: **1.0.4+35**. Production was inspected read-only; nothing has been deployed or published. The [backlog](../roadmap/BACKLOG.md) now records implementation and remaining acceptance checks.
 
 The subsequent [ad development pass](ADS_FIXES_2026-09-12.md) combines these fixes in mobile **1.0.4+36**, also undeployed. The version-35 results below remain the historical verification for this earlier pass.
