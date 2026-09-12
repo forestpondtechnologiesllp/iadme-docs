@@ -1,5 +1,7 @@
 # iAdMe Master Execution Roadmap
 
+For requested work and its implementation status, see the [iAdMe Backlog](BACKLOG.md).
+
 Source baseline: Master Execution Roadmap generated 2026-05-14. It consolidates original roadmap, messaging sprint, backend/frontend stabilization, moderation, OTP/auth, monetization, realtime, infra scale, production hardening, and post-production enhancements.  [oai_citation:0‡iAdMe_Master_Execution_Roadmap_FULL.pdf](sediment://file_000000001d8872089967f9194e25b6aa)
 
 ## Phase 1 — Core Platform Foundation
