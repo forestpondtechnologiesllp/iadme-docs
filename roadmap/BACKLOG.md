@@ -23,6 +23,7 @@ See [implementation and release verification](../test-results/TESTER_FIXES_2026-
 | IADME-007 | Foreign ads shown instead of India-relevant ads | Client context implemented; AdMob serving verification pending | Mobile + AdMob account/campaign settings |
 | IADME-008 | Show a skippable ad slot after every two videos | Implemented locally; no deployment | Feed + Trending placement/configuration |
 | IADME-009 | Increase ad preloading with device-aware cache limits | Incomplete — deferred; not implemented | Mobile caching + performance/revenue evaluation |
+| IADME-010 | Shorten upload location label to “Show location as” | Incomplete — not implemented | Mobile copy/UI |
 
 ## IADME-001 — Registration device and location details
 
@@ -146,6 +147,17 @@ Google's Flutter `AdRequest` has no publisher-side country/language switch that 
 - [ ] Measure ad readiness misses, load latency, displayed impressions per session and revenue per session; increased requests alone do not establish improvement.
 - [ ] Measure memory, bandwidth, battery impact, video buffering, scrolling smoothness, crashes and session retention, including affected older Android devices and current Android/iOS devices.
 - [ ] Select final limits from the evidence, obtain owner manual acceptance and record results before any separately authorized release or live revenue comparison.
+
+## IADME-010 — Shorten the upload location label
+
+**Status:** Incomplete. Added at the owner's request on 2026-09-12; backlog only.
+
+**Requested change:** Replace the upload-page label “Show video location as” with “Show location as”.
+
+**Scope:** Mobile copy only. Preserve the existing location-display options, selected value and privacy explanation.
+
+- [ ] Update the label to “Show location as”.
+- [ ] Verify the label on Android and iOS, including small screens and large text.
 
 ## Maintaining this list
 
