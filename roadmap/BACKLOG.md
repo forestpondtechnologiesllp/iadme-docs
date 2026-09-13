@@ -14,6 +14,8 @@ See [implementation and release verification](../test-results/TESTER_FIXES_2026-
 
 Follow-up [physical Android development testing](../test-results/ANDROID_DEVICE_DEV_2026-09-13.md) covers the owner's OnePlus 9 Pro: Google and phone login/session restoration, real-SMS phone registration, phone-only Profile, Feed's 20-video/10-sample-ad traversal and Trending's 38-video/19-sample-ad traversal passed. Both surfaces passed backward scrolling. Geographic empty-state recovery and light/dark checks passed. The same session fixed age/mute alignment and native-ad button clipping. Wider device/network and production ad-serving acceptance remains open.
 
+The owner subsequently authorized [backend deployment to staging and production on 13 September](../test-results/RELEASE_BACKEND_2026-09-13.md), plus testing the current mobile code against production. Backend `37edc10` is deployed in both environments; the mobile changes remain pending store release. AdMob mediation is a separate backlog item.
+
 ## List
 
 | ID | Item | Status | Scope |
@@ -29,8 +31,8 @@ Follow-up [physical Android development testing](../test-results/ANDROID_DEVICE_
 | IADME-009 | Increase ad preloading with device-aware cache limits | Three upcoming placements implemented; larger adaptive cache deferred | Mobile caching + performance/revenue evaluation |
 | IADME-010 | Shorten upload location label to “Show location as” | Implemented for build 37; device acceptance pending | Mobile copy/UI |
 | IADME-011 | Android Google / phone login stalls or fails | Recovery/diagnostics implemented; exact native failure and device acceptance pending | Native auth + network diagnostics/recovery |
-| IADME-012 | Redesign Feed filters and correct their behavior | Distinct scopes and accessible picker implemented; local checks passed | Backend selection + mobile UI |
-| IADME-013 | Missing uploads / Feed pagination skips eligible videos | Cursor repaired and publication status added; local checks passed | Backend pagination + mobile readiness/refresh acceptance |
+| IADME-012 | Redesign Feed filters and correct their behavior | Backend deployed to staging/prod; mobile picker verified locally, store release pending | Backend selection + mobile UI |
+| IADME-013 | Missing uploads / Feed pagination skips eligible videos | Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
 | IADME-014 | Add AdMob mediation for broader ad inventory | Backlog; not implemented | AdMob configuration + Android/iOS adapters and testing |
 
 ## IADME-001 — Registration device and location details
