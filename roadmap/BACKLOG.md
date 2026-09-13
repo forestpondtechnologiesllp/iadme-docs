@@ -1,14 +1,18 @@
 # iAdMe Backlog
 
-Last updated: 2026-09-12
+Last updated: 2026-09-13
+
+**Build 37 testing follow-up:** Android login failures, missing ads after tab switches/pagination, filter behavior and missing uploads were reported on 2026-09-13. Ad acceptance is reopened; previous local test results are not physical-device acceptance. See the [production investigation](../test-results/PROD_TRIAGE_2026-09-13.md) for confirmed defects, logs, reproduction and remaining questions. The subsequent fix implementation is documented in [development verification](../test-results/LOGIN_FEED_ADS_FIXES_2026-09-13.md). Development is local; no new deployment or store release has occurred.
 
 The owner authorized implementation of IADME-001 through IADME-004 on 2026-09-12 as part of the tester fixes. They are implemented; backend prerequisites and both migrations were subsequently deployed to staging and production on the same date. Mobile store upload and physical-device acceptance remain pending. This replaces their earlier deferred status.
 
 The owner subsequently authorized development and rigorous local testing of IADME-005 through IADME-008, explicitly excluding staging and production deployment. Ad loading, caching and placement changes are implemented in mobile 1.0.4+36. India relevance includes client context and configuration safeguards; live creative selection still requires AdMob serving verification.
 
-The later release authorization covers production mobile artifacts and backend deployment to both environments. See the [build 36 release record](../test-results/RELEASE_BUILD36_2026-09-12.md) for artifact verification, image digest, migrations, backups and deployment checks. Public mobile release remains pending owner internal testing. **IADME-009 remains incomplete and deferred.**
+The later release authorization covers production mobile artifacts and backend deployment to both environments. See the [build 36 release record](../test-results/RELEASE_BUILD36_2026-09-12.md) for artifact verification, image digest, migrations, backups and deployment checks. Public mobile release remains pending owner internal testing. **IADME-009 now includes the three-upcoming-ad refinement authorized on 2026-09-13; a larger device-adaptive cache remains incomplete.**
 
 See [implementation and release verification](../test-results/TESTER_FIXES_2026-09-12.md) for the associated feed, login and monitoring fixes, test evidence, migrations and remaining device checks.
+
+Follow-up [physical Android development testing](../test-results/ANDROID_DEVICE_DEV_2026-09-13.md) covers the owner's OnePlus 9 Pro: Google and phone login/session restoration, real-SMS phone registration, phone-only Profile, Feed's 20-video/10-sample-ad traversal and Trending's 38-video/19-sample-ad traversal passed. Both surfaces passed backward scrolling. Geographic empty-state recovery and light/dark checks passed. The same session fixed age/mute alignment and native-ad button clipping. Wider device/network and production ad-serving acceptance remains open.
 
 ## List
 
@@ -18,12 +22,16 @@ See [implementation and release verification](../test-results/TESTER_FIXES_2026-
 | IADME-002 | Restore a valid session on fresh app launch | Backend deployed; mobile checks passed; device acceptance pending | Mobile + backend for 90-day sessions |
 | IADME-003 | Optional Face ID / biometric unlock | Implemented; native device acceptance pending | Mobile |
 | IADME-004 | Upload page: explain visible area and exact-location privacy | Implemented; public metadata checked | Mobile copy/UI |
-| IADME-005 | Ads do not repeat at the configured interval in Feed/Trending | Implemented locally; verification recorded below | Mobile placement, pagination and readiness |
+| IADME-005 | Ads do not repeat at the configured interval in Feed/Trending | Additional cache/refill fixes implemented; physical acceptance pending | Mobile placement, pagination and readiness |
 | IADME-006 | Some devices show no ads | Client recovery implemented; device/serving acceptance pending | Mobile consent, SDK, retries and release configuration |
 | IADME-007 | Foreign ads shown instead of India-relevant ads | Client context implemented; AdMob serving verification pending | Mobile + AdMob account/campaign settings |
 | IADME-008 | Show a skippable ad slot after every two videos | Implemented locally; no deployment | Feed + Trending placement/configuration |
-| IADME-009 | Increase ad preloading with device-aware cache limits | Incomplete — deferred; not implemented | Mobile caching + performance/revenue evaluation |
+| IADME-009 | Increase ad preloading with device-aware cache limits | Three upcoming placements implemented; larger adaptive cache deferred | Mobile caching + performance/revenue evaluation |
 | IADME-010 | Shorten upload location label to “Show location as” | Implemented for build 37; device acceptance pending | Mobile copy/UI |
+| IADME-011 | Android Google / phone login stalls or fails | Recovery/diagnostics implemented; exact native failure and device acceptance pending | Native auth + network diagnostics/recovery |
+| IADME-012 | Redesign Feed filters and correct their behavior | Distinct scopes and accessible picker implemented; local checks passed | Backend selection + mobile UI |
+| IADME-013 | Missing uploads / Feed pagination skips eligible videos | Cursor repaired and publication status added; local checks passed | Backend pagination + mobile readiness/refresh acceptance |
+| IADME-014 | Add AdMob mediation for broader ad inventory | Backlog; not implemented | AdMob configuration + Android/iOS adapters and testing |
 
 ## IADME-001 — Registration device and location details
 
@@ -86,9 +94,11 @@ The lock surrounds the app router, hides content during background transitions a
 
 - [x] Stable placement IDs anchored to preceding content; paginated direct campaigns do not replace earlier breaks.
 - [x] Only ready native creatives enter the pager. Missing inventory leaves continuous content, with no blank commercial page or automatic bounce.
-- [x] Preserve the same visible video when ads arrive, expire or are evicted. Defer changes during a drag.
+- [x] Preserve the same visible video when ads arrive, expire or are evicted. Defer structural changes from pointer-down through drag/scroll completion.
 - [x] Automated 18-video forward passes in Feed and Trending show nine filled ads when fake inventory is available; backward passes, pagination and rapid flings are covered.
 - [x] Planned counts, request/load/failure/timeout counters, SDK impression callbacks and crossed unavailable slots distinguish placement from delivery.
+- [x] Fetch the next Feed/Trending batch with six content videos remaining so upcoming placements can preload; exclude commercial pages from the threshold and inactive tabs from prefetch.
+- [x] Clear Trending's stale pagination lock when refreshing during an in-flight page request; regression reproduced before the fix and passed after it.
 - [ ] Owner acceptance on affected Android devices and a current Android/iPhone.
 
 A planned slot is not a guaranteed paid impression: network, consent and ad-network inventory still determine fill. No ad is fabricated or used without permission to make up the count.
@@ -133,7 +143,7 @@ Google's Flutter `AdRequest` has no publisher-side country/language switch that 
 
 ## IADME-009 — Increase ad preloading with device-aware cache limits
 
-**Status:** Incomplete. Added at the owner's request on 2026-09-12 for future work; no preload settings changed. Staging and production deployment remain excluded.
+**Status:** Partially implemented after the owner authorized three or more preloaded ads on 2026-09-13. While an ad is visible, keep that ad plus three upcoming placements and the nearest previous placement within the existing shared six-object limit. Each new placement gets a distinct native object; only never-mounted, unimpressed orphan inventory may transfer to another slot. The cache continually refills and does not cycle the same three displayed objects through the session. A larger device-adaptive cache remains deferred. No deployment in this development round.
 
 **Outcome:** Reduce missed ad opportunities during fast scrolling or variable network conditions while preserving video playback and scrolling performance on older and newer Android/iOS devices.
 
@@ -159,6 +169,49 @@ Google's Flutter `AdRequest` has no publisher-side country/language switch that 
 - [x] Update the label to “Show location as”, including loading and unavailable-location states.
 - [x] Verify the shared Flutter layout in light/dark themes, on small screens and with large text.
 - [ ] Confirm the new screen on physical Android and iOS devices using build 37.
+
+## IADME-011 — Android login failures
+
+**Status:** Recovery and diagnostics implemented locally; physical acceptance remains open. Authentication requests retry once only for a provable pre-connection failure. Uncertain OTP/one-use credential outcomes are not replayed. Google initialization can recover after failure, native errors have actionable messages, double-tap guards remain active, and sanitized offline diagnostics are sent when connectivity returns. Phone users can enter an already-received code after an uncertain timeout. The recorded native Google failure itself is still unconfirmed.
+
+- [ ] Identify the failing phone, build and installation source, and compare mobile data/Wi-Fi.
+- [x] Capture safe native Google error codes and phone request network-stage errors in a bounded offline outbox, without tokens or phone/email contents.
+- [ ] Fix the identified failure and verify native Google and phone OTP flows, cancellation, retries and app resume on affected and current Android devices.
+
+## IADME-012 — Feed filter semantics and redesign
+
+**Status:** Implemented locally. All discovers ready public videos with geographic priority; Nearby uses a 10 km radius; Local, City, State and Country remain within the selected area; International means outside the selected country. Missing required location is explicit. The theme-aware picker describes each option and the header shows the active choice.
+
+- [x] Define and implement distinct scope behavior without silently widening an explicit geographic filter.
+- [x] Redesign the picker and active-filter indication; light/dark, 320 px screens and 100–300% text scale tests pass.
+- [x] Automated checks cover scoped results, missing coordinates, explicit empty results and stale responses after rapid filter changes.
+- [ ] Physical GPS/approximate-permission acceptance on Android and iOS.
+
+## IADME-013 — Missing videos and pagination coverage
+
+**Status:** Feed cursor repaired locally. Stable keyset pagination freezes view preference at the start of a pass, excludes inaccessible content before selecting a page and returns an explicit end cursor. Tests now return all 30 videos exactly once, and cover 260 rows, microsecond ties, changing view history, GPS drift and old cursors. New ready videos enter the next refresh without waiting on Redis pool rebuilding. An owner-only publication-status endpoint and bounded mobile watcher distinguish processing from readiness and offer a direct View action.
+
+- [x] Fix Feed pagination so reordering cannot advance past unreturned eligible videos.
+- [x] PostgreSQL and mobile tests cover deduplication, exhaustion, blocked/reported content, late-ready uploads and request-generation races.
+- [ ] Confirm the owner's specific missing examples in Feed, Trending and My Videos.
+- [x] Test publication polling, temporary failures, terminal failure, timeout and disposal.
+- [ ] Physical upload → processing → ready/View acceptance; an active feed is not forcibly moved while watching.
+
+## IADME-014 — Add AdMob mediation
+
+**Status:** Added at the owner's request on 2026-09-13. Plan and test separately from the current backend deployment; no mediation configuration or adapters have been enabled.
+
+**Outcome:** Broaden eligible native-ad demand in Feed and Trending, with the aim of improving fill and creative variety while preserving the skippable opportunity after every two content videos. More networks do not guarantee unique advertisers, India-only creatives or higher revenue. The two observed Google sample creatives are not evidence of production inventory being limited to two ads.
+
+- [ ] Measure current production fill, ad-source delivery, visible repetition, latency and revenue before selecting partners.
+- [ ] Evaluate networks that support the current native format on Android and iOS and have suitable India demand; configure bidding/mediation groups and required partner accounts.
+- [ ] Integrate compatible mobile adapters, initialization and consent/privacy messaging for the selected partners.
+- [ ] Retain individual native-ad requests for mediated units: Google's multiple-native-ad batch APIs do not support mediation. The separate Google-only batch-loading proposal is not included in this item.
+- [ ] Test each network using its test-device/test-ad configuration, then validate production serving after separate release authorization.
+- [ ] Verify Feed/Trending pagination, three upcoming placements, forward/backward skips, no-fill recovery, theme/layout, memory and startup on affected older Androids and current Android/iOS devices.
+- [ ] Compare fill, latency, impressions and revenue against the baseline before broad rollout; document remaining creative-repeat limitations.
+
+References: [AdMob mediation for Flutter](https://developers.google.com/admob/flutter/mediation), [native batch-loading limitations](https://developers.google.com/admob/android/native), [test devices and mediation](https://developers.google.com/admob/flutter/test-ads).
 
 ## Maintaining this list
 
