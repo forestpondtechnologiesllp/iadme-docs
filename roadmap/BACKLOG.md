@@ -2,6 +2,8 @@
 
 Last updated: 2026-09-13
 
+**Build 38 critical/high follow-up:** The owner authorized the network-recovery, ad-replenishment/native-media and automatic incident-reporting work after the [production device investigation](../test-results/ANDROID_BUILD38_PROD_DIAGNOSIS_2026-09-13.md). These changes are implemented locally with [automated/native test evidence](../test-results/RELIABILITY_MONITORING_FIXES_2026-09-13.md); no new deployment or store release has occurred. See the [incident-reporting runbook](../runbooks/mobile-incident-reporting.md). Physical-device acceptance and the underlying intermittent Wi-Fi cause remain open.
+
 **Build 37 testing follow-up:** Android login failures, missing ads after tab switches/pagination, filter behavior and missing uploads were reported on 2026-09-13. Ad acceptance is reopened; previous local test results are not physical-device acceptance. See the [production investigation](../test-results/PROD_TRIAGE_2026-09-13.md) for confirmed defects, logs, reproduction and remaining questions. The subsequent fix implementation is documented in [development verification](../test-results/LOGIN_FEED_ADS_FIXES_2026-09-13.md). Development is local; no new deployment or store release has occurred.
 
 The owner authorized implementation of IADME-001 through IADME-004 on 2026-09-12 as part of the tester fixes. They are implemented; backend prerequisites and both migrations were subsequently deployed to staging and production on the same date. Mobile store upload and physical-device acceptance remain pending. This replaces their earlier deferred status.
@@ -30,12 +32,14 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-008 | Show a skippable ad slot after every two videos | Implemented locally; no deployment | Feed + Trending placement/configuration |
 | IADME-009 | Increase ad preloading with device-aware cache limits | Three upcoming placements implemented; larger adaptive cache deferred | Mobile caching + performance/revenue evaluation |
 | IADME-010 | Shorten upload location label to “Show location as” | Implemented for build 37; device acceptance pending | Mobile copy/UI |
-| IADME-011 | Android Google / phone login stalls or fails | Recovery/diagnostics implemented; exact native failure and device acceptance pending | Native auth + network diagnostics/recovery |
+| IADME-011 | Android Google / phone login stalls or fails | Pre-API transport failures confirmed; network-change recovery implemented locally, physical acceptance pending | Native auth + network diagnostics/recovery |
 | IADME-012 | Redesign Feed filters and correct their behavior | Backend deployed to staging/prod; Android picker verified against dev and prod, store release pending | Backend selection + mobile UI |
 | IADME-013 | Missing uploads / Feed pagination skips eligible videos | Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
 | IADME-014 | Add Meta Audience Network alongside Google through AdMob mediation | Backlog; deferred until build 38 acceptance | AdMob/Meta configuration + Android/iOS adapters + app-ads.txt |
 | IADME-015 | Add Facebook social login | Backlog; not implemented | Mobile + backend + provider migration + Meta configuration |
 | IADME-016 | Import and preserve social-login names and profile avatars | Backlog; code investigation recorded, no fix implemented | Mobile + backend profile handling |
+| IADME-017 | Automatic GitHub incidents for AdMob and other observed inconsistencies | Implemented locally; device acceptance and deployment pending | Android/iOS diagnostics + backend/worker + migration |
+| IADME-018 | Full-screen native ads and muted video autoplay | Implemented and simulator-tested locally; physical acceptance and release pending | Android/iOS presentation + lifecycle |
 
 ## IADME-001 — Registration device and location details
 
@@ -116,7 +120,7 @@ A planned slot is not a guaranteed paid impression: network, consent and ad-netw
 - [x] Consent refresh and SDK initialization recover from temporary errors. Use valid saved UMP consent after starting the launch update; a visible consent form remains under user control.
 - [x] Preserve consent denial/revocation; never fabricate permission or device location.
 - [x] Reject malformed native IDs and sample IDs in production selection; a store-build preflight rejects missing IDs before invoking Flutter.
-- [x] Report actionable SDK code/domain/response identifiers, build/test configuration, counters and retry timing with throttling.
+- [x] Report actionable SDK code/domain/response identifiers, build/test configuration, counters and retry timing. The build 38 follow-up replaces event-dropping throttling with a bounded durable queue and counted/coalesced issues.
 - [x] Automated recovery, teardown, cache bounds, expiry, memory pressure, tab demand and lifecycle tests.
 - [x] Real Google sample ads rendered and survived repeated skips and tab detachment on Android 11 with Google Play and iPhone 17/iOS 26.5 simulators; see the dated verification report.
 - [ ] Real affected-device network/consent/ad-serving comparison; a client fix cannot guarantee AdMob fill on every request.
@@ -176,9 +180,11 @@ Google's Flutter `AdRequest` has no publisher-side country/language switch that 
 
 ## IADME-011 — Android login failures
 
-**Status:** Recovery and diagnostics implemented locally; physical acceptance remains open. Authentication requests retry once only for a provable pre-connection failure. Uncertain OTP/one-use credential outcomes are not replayed. Google initialization can recover after failure, native errors have actionable messages, double-tap guards remain active, and sanitized offline diagnostics are sent when connectivity returns. Phone users can enter an already-received code after an uncertain timeout. The recorded native Google failure itself is still unconfirmed.
+**Status:** The OnePlus Play installation was initially build 37, then updated and verified as build 38. Google and phone login both succeeded on cellular; independent device TCP/TLS probes also failed intermittently on Wi-Fi, outside Flutter. Wi-Fi subsequently recovered without an app/backend change. The fault within the Android/router/ISP path is still unproven, and the iPhone route was not measured. See the dated production investigation.
 
-- [ ] Identify the failing phone, build and installation source, and compare mobile data/Wi-Fi.
+The follow-up mobile implementation replaces idle connection pools on native network changes, preserves in-flight writes, retains credentials during transport failures and captures native-versus-Dart health probes. Authentication requests still retry only once for a provable pre-connection failure; uncertain OTP/one-use credential outcomes are not blindly replayed. Native Google recovery, double-tap guards and the option to enter an already-received phone code remain. Physical acceptance of the new recovery path is open.
+
+- [x] Identify the failing phone, build and installation source, and compare mobile data/Wi-Fi.
 - [x] Capture safe native Google error codes and phone request network-stage errors in a bounded offline outbox, without tokens or phone/email contents.
 - [ ] Fix the identified failure and verify native Google and phone OTP flows, cancellation, retries and app resume on affected and current Android devices.
 
@@ -261,6 +267,33 @@ References: Meta's [Android SDK](https://github.com/facebook/facebook-android-sd
 **Source references (from workspace root):** `iadme-mobile/apps/iadme_app/lib/features/auth/data/social_auth_service.dart`; `iadme-backend/services/api/src/main/modules/auth/social-auth.service.ts`; `iadme-backend/services/api/src/main/modules/auth/registration-continuation.ts`; `iadme-backend/services/api/src/main/modules/profile/profile.repository.ts`.
 
 Provider references: [Google name/picture claims](https://developers.google.com/identity/openid-connect/reference), [Apple first-authorization details](https://developer.apple.com/documentation/signinwithapple/authenticating-users-with-sign-in-with-apple), [Apple staff explanation of photo availability](https://developer.apple.com/forums/thread/121998).
+
+## IADME-017 — Automatic diagnostic GitHub incidents
+
+**Status:** Authorized and implemented locally on 2026-09-13. Deployment, a new mobile release and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
+
+- [x] Capture no-fill, network/load timeout, missed placement and native-media observations with available SDK response/source IDs, versions, UTC timing, device/build, consent, network and per-surface fresh-inventory counters.
+- [x] Queue diagnostics securely while offline and retain counted repeats instead of dropping all repeats for five minutes. Bound storage, redact sensitive values and reuse event UUIDs across uncertain acknowledgements.
+- [x] Persist on the backend before acknowledgement, with durable GitHub retries, concurrent-worker claims, grouped counts and recent samples. Preserve human issue notes and reopen matching recurrences.
+- [x] Connect final API failures, existing auth diagnostics, captured Flutter/runtime errors and application error logging. Information-only success events do not create issues.
+- [x] Create the confirmed production reports: [Android no-fill #19](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/19), [iOS no-fill #20](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/20), [Android black media #21](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/21), [Android Wi-Fi login transport #22](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/22).
+- [ ] Complete physical Android/iOS acceptance, deploy the additive migration/API/worker and verify a controlled end-to-end incident before mobile rollout.
+
+**Limits:** No-fill is an observed serving outcome, not automatic proof of an AdMob defect. Counts do not measure unique creatives or paid impressions. Uninstrumented visual defects and abrupt native crashes are not guaranteed to reach this queue. See the [reporting runbook](../runbooks/mobile-incident-reporting.md) for payload limits, privacy, monitoring and rollout order.
+
+## IADME-018 — Full-screen native ads and muted video autoplay
+
+**Status:** Authorized and implemented locally on 2026-09-13. No backend or AdMob account setting change is required for this implementation; a new mobile release is required. Android/iOS native video, static-image and compact-layout checks passed; the full mobile suite passed 231 tests with two existing skips.
+
+- [x] Replace the 400 × 400 card with a viewport-filling native view in Feed and Trending, with a dark media canvas and compact advertiser/action footer.
+- [x] Preserve creative proportions and accept any aspect ratio, retaining landscape/image inventory as well as portrait/video inventory.
+- [x] Use SDK-owned muted autoplay, native controls, media binding and playback observations. Offscreen/hidden-tab views detach with safe cached-ad ownership; temporary visible focus loss preserves the native view.
+- [x] Keep SDK attribution, AdChoices and advertiser asset click handling. The ad remains vertically skippable.
+- [x] Add small-phone/tablet/landscape, theme, enlarged-text and lifecycle regression coverage.
+- [x] Complete native-video/static-image/compact-footer checks on Android 11 and iOS simulators.
+- [ ] Complete physical acceptance and a new mobile release.
+
+See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13.md). Full-screen presentation does not force every creative to be 9:16 or video, and cannot guarantee paid fill or override SDK playback restrictions.
 
 ## Maintaining this list
 
