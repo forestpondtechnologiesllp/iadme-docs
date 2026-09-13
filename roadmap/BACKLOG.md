@@ -31,7 +31,7 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-009 | Increase ad preloading with device-aware cache limits | Three upcoming placements implemented; larger adaptive cache deferred | Mobile caching + performance/revenue evaluation |
 | IADME-010 | Shorten upload location label to “Show location as” | Implemented for build 37; device acceptance pending | Mobile copy/UI |
 | IADME-011 | Android Google / phone login stalls or fails | Recovery/diagnostics implemented; exact native failure and device acceptance pending | Native auth + network diagnostics/recovery |
-| IADME-012 | Redesign Feed filters and correct their behavior | Backend deployed to staging/prod; mobile picker verified locally, store release pending | Backend selection + mobile UI |
+| IADME-012 | Redesign Feed filters and correct their behavior | Backend deployed to staging/prod; Android picker verified against dev and prod, store release pending | Backend selection + mobile UI |
 | IADME-013 | Missing uploads / Feed pagination skips eligible videos | Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
 | IADME-014 | Add AdMob mediation for broader ad inventory | Backlog; not implemented | AdMob configuration + Android/iOS adapters and testing |
 
