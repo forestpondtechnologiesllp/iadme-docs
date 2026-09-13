@@ -33,7 +33,9 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-011 | Android Google / phone login stalls or fails | Recovery/diagnostics implemented; exact native failure and device acceptance pending | Native auth + network diagnostics/recovery |
 | IADME-012 | Redesign Feed filters and correct their behavior | Backend deployed to staging/prod; Android picker verified against dev and prod, store release pending | Backend selection + mobile UI |
 | IADME-013 | Missing uploads / Feed pagination skips eligible videos | Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
-| IADME-014 | Add AdMob mediation for broader ad inventory | Backlog; not implemented | AdMob configuration + Android/iOS adapters and testing |
+| IADME-014 | Add Meta Audience Network alongside Google through AdMob mediation | Backlog; deferred until build 38 acceptance | AdMob/Meta configuration + Android/iOS adapters + app-ads.txt |
+| IADME-015 | Add Facebook social login | Backlog; not implemented | Mobile + backend + provider migration + Meta configuration |
+| IADME-016 | Import and preserve social-login names and profile avatars | Backlog; code investigation recorded, no fix implemented | Mobile + backend profile handling |
 
 ## IADME-001 — Registration device and location details
 
@@ -199,21 +201,66 @@ Google's Flutter `AdRequest` has no publisher-side country/language switch that 
 - [x] Test publication polling, temporary failures, terminal failure, timeout and disposal.
 - [ ] Physical upload → processing → ready/View acceptance; an active feed is not forcibly moved while watching.
 
-## IADME-014 — Add AdMob mediation
+## IADME-014 — Add Meta Audience Network through AdMob mediation
 
-**Status:** Added at the owner's request on 2026-09-13. Plan and test separately from the current backend deployment; no mediation configuration or adapters have been enabled.
+**Status:** Added at the owner's request on 2026-09-13, then refined to select Meta Audience Network as the first additional partner alongside Google. Explicitly deferred: validate build 38 before a separate implementation and release. No mediation configuration or adapters have been enabled.
 
 **Outcome:** Broaden eligible native-ad demand in Feed and Trending, with the aim of improving fill and creative variety while preserving the skippable opportunity after every two content videos. More networks do not guarantee unique advertisers, India-only creatives or higher revenue. The two observed Google sample creatives are not evidence of production inventory being limited to two ads.
 
-- [ ] Measure current production fill, ad-source delivery, visible repetition, latency and revenue before selecting partners.
-- [ ] Evaluate networks that support the current native format on Android and iOS and have suitable India demand; configure bidding/mediation groups and required partner accounts.
+- [ ] Measure current production fill, ad-source delivery, visible repetition, latency and revenue before enabling Meta demand.
+- [ ] Add Meta Audience Network as a bidding source alongside Google for the existing Feed/Trending native placements; complete Meta account/property/placement setup, platform-specific AdMob mapping and app-ads.txt entries.
+- [ ] Preserve one skippable opportunity after every two videos. Let mediation select one eligible ad for each placement, and retain the existing shared three-upcoming-placement preload limit.
+- [ ] Validate Meta's native-media rendering and impression tracking with the current layout on Android and iOS, including India serving eligibility and available demand.
 - [ ] Integrate compatible mobile adapters, initialization and consent/privacy messaging for the selected partners.
 - [ ] Retain individual native-ad requests for mediated units: Google's multiple-native-ad batch APIs do not support mediation. The separate Google-only batch-loading proposal is not included in this item.
 - [ ] Test each network using its test-device/test-ad configuration, then validate production serving after separate release authorization.
 - [ ] Verify Feed/Trending pagination, three upcoming placements, forward/backward skips, no-fill recovery, theme/layout, memory and startup on affected older Androids and current Android/iOS devices.
-- [ ] Compare fill, latency, impressions and revenue against the baseline before broad rollout; document remaining creative-repeat limitations.
+- [ ] Compare fill, latency, creative repetition, impressions, revenue per user, app size, memory and crashes against the build 38 baseline before broad rollout; document remaining creative-repeat limitations.
 
-References: [AdMob mediation for Flutter](https://developers.google.com/admob/flutter/mediation), [native batch-loading limitations](https://developers.google.com/admob/android/native), [test devices and mediation](https://developers.google.com/admob/flutter/test-ads).
+References: [Meta bidding integration for Flutter](https://developers.google.com/admob/flutter/mediation/meta), [AdMob mediation for Flutter](https://developers.google.com/admob/flutter/mediation), [native batch-loading limitations](https://developers.google.com/admob/android/native), [test devices and mediation](https://developers.google.com/admob/flutter/test-ads).
+
+## IADME-015 — Add Facebook social login
+
+**Status:** Added on 2026-09-13 after the owner requested backlog items only. No SDK, auth route, provider configuration or database change has been made. This is a separate feature from Meta ad mediation.
+
+**Outcome:** Offer Continue with Facebook alongside the current Google, Apple and phone/email flows, with the same registration consent and session behavior.
+
+**Current gap:** Mobile has Google/Apple flows only; backend routes, identity types and registration continuation support only those providers. The database identity constraint in `003_create_auth_provider_identities.sql` also accepts only `google` and `apple`.
+
+- [ ] Configure the Meta app for Android/iOS, including required signing identifiers, redirects, permissions and public availability requirements; select a maintained compatible mobile integration.
+- [ ] Add mobile login/progress/cancel/error handling and backend verification of the supported Facebook credential types, including the applicable iOS Limited Login path.
+- [ ] Add the Facebook provider through a new additive migration and update identity/registration-continuation handling. Verify provider subject, app/audience, expiry and applicable nonce; do not attach an existing account based solely on an unverified matching email.
+- [ ] Support absent email and account-linking conflicts without duplicate accounts, duplicate signup rewards or a second forced login. Reuse current session persistence and logout behavior.
+- [ ] Import permitted name/avatar data through IADME-016 while preserving user edits. Keep profile import optional and non-blocking.
+- [ ] Verify first signup, existing login, cancel, denied/missing fields, offline recovery, repeated taps, account switching, token rejection, session restart and account deletion on Android/iOS. Regression-test existing Google/Apple/phone/email paths.
+
+References: Meta's [Android SDK](https://github.com/facebook/facebook-android-sdk) and [iOS SDK](https://github.com/facebook/facebook-ios-sdk). Recheck detailed provider requirements when implementation begins.
+
+## IADME-016 — Social-login names and profile avatars
+
+**Status:** Added on 2026-09-13. The owner requested investigation and backlog tracking only; no application code, production data or build 38 artifact has been changed for this item.
+
+**Findings from the current source:**
+
+- Google mobile authentication returns only the ID token from the account object; it does not forward the SDK's display name/photo URL separately. The backend does read verified `claims.name` when creating a new social user, but ignores `claims.picture` entirely. Social profile creation inserts only a name, so the avatar is not imported.
+- Existing-provider login and linking a provider to an existing email account do not update the profile name/avatar. Signing in again therefore does not replace an old generated name or populate a missing avatar.
+- The backend name sanitizer removes everything except ASCII letters, digits and spaces, truncates to 15 characters, and generates a friendly nickname when empty. Names in scripts such as Telugu or Hindi can therefore become generated names; longer names can be cut off.
+- Apple mobile requests full name/email and forwards the returned name. Apple generally supplies the name only at the first authorization, and Sign in with Apple does not supply a profile photo. A missing or previously lost Apple name cannot be assumed recoverable through ordinary repeat login. The current registration continuation preserves the name it receives, but cannot reconstruct one Apple did not return.
+- These are code-level findings, not a claim that every missing-name account has the same cause. No customer-specific identity payload or production profile was modified during this investigation.
+
+**Outcome:** Prefill available social profile information correctly, preserve user-chosen details and offer a graceful editable fallback when a provider omits information.
+
+- [ ] Import a Google name and picture from verified provider data when available; preserve them through registration consent/continuation. Handle missing names/pictures without blocking login.
+- [ ] Preserve Apple's first-authorization name through registration/retry. Provide an optional editable name and user-uploaded avatar when Apple cannot supply them; do not promise automatic Apple photo import.
+- [ ] Review the display-name length policy and support Unicode names consistently across mobile/backend/profile editing instead of silently stripping non-Latin names.
+- [ ] Set an explicit policy for existing profiles: offer an import action, or backfill only fields reliably known to be missing/generated. Never silently overwrite a user-chosen name or photo; track origin/user edits if required.
+- [ ] Validate avatar URLs and rendering, including expired/unavailable images and initials/upload fallback. Profile enrichment failures must not fail authentication.
+- [ ] Extend the same behavior to Facebook when IADME-015 is implemented.
+- [ ] Cover new/existing/linked accounts, omitted claims, non-Latin/long names, Apple first versus repeat authorization, registration interruption, changed provider photos and preservation of manual edits on Android/iOS.
+
+**Source references (from workspace root):** `iadme-mobile/apps/iadme_app/lib/features/auth/data/social_auth_service.dart`; `iadme-backend/services/api/src/main/modules/auth/social-auth.service.ts`; `iadme-backend/services/api/src/main/modules/auth/registration-continuation.ts`; `iadme-backend/services/api/src/main/modules/profile/profile.repository.ts`.
+
+Provider references: [Google name/picture claims](https://developers.google.com/identity/openid-connect/reference), [Apple first-authorization details](https://developer.apple.com/documentation/signinwithapple/authenticating-users-with-sign-in-with-apple), [Apple staff explanation of photo availability](https://developer.apple.com/forums/thread/121998).
 
 ## Maintaining this list
 
