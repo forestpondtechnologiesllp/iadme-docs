@@ -270,20 +270,21 @@ Provider references: [Google name/picture claims](https://developers.google.com/
 
 ## IADME-017 — Automatic diagnostic GitHub incidents
 
-**Status:** Authorized and implemented locally on 2026-09-13. Deployment, a new mobile release and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
+**Status:** Implemented, committed and pushed on 2026-09-13. Backend migration/API/worker deployed to staging and production as `release-2026.09.13-7eee307`; controlled staging delivery and restart recovery passed. A new mobile release and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
 
 - [x] Capture no-fill, network/load timeout, missed placement and native-media observations with available SDK response/source IDs, versions, UTC timing, device/build, consent, network and per-surface fresh-inventory counters.
 - [x] Queue diagnostics securely while offline and retain counted repeats instead of dropping all repeats for five minutes. Bound storage, redact sensitive values and reuse event UUIDs across uncertain acknowledgements.
 - [x] Persist on the backend before acknowledgement, with durable GitHub retries, concurrent-worker claims, grouped counts and recent samples. Preserve human issue notes and reopen matching recurrences.
 - [x] Connect final API failures, existing auth diagnostics, captured Flutter/runtime errors and application error logging. Information-only success events do not create issues.
 - [x] Create the confirmed production reports: [Android no-fill #19](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/19), [iOS no-fill #20](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/20), [Android black media #21](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/21), [Android Wi-Fi login transport #22](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/22).
-- [ ] Complete physical Android/iOS acceptance, deploy the additive migration/API/worker and verify a controlled end-to-end incident before mobile rollout.
+- [x] Deploy the additive migration/API/worker and verify a controlled staging incident, grouped updates and restart recovery. See [deployment evidence](../test-results/RELEASE_MONITORING_2026-09-13.md).
+- [ ] Complete physical Android/iOS acceptance and mobile rollout.
 
 **Limits:** No-fill is an observed serving outcome, not automatic proof of an AdMob defect. Counts do not measure unique creatives or paid impressions. Uninstrumented visual defects and abrupt native crashes are not guaranteed to reach this queue. See the [reporting runbook](../runbooks/mobile-incident-reporting.md) for payload limits, privacy, monitoring and rollout order.
 
 ## IADME-018 — Full-screen native ads and muted video autoplay
 
-**Status:** Authorized and implemented locally on 2026-09-13. No backend or AdMob account setting change is required for this implementation; a new mobile release is required. Android/iOS native video, static-image and compact-layout checks passed; the full mobile suite passed 231 tests with two existing skips.
+**Status:** Implemented, committed and pushed as mobile `697fac5` on 2026-09-13. No backend or AdMob account setting change is required for this presentation change; a new mobile release is required. Android/iOS native video, static-image and compact-layout checks passed; the full mobile suite passed 231 tests with two existing skips.
 
 - [x] Replace the 400 × 400 card with a viewport-filling native view in Feed and Trending, with a dark media canvas and compact advertiser/action footer.
 - [x] Preserve creative proportions and accept any aspect ratio, retaining landscape/image inventory as well as portrait/video inventory.

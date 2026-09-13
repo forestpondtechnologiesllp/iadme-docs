@@ -1,6 +1,6 @@
 # Mobile incident reporting
 
-Implementation date: 2026-09-13. **Developed locally; not deployed.**
+Implementation date: 2026-09-13. **Backend migration, API and worker deployed to staging and production as `release-2026.09.13-7eee307`.** Mobile source is committed/pushed; a new Android/iOS build and physical acceptance remain pending. See the [deployment record](../test-results/RELEASE_MONITORING_2026-09-13.md).
 
 ## Delivery and issue policy
 
@@ -39,7 +39,7 @@ Names of advertisers and SDK adapter versions are not universally exposed by the
 4. Release the updated Android/iOS mobile build after physical acceptance. Build 38 cannot emit newly added SDK/media/network fields until users install the new build.
 5. Inspect delivery lag and pending incidents after rollout. Disabling the GitHub flag pauses delivery while the backend keeps incident data. A backend rollback must leave the additive tables intact; avoid dropping them while a matching API or worker is still running.
 
-No staging/production migration, deployment or store build was performed for this implementation.
+The staging/production migration and backend deployment completed on 2026-09-13. Controlled staging delivery, deduplication, grouped update and worker restart recovery passed; synthetic verification issue #23 was closed afterward. No new mobile store build or release was performed in that rollout.
 
 ## Read-only operational checks
 

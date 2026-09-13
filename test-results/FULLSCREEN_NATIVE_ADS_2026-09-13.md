@@ -2,7 +2,7 @@
 
 ## Scope
 
-The owner authorized implementing full-screen ad presentation and video autoplay on Android and iOS. This extends the earlier local [reliability/media-binding fixes](RELIABILITY_MONITORING_FIXES_2026-09-13.md); it does not modify installed build 38. Source remains local and uncommitted. No deployment, store build/release or AdMob account setting change was performed.
+The owner authorized implementing full-screen ad presentation and video autoplay on Android and iOS. This extends the earlier [reliability/media-binding fixes](RELIABILITY_MONITORING_FIXES_2026-09-13.md); it does not modify installed build 38. Source was subsequently committed and pushed as mobile `697fac5`. No new mobile store build/release or AdMob account setting change was performed. The separate backend incident-reporting deployment is recorded [here](RELEASE_MONITORING_2026-09-13.md).
 
 ## Behavior
 

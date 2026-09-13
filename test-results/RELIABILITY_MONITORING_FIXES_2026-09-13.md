@@ -4,9 +4,9 @@ Follow-up: [full-screen native ads and autoplay validation](FULLSCREEN_NATIVE_AD
 
 ## Status and scope
 
-The owner authorized development of the critical/high follow-up from the build 38 Android/iOS investigation, plus GitHub incidents for AdMob failures and other observed inconsistencies. Source changes are local and uncommitted. **No staging/production deployment, remote migration, store release or production advertising configuration change was made in this round.**
+The owner authorized development of the critical/high follow-up from the build 38 Android/iOS investigation, plus GitHub incidents for AdMob failures and other observed inconsistencies. The development checks below preceded deployment. Source was subsequently committed and pushed as backend `7eee307` and mobile `697fac5`; **the additive migration and backend API/worker were deployed to staging and production on 2026-09-13**. See the [deployment record](RELEASE_MONITORING_2026-09-13.md). No new mobile store release or production advertising configuration change was made.
 
-The earlier backend `37edc10` deployment and mobile build 38 remain separate release records. This development does not itself change installed build 38. The new reporting path requires one additive database migration, matching API/worker deployment and a new Android/iOS release.
+The earlier backend `37edc10` deployment and mobile build 38 remain separate release records. Backend `7eee307` now replaces that server image. Installed build 38 is unchanged; the new mobile queue, SDK/media/network fields and recovery behavior still require a new Android/iOS release and physical acceptance.
 
 ## Changes
 
