@@ -1,6 +1,8 @@
 # iAdMe Backlog
 
-Last updated: 2026-09-13
+Last updated: 2026-09-14
+
+**14 September development follow-up:** IADME-016, IADME-020 and IADME-023 are now implemented locally. Google profile enrichment preserves verified provider names/pictures without overwriting user edits; playback-start monitoring separates simulator/debug observations from repeated physical-release incidents; and Android network callbacks now serialize the ordered capabilities supplied by the OS. Automated checks passed. The additive profile-source migration, backend changes and mobile changes have not been deployed or released. Physical-device acceptance remains open. See the [development verification record](../test-results/BACKLOG_DEVELOPMENT_2026-09-14.md).
 
 **Build 38 critical/high follow-up:** The owner authorized the network-recovery, ad-replenishment/native-media and automatic incident-reporting work after the [production device investigation](../test-results/ANDROID_BUILD38_PROD_DIAGNOSIS_2026-09-13.md). These changes are implemented locally with [automated/native test evidence](../test-results/RELIABILITY_MONITORING_FIXES_2026-09-13.md); no new deployment or store release has occurred. See the [incident-reporting runbook](../runbooks/mobile-incident-reporting.md). Physical-device acceptance and the underlying intermittent Wi-Fi cause remain open.
 
@@ -37,9 +39,14 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-013 | Missing uploads / Feed pagination skips eligible videos | Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
 | IADME-014 | Add Meta Audience Network alongside Google through AdMob mediation | Backlog; deferred until build 38 acceptance | AdMob/Meta configuration + Android/iOS adapters + app-ads.txt |
 | IADME-015 | Add Facebook social login | Backlog; not implemented | Mobile + backend + provider migration + Meta configuration |
-| IADME-016 | Import and preserve social-login names and profile avatars | Backlog; code investigation recorded, no fix implemented | Mobile + backend profile handling |
+| IADME-016 | Import and preserve social-login names and profile avatars | Implemented locally; migration/deployment/mobile acceptance pending | Mobile + backend profile handling |
 | IADME-017 | Automatic GitHub incidents for AdMob and other observed inconsistencies | Implemented locally; device acceptance and deployment pending | Android/iOS diagnostics + backend/worker + migration |
 | IADME-018 | Full-screen native ads and muted video autoplay | Implemented and simulator-tested locally; physical acceptance and release pending | Android/iOS presentation + lifecycle |
+| IADME-019 | Add long-lived caching for immutable HLS media | Backlog; issue #25 investigation complete, not implemented | CloudFront + S3 + MediaConvert/backend |
+| IADME-020 | Improve video-startup monitoring and incident thresholds | Implemented locally; physical release-mode tuning pending | Mobile diagnostics + backend incident grouping |
+| IADME-021 | Prepare the next video without exhausting device decoders | Backlog; design and device experiment required | Mobile playback + Android/iOS native behavior |
+| IADME-022 | Test HLS renditions for faster first-frame startup | Backlog; encoding experiment required | MediaConvert configuration + playback quality/performance |
+| IADME-023 | Remove the Android network-callback capability race | Implemented locally; affected-device acceptance pending | Android native network diagnostics/recovery |
 
 ## IADME-001 — Registration device and location details
 
@@ -130,6 +137,8 @@ A planned slot is not a guaranteed paid impression: network, consent and ad-netw
 **Client changes:** Native requests describe iAdMe's India/local-community/short-video content. Development and staging use only Google's official sample units; production requires the correct platform's real Native Advanced unit. Diagnostics explicitly distinguish test inventory. Existing backend direct campaigns already compare their country/region/city targeting against feed request geography; that filtering is retained.
 
 Google's Flutter `AdRequest` has no publisher-side country/language switch that guarantees India-only creatives. Context keywords are relevance hints, not geo-targeting. Foreign-looking sample creatives do not establish what production will serve in India.
+
+Build 39 subsequently delivered a correctly rendered full-reel production ad on iOS whose copy used non-Indian text. No response ID was captured for that creative, so the observation cannot yet be traced to a specific buyer or campaign. It is included in the [AdMob support case](../test-results/ADMOB_SUPPORT_TICKET_2026-09-14.md) together with the Android no-fill evidence.
 
 - [x] Add truthful content context without sending GPS, device identifiers or user-generated captions to the ad request.
 - [x] Validate production versus test-unit selection on Android and iOS.
@@ -244,7 +253,7 @@ References: Meta's [Android SDK](https://github.com/facebook/facebook-android-sd
 
 ## IADME-016 — Social-login names and profile avatars
 
-**Status:** Added on 2026-09-13. The owner requested investigation and backlog tracking only; no application code, production data or build 38 artifact has been changed for this item.
+**Status:** Implemented locally on 2026-09-14 after the owner authorized the pending backlog fixes. No application deployment, database migration, production data change or mobile release has occurred.
 
 **Findings from the current source:**
 
@@ -256,13 +265,14 @@ References: Meta's [Android SDK](https://github.com/facebook/facebook-android-sd
 
 **Outcome:** Prefill available social profile information correctly, preserve user-chosen details and offer a graceful editable fallback when a provider omits information.
 
-- [ ] Import a Google name and picture from verified provider data when available; preserve them through registration consent/continuation. Handle missing names/pictures without blocking login.
-- [ ] Preserve Apple's first-authorization name through registration/retry. Provide an optional editable name and user-uploaded avatar when Apple cannot supply them; do not promise automatic Apple photo import.
-- [ ] Review the display-name length policy and support Unicode names consistently across mobile/backend/profile editing instead of silently stripping non-Latin names.
-- [ ] Set an explicit policy for existing profiles: offer an import action, or backfill only fields reliably known to be missing/generated. Never silently overwrite a user-chosen name or photo; track origin/user edits if required.
-- [ ] Validate avatar URLs and rendering, including expired/unavailable images and initials/upload fallback. Profile enrichment failures must not fail authentication.
+- [x] Import a Google name and picture from verified provider claims when available and preserve them through registration consent/continuation. Missing names/pictures do not block login.
+- [x] Preserve Apple's first-authorization name through registration/retry. The existing profile editor supplies an editable name and user-uploaded avatar when Apple omits them; Apple photo import is not claimed.
+- [x] Replace the 15-character ASCII-only rule with a 100-code-point Unicode rule across mobile registration, backend registration, provider import and profile editing. Control/format characters are removed and whitespace normalized.
+- [x] Track display-name and avatar origins. Provider data can refresh provider/generated values and fill a reliably missing legacy avatar; a user edit or cleared photo is marked `user` and cannot be overwritten by a later social login. The migration marks only exact known generated-name patterns for safe enrichment.
+- [x] Accept provider avatars only from HTTPS Google-hosted URLs, strip fragments and retain existing initials/upload fallback behavior. Profile enrichment remains optional to authentication data and never substitutes unverified client fields.
 - [ ] Extend the same behavior to Facebook when IADME-015 is implemented.
-- [ ] Cover new/existing/linked accounts, omitted claims, non-Latin/long names, Apple first versus repeat authorization, registration interruption, changed provider photos and preservation of manual edits on Android/iOS.
+- [x] Automated checks cover continuation, omitted values, non-Latin/long names, unsafe avatar URLs and existing login/profile contracts.
+- [ ] Complete new/existing/linked Google and Apple physical-device acceptance, including registration interruption, changed provider photos and preservation of manual edits on Android/iOS.
 
 **Source references (from workspace root):** `iadme-mobile/apps/iadme_app/lib/features/auth/data/social_auth_service.dart`; `iadme-backend/services/api/src/main/modules/auth/social-auth.service.ts`; `iadme-backend/services/api/src/main/modules/auth/registration-continuation.ts`; `iadme-backend/services/api/src/main/modules/profile/profile.repository.ts`.
 
@@ -295,6 +305,71 @@ Provider references: [Google name/picture claims](https://developers.google.com/
 - [ ] Complete physical acceptance and a new mobile release.
 
 See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13.md). Full-screen presentation does not force every creative to be 9:16 or video, and cannot guarantee paid fill or override SDK playback restrictions.
+
+## IADME-019 — Long-lived caching for immutable HLS media
+
+**Status:** Added from the investigation of [mobile issue #25](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/25). No CloudFront, S3, MediaConvert, backend or production change has been made.
+
+**Finding:** Production CloudFront uses the managed caching policy with a one-day default TTL. The inspected HLS master manifests, rendition manifests and transport-stream segments have no explicit `Cache-Control` or expiry metadata. During the investigation, cold manifest requests took approximately 0.65–2.05 seconds while immediate CloudFront hits took approximately 0.05 seconds. Media requests bypass the API, whose Feed/Trending responses were healthy during the incident window.
+
+**Outcome:** Keep completed, immutable HLS media cached long enough to avoid unnecessary S3-origin retrieval while retaining a safe way to publish corrected or reprocessed media.
+
+- [ ] Define separate CloudFront behavior and TTLs for HLS manifests and segments. Use versioned media URLs or an explicit invalidation/reprocessing policy before marking long-lived objects immutable.
+- [ ] Apply the policy to existing media as well as future MediaConvert output; changing only the future upload path does not cover the current catalogue.
+- [ ] Preserve correct content types, range requests, access controls and incomplete-processing behavior. Never expose source uploads through a broader public cache rule.
+- [ ] Verify cold and warm requests from representative India locations, cache headers, cache age, origin-request reduction and playback after a controlled media replacement.
+- [ ] Measure CloudFront/S3 cost, cache-hit behavior and first-frame timing before and after the change on physical Android and iOS devices.
+
+## IADME-020 — Video-startup monitoring and incident thresholds
+
+**Status:** Implemented locally. The issue's three 3.4–8.9 second samples came from an iPhone 17 debug simulator using production APIs; related physical-device samples were approximately 2.4–2.7 seconds. Simulator/emulator and debug/profile observations remain diagnostic events but cannot create production incidents. No deployment or mobile release has occurred.
+
+**Outcome:** Preserve actionable playback alerts while preventing successful simulator/debug starts above a fixed 1.5-second threshold from being presented as production device incidents.
+
+- [x] Add explicit simulator/emulator versus physical-device, debug/profile/release build and configured backend-environment fields to playback events and GitHub issue titles/bodies.
+- [x] Record separate durations for controller queue/disposal, controller initialization/configuration, play request, first positive position and first presented Flutter frame.
+- [x] Apply provisional physical release thresholds by validation and network class: 4 seconds on validated Wi-Fi/Ethernet, 5 seconds on validated cellular/VPN and 6 seconds otherwise. Non-release/non-physical observations use 10 seconds and remain information-only. Incidents require at least two severe reports.
+- [x] Keep initialization failures, playback failures and prolonged user-visible stalls independently actionable; performance aggregation applies only to successful slow-start events.
+- [x] Bound slow-start reporting to three events per app session and separate incident identities by device/build context.
+- [ ] Verify event privacy, bounded reporting, offline delivery, issue grouping and release attribution on simulator and physical Android/iOS test matrices.
+
+## IADME-021 — Guarded next-video preparation
+
+**Status:** Backlog experiment. The current single-controller design deliberately serializes disposal and initialization because some older Android devices cannot initialize a second HLS decoder safely.
+
+**Outcome:** Reduce swipe-to-first-frame time by preparing at most the next likely video without reintroducing decoder exhaustion, stale-controller races, excessive data use or feed-position changes.
+
+- [ ] Prototype a one-video-ahead preparation path that can warm network/media state without owning a second active decoder on constrained devices; document platform-specific behavior where Flutter's video plugin does not expose safe preparation APIs.
+- [ ] Keep the existing serialized single-player fallback for affected/low-memory Android devices and cancel obsolete preparation immediately after rapid swipes, tab changes, ads or route changes.
+- [ ] Bound memory, decoder count, connections and downloaded bytes. Disable or reduce preparation on constrained networks, Low Data Mode/data saver, memory pressure and backgrounding.
+- [ ] Test Feed and Trending forward/backward scrolling, pagination, ad transitions, A→B→A races, long sessions and app resume on older Androids and current Android/iOS devices.
+- [ ] Compare first-frame percentiles, buffering, scroll smoothness, memory, battery and mobile-data use against the current single-controller baseline before selecting an implementation.
+
+## IADME-022 — HLS first-frame encoding experiment
+
+**Status:** Backlog experiment. Current output uses two-second HLS segments with 360p, 720p and 1080p renditions. The inspected first segments ranged from approximately 195–256 KB at 360p, 679 KB–1.01 MB at 720p and 1.43–2.09 MB at 1080p.
+
+**Outcome:** Reduce the amount of media needed for first playback while maintaining acceptable visual quality and stable adaptive streaming.
+
+- [ ] Benchmark current MediaConvert outputs and confirm which rendition and how much buffered media Android and iOS select before the first frame under fast, slow and changing networks.
+- [ ] Test lower 720p/1080p maximum bitrates and QVBR quality, an intermediate rendition where useful, and shorter initial/segment duration options. Change one variable at a time.
+- [ ] Compare first-frame time, rebuffering, rendition switching, perceptual quality, storage, MediaConvert time and CloudFront request/transfer cost across portrait, landscape, 30 fps and 60 fps inputs.
+- [ ] Preserve source aspect ratio, audio, thumbnail alignment and compatibility with older Android decoders and iOS AVPlayer.
+- [ ] Apply a new encoding profile to future uploads only until a separately approved existing-catalogue re-encode plan proves its cost, cache and publication behavior.
+
+## IADME-023 — Android network-callback capability ordering
+
+**Status:** Implemented locally from the investigation of [mobile issue #22](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/22). Native Android tests pass; no mobile release has occurred.
+
+**Finding:** `onCapabilitiesChanged(network, capabilities)` currently discards the ordered `NetworkCapabilities` supplied by Android and calls the general `snapshot()` method. That method synchronously queries `activeNetwork` and `getNetworkCapabilities()` again. During Wi-Fi/cellular handover, the second query can observe a different or stale active network and publish an inconsistent transport, validation or availability state.
+
+**Outcome:** Publish Android network changes from the callback data Android delivered for that network, while retaining a separately requested current-state snapshot for Flutter startup and diagnostics.
+
+- [x] Pass the callback's `Network` and `NetworkCapabilities` directly into the event serializer for `onCapabilitiesChanged`; no synchronous capability re-query occurs inside that callback.
+- [x] Define synchronized handling for `onAvailable`, `onCapabilitiesChanged` and `onLost`, with monotonically increasing revisions, engine epochs and protection against late callbacks from old networks.
+- [x] Keep `snapshot()` for explicit method-channel requests while callback and snapshot payloads use consistent transport, availability, validation and metering fields.
+- [x] Add native tests for Wi-Fi/cellular/VPN transitions, unvalidated Wi-Fi, rapid loss/recovery, stale networks and callbacks after teardown or a new engine.
+- [ ] Verify the resulting Flutter connection-pool recovery and login behavior on the affected OnePlus device and current Android versions without changing the successful iOS path.
 
 ## Maintaining this list
 
