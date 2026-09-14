@@ -2,11 +2,11 @@
 
 Last updated: 2026-09-14
 
-**14 September development follow-up:** IADME-016, IADME-020 and IADME-023 are now implemented locally. Google profile enrichment preserves verified provider names/pictures without overwriting user edits; playback-start monitoring separates simulator/debug observations from repeated physical-release incidents; and Android network callbacks now serialize the ordered capabilities supplied by the OS. Automated checks passed. The additive profile-source migration, backend changes and mobile changes have not been deployed or released. Physical-device acceptance remains open. See the [development verification record](../test-results/BACKLOG_DEVELOPMENT_2026-09-14.md).
+**14 September release follow-up:** IADME-016, IADME-020 and IADME-023 are implemented. Google profile enrichment preserves verified provider names/pictures without overwriting user edits; playback-start monitoring separates simulator/debug observations from repeated physical-release incidents; and Android network callbacks serialize the ordered capabilities supplied by the OS. Backend `718eb9d` and the additive profile-source migration are deployed to staging and production as immutable image `release-2026.09.14-718eb9d`. Mobile 1.0.4+40 production AAB/IPA artifacts are built and verified but have not been uploaded to the stores. Physical-device acceptance remains open. See the [development verification record](../test-results/BACKLOG_DEVELOPMENT_2026-09-14.md) and [release record](../test-results/RELEASE_BUILD40_BACKEND_2026-09-14.md).
 
-**Build 38 critical/high follow-up:** The owner authorized the network-recovery, ad-replenishment/native-media and automatic incident-reporting work after the [production device investigation](../test-results/ANDROID_BUILD38_PROD_DIAGNOSIS_2026-09-13.md). These changes are implemented locally with [automated/native test evidence](../test-results/RELIABILITY_MONITORING_FIXES_2026-09-13.md); no new deployment or store release has occurred. See the [incident-reporting runbook](../runbooks/mobile-incident-reporting.md). Physical-device acceptance and the underlying intermittent Wi-Fi cause remain open.
+**Build 38 critical/high follow-up:** The owner authorized the network-recovery, ad-replenishment/native-media and automatic incident-reporting work after the [production device investigation](../test-results/ANDROID_BUILD38_PROD_DIAGNOSIS_2026-09-13.md). These changes are included in the verified build 40 artifacts with [automated/native test evidence](../test-results/RELIABILITY_MONITORING_FIXES_2026-09-13.md); store upload remains pending. See the [incident-reporting runbook](../runbooks/mobile-incident-reporting.md). Physical-device acceptance and the underlying intermittent Wi-Fi cause remain open.
 
-**Build 37 testing follow-up:** Android login failures, missing ads after tab switches/pagination, filter behavior and missing uploads were reported on 2026-09-13. Ad acceptance is reopened; previous local test results are not physical-device acceptance. See the [production investigation](../test-results/PROD_TRIAGE_2026-09-13.md) for confirmed defects, logs, reproduction and remaining questions. The subsequent fix implementation is documented in [development verification](../test-results/LOGIN_FEED_ADS_FIXES_2026-09-13.md). Development is local; no new deployment or store release has occurred.
+**Build 37 testing follow-up:** Android login failures, missing ads after tab switches/pagination, filter behavior and missing uploads were reported on 2026-09-13. Ad acceptance is reopened; previous local test results are not physical-device acceptance. See the [production investigation](../test-results/PROD_TRIAGE_2026-09-13.md) for confirmed defects, logs, reproduction and remaining questions. The subsequent fixes are documented in [development verification](../test-results/LOGIN_FEED_ADS_FIXES_2026-09-13.md) and included in build 40; store upload remains pending.
 
 The owner authorized implementation of IADME-001 through IADME-004 on 2026-09-12 as part of the tester fixes. They are implemented; backend prerequisites and both migrations were subsequently deployed to staging and production on the same date. Mobile store upload and physical-device acceptance remain pending. This replaces their earlier deferred status.
 
@@ -18,7 +18,7 @@ See [implementation and release verification](../test-results/TESTER_FIXES_2026-
 
 Follow-up [physical Android development testing](../test-results/ANDROID_DEVICE_DEV_2026-09-13.md) covers the owner's OnePlus 9 Pro: Google and phone login/session restoration, real-SMS phone registration, phone-only Profile, Feed's 20-video/10-sample-ad traversal and Trending's 38-video/19-sample-ad traversal passed. Both surfaces passed backward scrolling. Geographic empty-state recovery and light/dark checks passed. The same session fixed age/mute alignment and native-ad button clipping. Wider device/network and production ad-serving acceptance remains open.
 
-The owner subsequently authorized [backend deployment to staging and production on 13 September](../test-results/RELEASE_BACKEND_2026-09-13.md), plus testing the current mobile code against production. Backend `37edc10` is deployed in both environments; the mobile changes remain pending store release. AdMob mediation is a separate backlog item.
+The owner subsequently authorized [backend deployment to staging and production on 13 September](../test-results/RELEASE_BACKEND_2026-09-13.md), plus testing the current mobile code against production. The current backend `718eb9d` supersedes that release in both environments; mobile build 40 artifacts are ready for store upload. AdMob mediation is a separate backlog item.
 
 ## List
 
@@ -31,7 +31,7 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-005 | Ads do not repeat at the configured interval in Feed/Trending | Additional cache/refill fixes implemented; physical acceptance pending | Mobile placement, pagination and readiness |
 | IADME-006 | Some devices show no ads | Client recovery implemented; device/serving acceptance pending | Mobile consent, SDK, retries and release configuration |
 | IADME-007 | Foreign ads shown instead of India-relevant ads | Client context implemented; AdMob serving verification pending | Mobile + AdMob account/campaign settings |
-| IADME-008 | Show a skippable ad slot after every two videos | Implemented locally; no deployment | Feed + Trending placement/configuration |
+| IADME-008 | Show a skippable ad slot after every two videos | Included in build 40; store/device acceptance pending | Feed + Trending placement/configuration |
 | IADME-009 | Increase ad preloading with device-aware cache limits | Three upcoming placements implemented; larger adaptive cache deferred | Mobile caching + performance/revenue evaluation |
 | IADME-010 | Shorten upload location label to “Show location as” | Implemented for build 37; device acceptance pending | Mobile copy/UI |
 | IADME-011 | Android Google / phone login stalls or fails | Pre-API transport failures confirmed; network-change recovery implemented locally, physical acceptance pending | Native auth + network diagnostics/recovery |
@@ -39,14 +39,14 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-013 | Missing uploads / Feed pagination skips eligible videos | Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
 | IADME-014 | Add Meta Audience Network alongside Google through AdMob mediation | Backlog; deferred until build 38 acceptance | AdMob/Meta configuration + Android/iOS adapters + app-ads.txt |
 | IADME-015 | Add Facebook social login | Backlog; not implemented | Mobile + backend + provider migration + Meta configuration |
-| IADME-016 | Import and preserve social-login names and profile avatars | Implemented locally; migration/deployment/mobile acceptance pending | Mobile + backend profile handling |
-| IADME-017 | Automatic GitHub incidents for AdMob and other observed inconsistencies | Implemented locally; device acceptance and deployment pending | Android/iOS diagnostics + backend/worker + migration |
-| IADME-018 | Full-screen native ads and muted video autoplay | Implemented and simulator-tested locally; physical acceptance and release pending | Android/iOS presentation + lifecycle |
+| IADME-016 | Import and preserve social-login names and profile avatars | Backend/migration deployed; build 40 ready; physical acceptance pending | Mobile + backend profile handling |
+| IADME-017 | Automatic GitHub incidents for AdMob and other observed inconsistencies | Backend deployed; build 40 ready; device/store acceptance pending | Android/iOS diagnostics + backend/worker + migration |
+| IADME-018 | Full-screen native ads and muted video autoplay | Included in build 40; physical/store acceptance pending | Android/iOS presentation + lifecycle |
 | IADME-019 | Add long-lived caching for immutable HLS media | Backlog; issue #25 investigation complete, not implemented | CloudFront + S3 + MediaConvert/backend |
-| IADME-020 | Improve video-startup monitoring and incident thresholds | Implemented locally; physical release-mode tuning pending | Mobile diagnostics + backend incident grouping |
+| IADME-020 | Improve video-startup monitoring and incident thresholds | Included in build 40; physical release-mode tuning pending | Mobile diagnostics + backend incident grouping |
 | IADME-021 | Prepare the next video without exhausting device decoders | Backlog; design and device experiment required | Mobile playback + Android/iOS native behavior |
 | IADME-022 | Test HLS renditions for faster first-frame startup | Backlog; encoding experiment required | MediaConvert configuration + playback quality/performance |
-| IADME-023 | Remove the Android network-callback capability race | Implemented locally; affected-device acceptance pending | Android native network diagnostics/recovery |
+| IADME-023 | Remove the Android network-callback capability race | Included in build 40; affected-device acceptance pending | Android native network diagnostics/recovery |
 
 ## IADME-001 — Registration device and location details
 
@@ -160,7 +160,7 @@ Build 39 subsequently delivered a correctly rendered full-reel production ad on 
 
 ## IADME-009 — Increase ad preloading with device-aware cache limits
 
-**Status:** Partially implemented after the owner authorized three or more preloaded ads on 2026-09-13. While an ad is visible, keep that ad plus three upcoming placements and the nearest previous placement within the existing shared six-object limit. Each new placement gets a distinct native object; only never-mounted, unimpressed orphan inventory may transfer to another slot. The cache continually refills and does not cycle the same three displayed objects through the session. A larger device-adaptive cache remains deferred. No deployment in this development round.
+**Status:** Partially implemented after the owner authorized three or more preloaded ads on 2026-09-13. While an ad is visible, keep that ad plus three upcoming placements and the nearest previous placement within the existing shared six-object limit. Each new placement gets a distinct native object; only never-mounted, unimpressed orphan inventory may transfer to another slot. The cache continually refills and does not cycle the same three displayed objects through the session. This implementation is included in build 40; the larger device-adaptive cache remains deferred and physical AdMob acceptance is pending.
 
 **Outcome:** Reduce missed ad opportunities during fast scrolling or variable network conditions while preserving video playback and scrolling performance on older and newer Android/iOS devices.
 
@@ -199,7 +199,7 @@ The follow-up mobile implementation replaces idle connection pools on native net
 
 ## IADME-012 — Feed filter semantics and redesign
 
-**Status:** Implemented locally. All discovers ready public videos with geographic priority; Nearby uses a 10 km radius; Local, City, State and Country remain within the selected area; International means outside the selected country. Missing required location is explicit. The theme-aware picker describes each option and the header shows the active choice.
+**Status:** Backend selection is deployed; the corresponding mobile picker is included in build 40. All discovers ready public videos with geographic priority; Nearby uses a 10 km radius; Local, City, State and Country remain within the selected area; International means outside the selected country. Missing required location is explicit. The theme-aware picker describes each option and the header shows the active choice. Store upload and physical acceptance remain pending.
 
 - [x] Define and implement distinct scope behavior without silently widening an explicit geographic filter.
 - [x] Redesign the picker and active-filter indication; light/dark, 320 px screens and 100–300% text scale tests pass.
@@ -208,7 +208,7 @@ The follow-up mobile implementation replaces idle connection pools on native net
 
 ## IADME-013 — Missing videos and pagination coverage
 
-**Status:** Feed cursor repaired locally. Stable keyset pagination freezes view preference at the start of a pass, excludes inaccessible content before selecting a page and returns an explicit end cursor. Tests now return all 30 videos exactly once, and cover 260 rows, microsecond ties, changing view history, GPS drift and old cursors. New ready videos enter the next refresh without waiting on Redis pool rebuilding. An owner-only publication-status endpoint and bounded mobile watcher distinguish processing from readiness and offer a direct View action.
+**Status:** The Feed cursor and publication-status backend changes are deployed; the matching mobile watcher is included in build 40. Stable keyset pagination freezes view preference at the start of a pass, excludes inaccessible content before selecting a page and returns an explicit end cursor. Tests return all 30 videos exactly once and cover 260 rows, microsecond ties, changing view history, GPS drift and old cursors. New ready videos enter the next refresh without waiting on Redis pool rebuilding. An owner-only publication-status endpoint and bounded mobile watcher distinguish processing from readiness and offer a direct View action. Store upload and physical upload/discovery acceptance remain pending.
 
 - [x] Fix Feed pagination so reordering cannot advance past unreturned eligible videos.
 - [x] PostgreSQL and mobile tests cover deduplication, exhaustion, blocked/reported content, late-ready uploads and request-generation races.
@@ -253,7 +253,7 @@ References: Meta's [Android SDK](https://github.com/facebook/facebook-android-sd
 
 ## IADME-016 — Social-login names and profile avatars
 
-**Status:** Implemented locally on 2026-09-14 after the owner authorized the pending backlog fixes. No application deployment, database migration, production data change or mobile release has occurred.
+**Status:** Implemented on 2026-09-14. Backend `718eb9d` and migration `20260914_add_profile_enrichment_sources.sql` are deployed to staging and production as `release-2026.09.14-718eb9d`. Mobile build 40 artifacts contain the matching client work; store upload and physical-device acceptance remain pending.
 
 **Findings from the current source:**
 
@@ -280,7 +280,7 @@ Provider references: [Google name/picture claims](https://developers.google.com/
 
 ## IADME-017 — Automatic diagnostic GitHub incidents
 
-**Status:** Implemented, committed and pushed on 2026-09-13. Backend migration/API/worker deployed to staging and production as `release-2026.09.13-7eee307`; controlled staging delivery and restart recovery passed. A new mobile release and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
+**Status:** Implemented, committed and pushed on 2026-09-13. Backend migration/API/worker deployed to staging and production as `release-2026.09.13-7eee307`; controlled staging delivery and restart recovery passed. The current backend release is `release-2026.09.14-718eb9d`, and the matching mobile diagnostics are included in build 40. Store upload and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
 
 - [x] Capture no-fill, network/load timeout, missed placement and native-media observations with available SDK response/source IDs, versions, UTC timing, device/build, consent, network and per-surface fresh-inventory counters.
 - [x] Queue diagnostics securely while offline and retain counted repeats instead of dropping all repeats for five minutes. Bound storage, redact sensitive values and reuse event UUIDs across uncertain acknowledgements.
@@ -294,7 +294,7 @@ Provider references: [Google name/picture claims](https://developers.google.com/
 
 ## IADME-018 — Full-screen native ads and muted video autoplay
 
-**Status:** Implemented, committed and pushed as mobile `697fac5` on 2026-09-13. No backend or AdMob account setting change is required for this presentation change; a new mobile release is required. Android/iOS native video, static-image and compact-layout checks passed; the full mobile suite passed 231 tests with two existing skips.
+**Status:** Implemented, committed and pushed as mobile `697fac5` on 2026-09-13 and included in build 40. No backend or AdMob account setting change is required for this presentation change. Android/iOS native video, static-image and compact-layout checks passed; store upload and physical-device acceptance remain pending.
 
 - [x] Replace the 400 × 400 card with a viewport-filling native view in Feed and Trending, with a dark media canvas and compact advertiser/action footer.
 - [x] Preserve creative proportions and accept any aspect ratio, retaining landscape/image inventory as well as portrait/video inventory.
@@ -322,7 +322,7 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-020 — Video-startup monitoring and incident thresholds
 
-**Status:** Implemented locally. The issue's three 3.4–8.9 second samples came from an iPhone 17 debug simulator using production APIs; related physical-device samples were approximately 2.4–2.7 seconds. Simulator/emulator and debug/profile observations remain diagnostic events but cannot create production incidents. No deployment or mobile release has occurred.
+**Status:** Included in mobile build 40. The issue's three 3.4–8.9 second samples came from an iPhone 17 debug simulator using production APIs; related physical-device samples were approximately 2.4–2.7 seconds. Simulator/emulator and debug/profile observations remain diagnostic events but cannot create production incidents. Store upload and physical release-mode acceptance remain pending.
 
 **Outcome:** Preserve actionable playback alerts while preventing successful simulator/debug starts above a fixed 1.5-second threshold from being presented as production device incidents.
 
@@ -359,7 +359,7 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-023 — Android network-callback capability ordering
 
-**Status:** Implemented locally from the investigation of [mobile issue #22](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/22). Native Android tests pass; no mobile release has occurred.
+**Status:** Implemented from the investigation of [mobile issue #22](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/22) and included in build 40. Native Android tests pass; store upload and affected-device acceptance remain pending.
 
 **Finding:** `onCapabilitiesChanged(network, capabilities)` currently discards the ordered `NetworkCapabilities` supplied by Android and calls the general `snapshot()` method. That method synchronously queries `activeNetwork` and `getNetworkCapabilities()` again. During Wi-Fi/cellular handover, the second query can observe a different or stale active network and publish an inconsistent transport, validation or availability state.
 

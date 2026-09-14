@@ -1,6 +1,6 @@
 # Backlog development verification — 14 September 2026
 
-Development only. No staging/production deployment, database migration, store upload or AdMob/Meta account change was performed in this work.
+Development verification was followed by the authorized backend rollout and mobile build 40 packaging recorded in [the release record](RELEASE_BUILD40_BACKEND_2026-09-14.md). The profile-source migration and backend image are deployed to staging and production. The AAB and IPA have not been uploaded to the stores, and no AdMob/Meta mediation or account-serving change was performed by this release.
 
 ## Completed locally
 
