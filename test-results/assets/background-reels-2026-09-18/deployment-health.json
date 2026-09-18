@@ -1,0 +1,48 @@
+{
+  "checkedAt": "2026-09-18T07:42:33.100883+00:00",
+  "publicHealthReadyPassed": true,
+  "containers": [
+    {
+      "container": "iadme-staging-api",
+      "running": true,
+      "health": "healthy",
+      "restarts": 0,
+      "structuredErrorFatalCount": 0,
+      "structuredWarningCount": 9,
+      "warningHttpStatusCounts": {
+        "401": 6,
+        "400": 3
+      }
+    },
+    {
+      "container": "iadme-staging-worker",
+      "running": true,
+      "health": "not-configured",
+      "restarts": 0,
+      "structuredErrorFatalCount": 0,
+      "structuredWarningCount": 0,
+      "warningHttpStatusCounts": {}
+    },
+    {
+      "container": "iadme-prod-api",
+      "running": true,
+      "health": "healthy",
+      "restarts": 0,
+      "structuredErrorFatalCount": 0,
+      "structuredWarningCount": 9,
+      "warningHttpStatusCounts": {
+        "401": 6,
+        "400": 3
+      }
+    },
+    {
+      "container": "iadme-prod-worker",
+      "running": true,
+      "health": "not-configured",
+      "restarts": 0,
+      "structuredErrorFatalCount": 0,
+      "structuredWarningCount": 0,
+      "warningHttpStatusCounts": {}
+    }
+  ]
+}

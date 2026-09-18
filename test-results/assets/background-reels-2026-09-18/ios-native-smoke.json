@@ -1,0 +1,15 @@
+{
+  "nativeGuard": {
+    "backgroundAllowed": true,
+    "powerOkay": false,
+    "storageOkay": true,
+    "unmetered": true,
+    "foreground": true
+  },
+  "nativeWorkerCallback": true,
+  "sqliteOpeningRestore": true,
+  "separateConnectionsAndContention": true,
+  "preparedHeight": 720,
+  "cdnBytes": 0,
+  "platform": "ios"
+}

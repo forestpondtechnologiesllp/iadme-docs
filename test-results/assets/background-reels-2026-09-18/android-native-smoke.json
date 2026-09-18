@@ -1,0 +1,15 @@
+{
+  "nativeGuard": {
+    "backgroundAllowed": true,
+    "unmetered": true,
+    "storageOkay": true,
+    "powerOkay": true,
+    "foreground": true
+  },
+  "nativeWorkerCallback": true,
+  "sqliteOpeningRestore": true,
+  "separateConnectionsAndContention": true,
+  "preparedHeight": 720,
+  "cdnBytes": 0,
+  "platform": "android"
+}
