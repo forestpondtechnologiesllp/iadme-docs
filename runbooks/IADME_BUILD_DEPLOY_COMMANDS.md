@@ -218,6 +218,9 @@ numbers, and billing selectors keep their correct types and values.
 | `APP_RELEASE` | Generated from app version/build: `iadme-mobile@<version>+<build>` for prod, with `dev-` or `staging-` prefix for the others. Do not manually maintain it in JSON. |
 | `GOOGLE_IOS_CLIENT_ID` | Existing iOS OAuth client ID saved in every profile |
 | `GOOGLE_WEB_CLIENT_ID` | Existing web/server OAuth client ID saved in every profile |
+| `FACEBOOK_LOGIN_ENABLED` | `false` in saved profiles; enable only with matching native/backend Meta credentials and the appropriate Meta access. |
+| `FACEBOOK_APP_ID` | Meta app ID; must match the Client Token, server App Secret and native dashboard configuration. |
+| `FACEBOOK_CLIENT_TOKEN` | Empty in tracked profiles. Supply through ignored local JSON; required by the native SDK even with the login button hidden. Never put the App Secret here. |
 | `BILLING_PROVIDER` | `auto`; iOS uses Apple StoreKit. Android uses Google Play in prod release, Razorpay otherwise. |
 | `ADMOB_ANDROID_NATIVE_AD_UNIT_ID` | `ca-app-pub-2924641977385769/3473122948` |
 | `ADMOB_IOS_NATIVE_AD_UNIT_ID` | `ca-app-pub-2924641977385769/9941107182` |
@@ -261,6 +264,31 @@ disables the new sampled reports. Both overrides require a rebuild. See
 Upload progress does not need a Dart define. S3 upload acceleration is controlled
 by the backend and bucket settings, with the agreed prod-only configuration;
 these mobile profiles do not enable it for dev/staging.
+
+### Working-tree Facebook Login follow-up — not released
+
+Dev runs automatically merge `config/facebook.local.json`. Staging/prod builds
+require an explicit `--dart-define-from-file=config/facebook.local.json` overlay
+(or another ignored, environment-specific overlay). Set
+`--dart-define=FACEBOOK_LOGIN_ENABLED=false` if credentials are supplied only to
+initialize the SDK while keeping public Facebook sign-in disabled. Existing
+commands below now require that native credential overlay for staging/prod.
+The checked launcher generates ignored `ios/Flutter/Facebook.generated.xcconfig`;
+`--check` validates without building and redacts the Client Token.
+
+The Facebook backend requires `FACEBOOK_APP_ID`, `FACEBOOK_APP_SECRET` and the
+new `database/migrations/20260918_add_facebook_login.sql` migration. These are
+followed by `database/migrations/20260919_add_facebook_account_linking.sql` for
+Profile → Settings → Connected accounts. Both migrations are required. They are
+separate from the historical release above. Local Docker uses the base compose
+plus `infra/docker/docker-compose.facebook-dev.yml` to read
+`services/api/.env.dev`. Do not enable Facebook against staging/production until
+that environment's backend and migration have been deployed and Meta access is
+ready. No deployment or Meta publishing is implied by a mobile build.
+
+See `iadme-mobile/apps/iadme_app/config/README.md` and
+`iadme-mobile/docs/facebook-login-2026-09-18.md` for setup and testing gates.
+Biometrics, sessions, reels and background preparation are unchanged.
 
 ### Prepare tools
 
