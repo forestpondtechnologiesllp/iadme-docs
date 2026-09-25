@@ -11,16 +11,28 @@ examples: replace them for the intended backend release. Mobile-only builds
 start at section 9 and do not require backend redeployment. Mobile configuration
 is saved in the app's `config/` directory; no Dart-define exports are required.
 
-## Latest backend release — September 18, 2026
+## Latest release — September 21, 2026, build-44 follow-up
 
-Image: `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.09.18-ef63cf5`.
-Digest: `sha256:3736cffbba8af6c9725fee4986c05629b8a2e4fa4aa76de56fa3aaad8881ff20`.
-Backend source remains `ef63cf5`; the mobile follow-up is committed as `8ee8dd8`.
-No schema migration is part of this rollout. Deployment results and rollback
-references are recorded in `docs/test-results/RELEASE_BACKEND_2026-09-18.md`.
-Use the production simulator command in section 12 to test the mobile follow-up
-before requesting new store artifacts. The existing TestFlight build 43 remains
-unchanged; these mobile changes require a fresh build/relaunch.
+Image: `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.09.21-build45-followup`.
+Digest: `sha256:f831e0b065fed67d836afdd796b34aad7a750cb50309f0ef834cd0f2414da2c7`.
+The additive migration `20260921_monitoring_signal_counts.sql` was applied before
+API/worker rollout, first on staging and then production. Both passed checks.
+Backend base `6724775` and mobile base `2cea5b2` include archived, uncommitted
+working-tree fixes; do not describe the artifacts as builds of those commits alone.
+
+Signed production AAB and IPA `1.0.4+45` are archived in
+`artifacts/releases/1.0.4-build45/`. Neither was uploaded to a store.
+Release/rollback evidence: `docs/test-results/RELEASE_BUILD45_2026-09-21.md`.
+
+Both builds explicitly included the private Facebook overlay. Reproduce with:
+
+```sh
+dart tool/mobile.dart prod aab --dart-define-from-file=config/facebook.local.json
+dart tool/mobile.dart prod ipa --dart-define-from-file=config/facebook.local.json
+```
+
+The overlay is ignored/private; do not print or commit its Client Token.
+Physical-device verification of the reported whole-app iOS freeze remains pending.
 
 ## 1. Release parameters — Mac
 
@@ -398,7 +410,7 @@ during tests. Use a Google Play testing-track install for purchase acceptance.
 ## 16. Prepare a mobile release
 
 Edit `version:` in `pubspec.yaml` once before a new store upload. The format is
-`<app-version>+<build-number>`; the current source is `1.0.4+43`. Increase the build
+`<app-version>+<build-number>`; the current source is `1.0.4+48`. Increase the build
 number for each new App Store Connect / Google Play upload. Both platforms read
 that same version, and the launcher generates the matching `APP_RELEASE`.
 
@@ -438,7 +450,7 @@ registered-device build can use `--export-method=development` when needed.
 ## 19. Build the production Android AAB
 
 ```bash
-dart tool/mobile.dart prod aab
+dart tool/mobile.dart prod aab --dart-define-from-file=config/facebook.local.json
 ```
 
 Output: `build/app/outputs/bundle/release/app-release.aab`. Upload this to Google Play.
@@ -446,7 +458,7 @@ Output: `build/app/outputs/bundle/release/app-release.aab`. Upload this to Googl
 ## 20. Build the production Android APK
 
 ```bash
-dart tool/mobile.dart prod apk
+dart tool/mobile.dart prod apk --dart-define-from-file=config/facebook.local.json
 ```
 
 Output: `build/app/outputs/flutter-apk/app-release.apk`, for direct installation.
@@ -454,16 +466,16 @@ Output: `build/app/outputs/flutter-apk/app-release.apk`, for direct installation
 ## 21. Build the production IPA
 
 ```bash
-dart tool/mobile.dart prod ipa
+dart tool/mobile.dart prod ipa --dart-define-from-file=config/facebook.local.json
 ```
 
 Output: `build/ios/ipa/`, for App Store Connect / TestFlight.
 
-Build 43 is an **iOS-only artifact request**, version `1.0.4+43`. Its production
+Historical build 43 was an **iOS-only artifact request**, version `1.0.4+43`. Its production
 release label is `iadme-mobile@1.0.4+43`. Archive the IPA, signing/version checks,
 source/config evidence, and release notes in `artifacts/releases/1.0.4-build43/`.
-No Android build or store upload is part of this build-43 request. Android's
-physical-device verification is still pending.
+No Android build was part of that build-43 request. Current build 45 has both
+signed AAB and IPA files; physical-device verification is still pending.
 
 The prepared-start and sampled-diagnostic switches are saved in every profile
 and validated by `tool/mobile.dart`; do not reintroduce shell exports or omit them
@@ -471,7 +483,7 @@ in future builds. Background video downloading and a larger disk allowance are
 **not included in archived build 43**. The September 18 working-tree follow-up
 implements them for iOS and Android, along with fresh Feed/Trending refresh and
 the ready-video snackbar fix. All profiles now save `REEL_BACKGROUND_PRELOAD_ENABLED=true`.
-It requires a new build number for release. Read
+It is included in the newer build-44 and build-45 artifacts. Read
 `iadme-mobile/docs/background-reels-2026-09-18.md` for actual behavior, limits,
 controls and tests; the older proposal is historical.
 

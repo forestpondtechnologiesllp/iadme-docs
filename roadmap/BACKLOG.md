@@ -1,6 +1,14 @@
 # iAdMe Backlog
 
-Last updated: 2026-09-14
+Last updated: 2026-09-25
+
+**25 September maintenance requests:** IADME-036 and IADME-037 record the requested full dependency/Flutter upgrade with explicit Razorpay validation and the cleanup of all GitHub issues through evidence-based triage and resolution. These are backlog entries only. No package, SDK, lockfile, native project, payment configuration, source code, GitHub issue, deployment or release was changed.
+
+**25 September messaging expansion:** IADME-024 now includes an admin communication workflow for one or many recipients, one notification event for each delivered official message, controlled inbox advertising and an idempotent registration welcome message that confirms the 100-star grant and the user's truthful registration position. This is backlog planning only. No message, reward, notification, ad, admin permission, account data or production service was changed.
+
+**24 September product requests:** IADME-029 through IADME-035 record the requested locality upload notifications, app-feedback/store-rating flow, per-reel playback issue reporting, premium-video unlock counts, iCube city/locality content rollout, card-based onboarding and photo posts. These are backlog entries only. No application code, content, account configuration, notification campaign, email delivery, production data, deployment or release was changed.
+
+**23 September capacity and messaging planning:** Research-only items IADME-024 through IADME-028 record the agreed admin-messaging, delivery, search and PostgreSQL work for an initial **10,000 MAU** target with a measured path to **100,000 MAU**. No application code, schema, infrastructure, ad-network configuration or production service was changed by this planning pass. IADME-014 now records the approved future ad surfaces: between reels, Comments and the Messages inbox; reaction sheets and private conversations are excluded.
 
 **14 September release follow-up:** IADME-016, IADME-020 and IADME-023 are implemented. Google profile enrichment preserves verified provider names/pictures without overwriting user edits; playback-start monitoring separates simulator/debug observations from repeated physical-release incidents; and Android network callbacks serialize the ordered capabilities supplied by the OS. Backend `718eb9d` and the additive profile-source migration are deployed to staging and production as immutable image `release-2026.09.14-718eb9d`. Mobile 1.0.4+40 production AAB/IPA artifacts are built and verified but have not been uploaded to the stores. Physical-device acceptance remains open. See the [development verification record](../test-results/BACKLOG_DEVELOPMENT_2026-09-14.md) and [release record](../test-results/RELEASE_BUILD40_BACKEND_2026-09-14.md).
 
@@ -47,6 +55,20 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-021 | Prepare the next video without exhausting device decoders | Backlog; design and device experiment required | Mobile playback + Android/iOS native behavior |
 | IADME-022 | Test HLS renditions for faster first-frame startup | Backlog; encoding experiment required | MediaConvert configuration + playback quality/performance |
 | IADME-023 | Remove the Android network-callback capability race | Included in build 40; affected-device acceptance pending | Android native network diagnostics/recovery |
+| IADME-024 | Let authorized admins message one or multiple user inboxes | Backlog expanded; not implemented | Admin UI + audience/campaign queue + RBAC/audit + per-message notification + inbox ads |
+| IADME-025 | Optimize avatar and personalized-screen delivery | Backlog; research complete, not implemented | S3/CloudFront avatars + API/mobile caching and pagination |
+| IADME-026 | Add durable real-time message synchronization | Backlog; research complete, not implemented | FCM + foreground sync + optional WebSocket/Redis fan-out |
+| IADME-027 | Add privacy-scoped search using PostgreSQL first | Backlog; research complete, not implemented | User/video/conversation search + FTS/trigram indexes |
+| IADME-028 | Prepare PostgreSQL and load testing for 10K to 100K MAU | Backlog; research complete, not implemented | Query/index/pool/observability/capacity work |
+| IADME-029 | Notify users when new videos are available in a relevant locality | Backlog; not implemented | Backend event/aggregation + locality preferences + push/in-app notifications |
+| IADME-030 | Ask for quick app feedback and an appropriate store rating/review | Backlog; not implemented | Mobile feedback UI + store review APIs + prompt policy |
+| IADME-031 | Add a three-dot reel menu for video-specific playback issue reports | Backlog; not implemented | Mobile reel UI + reporting API/storage + admin email |
+| IADME-032 | Show premium-video unlock counts above one after creator monetization | Backlog; blocked on premium video/ecommerce monetization | Mobile display + authoritative commerce aggregation |
+| IADME-033 | Publish AI-generated city/locality videos from the iCube account | Backlog; production content rollout not started | Content generation/review + iCube publishing + production catalogue |
+| IADME-034 | Replace the initial arrow tutorial with swipeable onboarding cards | Backlog; not implemented | Mobile onboarding UI/state + accessibility |
+| IADME-035 | Allow photo posts of up to five images between reels | Backlog; not implemented | Mobile upload/feed UI + backend/media processing + moderation |
+| IADME-036 | Upgrade Flutter and all project dependencies with complete Razorpay validation | Backlog; upgrade work not started | Flutter/Dart + mobile/native packages + backend/tooling dependencies + Razorpay |
+| IADME-037 | Resolve, verify and close all eligible GitHub issues | Backlog; issue cleanup not started | GitHub issue inventory + reproduction/triage + fixes/evidence + closure |
 
 ## IADME-001 — Registration device and location details
 
@@ -218,13 +240,24 @@ The follow-up mobile implementation replaces idle connection pools on native net
 
 ## IADME-014 — Add Meta Audience Network through AdMob mediation
 
-**Status:** Added at the owner's request on 2026-09-13, then refined to select Meta Audience Network as the first additional partner alongside Google. Explicitly deferred: validate build 38 before a separate implementation and release. No mediation configuration or adapters have been enabled.
+**Status:** Future scope agreed on 2026-09-23; implementation remains deferred until the required Meta/AdMob approvals and configuration are ready. No mediation configuration, adapters or new ad surfaces have been enabled.
 
-**Outcome:** Broaden eligible native-ad demand in Feed and Trending, with the aim of improving fill and creative variety while preserving the skippable opportunity after every two content videos. More networks do not guarantee unique advertisers, India-only creatives or higher revenue. The two observed Google sample creatives are not evidence of production inventory being limited to two ads.
+**Outcome:** Let AdMob mediation run Google and Meta bidding for three deliberately bounded surfaces. This is one mediated auction per eligible placement, not manual Google/Meta alternation. More networks do not guarantee fill, unique advertisers, India-only creatives or higher revenue.
+
+**Approved future surfaces:**
+
+1. A full-screen, vertically skippable native ad opportunity between reels after every two content videos in Feed and Trending.
+2. A compact native ad in Comments, requested only after the sheet opens and rendered only when ready without delaying comments.
+3. A compact native ad between rows in the Messages inbox, never inside an individual/private conversation.
+
+Reaction sheets are excluded. Ads must also be omitted from empty, very short or transactional sheets where they would dominate the user task.
 
 - [ ] Measure current production fill, ad-source delivery, visible repetition, latency and revenue before enabling Meta demand.
-- [ ] Add Meta Audience Network as a bidding source alongside Google for the existing Feed/Trending native placements; complete Meta account/property/placement setup, platform-specific AdMob mapping and app-ads.txt entries.
+- [ ] Add Meta Audience Network as a bidding source alongside Google; complete Meta account/property/placement setup, platform-specific AdMob mapping and app-ads.txt entries.
+- [ ] Use separate ad units/placements and analytics for reels, Comments and the Messages inbox so fill, latency, revenue and UX can be evaluated independently.
 - [ ] Preserve one skippable opportunity after every two videos. Let mediation select one eligible ad for each placement, and retain the existing shared three-upcoming-placement preload limit.
+- [ ] Comments and inbox ad requests start only when their surface is opened, are cancellable when it closes and never block or reorder user content. No blank slot is shown on no-fill or timeout.
+- [ ] Keep reaction sheets and individual conversations ad-free. Add regression tests that prevent future placement leakage into those surfaces.
 - [ ] Validate Meta's native-media rendering and impression tracking with the current layout on Android and iOS, including India serving eligibility and available demand.
 - [ ] Integrate compatible mobile adapters, initialization and consent/privacy messaging for the selected partners.
 - [ ] Retain individual native-ad requests for mediated units: Google's multiple-native-ad batch APIs do not support mediation. The separate Google-only batch-loading proposal is not included in this item.
@@ -370,6 +403,224 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [x] Keep `snapshot()` for explicit method-channel requests while callback and snapshot payloads use consistent transport, availability, validation and metering fields.
 - [x] Add native tests for Wi-Fi/cellular/VPN transitions, unvalidated Wi-Fi, rapid loss/recovery, stale networks and callbacks after teardown or a new engine.
 - [ ] Verify the resulting Flutter connection-pool recovery and login behavior on the affected OnePlus device and current Android versions without changing the successful iOS path.
+
+## IADME-024 — Authorized admin-to-user inbox messaging
+
+**Status:** Backlog design expanded on 2026-09-25; not implemented. The user app already has one-to-one conversations, REST message sending, stored in-app notifications and optional FCM push. The missing product capability is a secured official/admin sender, multi-recipient workflow, registration welcome automation and the approved inbox ad placement; this item does not create a second user inbox.
+
+**Outcome:** An authorized Forestpond/iAdMe operator can send a clearly identified official message to one user or an explicitly selected audience, have it appear in each recipient's existing Messages inbox and create a corresponding in-app/push notification event. New registrations receive an automatic welcome message confirming the 100-star grant and, for fun, their truthful ordinal registration position. The inbox can show bounded native ads between conversation/message-preview rows without inserting ads into message bodies or private user-to-user conversations.
+
+**Initial message classes and payload:** Define separate templates/policies for registration and reward confirmations, account/security/transactional notices, human support, product/service updates and optional marketing campaigns. The initial payload should be sanitized text plus approved app deep links and limited presentation metadata; attachments, arbitrary HTML, executable content, payment credentials, OTPs, secrets and unreviewed external links remain excluded unless separately designed and secured.
+
+- [ ] Create a dedicated verified official support/admin identity. Do not send as an employee's personal account or label human-authored messages as i³ AI.
+- [ ] Add a narrow server-side permission such as `messages:send_as_admin`; enforce it in the API, record immutable audit events and never trust a client-provided admin/sender flag.
+- [ ] Add an authenticated admin console/workflow with user lookup, single-recipient selection and multi-recipient audience building from explicitly approved filters. Include template selection, compose, preview, recipient count, test send, final confirmation, send-now/schedule controls and delivery/failure/retry visibility.
+- [ ] Require least-privilege roles for viewing audiences, drafting, approving and sending. For large or sensitive campaigns, support a second-person approval step and retain the exact audience definition, rendered template version, initiator/approver and send timestamps in an immutable audit trail.
+- [ ] Preserve ordinary conversation authorization, idempotent message creation, notification preferences, account status and abuse/rate limits. Define whether users may reply, mute or block each class of official message before implementation.
+- [ ] Separate support/transactional messages from marketing announcements. Marketing requires an explicit preference/opt-out path; urgent account notices must not be disguised promotions. Define retention, edit/delete behavior and which official classes permit user replies.
+- [ ] Create a campaign record for every multi-recipient send and queue bounded recipient batches. Never synchronously create/send thousands of rows in one admin request; make message creation and retries idempotent, freeze or version the selected audience and expose targeted, created, notified, failed and suppressed counts.
+- [ ] Create one deduplicated notification event for each successfully created official message. Store the in-app notification durably and attempt push where the user's category preference, device registration and OS permission allow it; push failure or suppression must not remove the inbox message or be reported as guaranteed delivery.
+- [ ] Add the automatic registration welcome template only after registration is durably complete. State that the user received 100 stars only after the authoritative reward transaction succeeds, link to the balance/reward explanation and use the registration event/message ID so retries cannot grant stars or send the welcome twice.
+- [ ] Assign the playful “You are our Xth registered user” value from one server-authoritative, race-safe registration sequence. Define whether test/admin/deleted accounts count, preserve the originally assigned number and do not derive it from a later mutable user-table count.
+- [ ] Show an official badge and sender name in the inbox and chat. Keep private conversation contents unavailable to ordinary admin search and list screens.
+- [ ] Show native ad opportunities only between eligible conversation/message-preview rows in the Messages inbox, using a separate inbox ad unit/placement and readiness-only rendering. Never place an ad inside message text, the registration welcome content or private user-to-user conversation threads; no-fill/timeout leaves no blank row. This follows the approved Messages-inbox surface in IADME-014.
+- [ ] Test single-user and multi-user sends, audience changes during a campaign, duplicate jobs, retries/restarts, opted-out or blocked/deleted recipients, notification preference/permission combinations, welcome/reward races, registration-number concurrency and inbox ad pagination/no-fill.
+- [ ] Require IADME-026 pagination/synchronization and IADME-028 load tests before broad messaging at the 100K-MAU stage.
+
+## IADME-025 — Avatar and personalized-screen delivery
+
+**Status:** Backlog design only. Video media already uses S3/CloudFront. Profile avatars are URL fields and may currently be provider-hosted; Comments, reactions and Messages are personalized PostgreSQL/API responses.
+
+**Outcome:** Make avatar-heavy screens feel fast at 10K MAU and remain economical toward 100K MAU without caching private or user-specific JSON at a public edge.
+
+- [ ] Put first-party avatar uploads in object storage behind the existing CloudFront distribution (or a dedicated behavior), using versioned immutable object keys and explicit `Cache-Control`. Generate bounded thumbnail variants rather than downloading a full image for a 40–64 px avatar.
+- [ ] Keep provider-hosted social avatars on approved HTTPS provider URLs unless provider terms, expiry or measured latency justify an authorized import/proxy design. Do not scrape or silently copy third-party images.
+- [ ] Add mobile memory/disk image caching, placeholders, request deduplication and size-aware decoding. Changing an avatar must produce a new versioned URL so long TTLs do not show stale images.
+- [ ] Do **not** put authenticated Comments, reactions, conversation lists or message bodies in a shared public CDN cache. Improve them with pagination, indexes, conditional/short private caching where safe, compression and targeted refresh.
+- [ ] Replace Comments offset pagination with a stable cursor, remove the per-row blocking lookup, and paginate/cap replies. Paginate reaction-member lists rather than returning every engagement for a popular reel.
+- [ ] Define p50/p95 latency, payload-size, cache-hit and avatar-error budgets for Feed, Comments, reactions and Messages; measure from India on physical Android/iOS devices before and after any rollout.
+
+## IADME-026 — Durable real-time message synchronization
+
+**Status:** Backlog design only. Sending a direct message already stores the message and calls the notification service; the `messages` notification category is in-app and push-enabled by default, and the backend already uses FCM when a registered device and user preference allow it. Current message screens fetch through REST and do not have live conversation synchronization.
+
+**Outcome:** Deliver new messages, unread/read state and reconnect recovery promptly without treating a mobile app as a webhook receiver or making push delivery the database of record.
+
+- [ ] Do not add generic webhooks for ordinary user messaging. Webhooks are for server-to-server integrations; use the existing REST API for history, FCM for background/terminated notification and a foreground synchronization channel.
+- [ ] First add foreground FCM handling that invalidates/refetches only the affected conversation/inbox. Push is a hint and may be delayed or absent; every client must reconcile through the authenticated API.
+- [ ] Add cursor-based inbox and message-history pagination before live events. Include stable message IDs so reconnects and duplicate push/socket events are idempotently merged.
+- [ ] Add WebSocket delivery only when measured UX requires sub-second open-chat updates, typing or read receipts. Authenticate each connection, authorize conversation subscriptions, heartbeat/reconnect with backoff and perform cursor catch-up after reconnect.
+- [ ] When more than one API replica serves sockets, add Redis pub/sub or an equivalent fan-out layer for ephemeral events while PostgreSQL remains the durable source of truth. Use the queue, not pub/sub, for retryable push/admin campaign work.
+- [ ] Measure peak concurrent connections, messages/second, connection minutes, egress, reconnect rate and push success. MAU alone is not a WebSocket capacity or cost measure.
+- [ ] Compare self-hosting on the existing API stack with a managed WebSocket service. FCM itself is currently a no-cost product; compute, load balancer, Redis, logs, outbound traffic and managed connection-minute/message charges are the relevant incremental costs.
+
+## IADME-027 — Privacy-scoped application search
+
+**Status:** Backlog design only. Start with PostgreSQL rather than operating a second search cluster before traffic and query evidence justify it.
+
+**Outcome:** Users can quickly find public creators/videos and their own conversations while access control and deletion/block/report rules remain identical to the source APIs.
+
+- [ ] Define search surfaces independently: creator lookup by normalized username/display name; public video discovery by caption/title/hashtags/location; a signed-in user's conversation participants; and, only if later approved, text inside that user's own conversations.
+- [ ] Use exact/prefix B-tree indexes where possible, `pg_trgm` indexes for typo-tolerant names/usernames and PostgreSQL full-text search with GIN for longer public text. Benchmark language configuration against the app's actual Indian-language corpus instead of assuming English stemming.
+- [ ] Apply visibility, blocked-user, moderation, deletion and participant predicates inside each search query before ranking. Never build global/admin search over private message bodies.
+- [ ] Use stable cursor pagination, result caps, query normalization, minimum query lengths and rate limits. Log aggregate timing/result counts, not raw private queries.
+- [ ] Measure p95 query time, index size/write overhead, zero-result rate and relevance on a representative dataset. Use `EXPLAIN (ANALYZE, BUFFERS)` during staging validation.
+- [ ] Consider OpenSearch or another external engine only when measured Postgres load, corpus size or required features such as advanced multilingual ranking/faceting exceed the PostgreSQL design. Define event-driven indexing, reconciliation and deletion guarantees before introducing it.
+
+## IADME-028 — PostgreSQL readiness from 10K to 100K MAU
+
+**Status:** Backlog design only. Current code uses one node-postgres pool with default settings. Message history and inbox queries are unbounded; inbox summaries repeatedly derive latest/unread data; Comments use offset pagination and per-row block checks; reaction-member lists are unbounded. Existing message indexes are a useful base but do not remove those query-shape risks.
+
+**Outcome:** Meet an initial 10,000-MAU target predictably and grow toward 100,000 MAU by measuring peak workload, fixing query shapes and scaling components only when evidence requires it.
+
+- [ ] Define capacity in operational units, not MAU alone: DAU, peak concurrent sessions, API requests/second, message/comment writes per second, rows/day, p50/p95/p99 latency and acceptable error rate. Load-test observed peak ×3 for the 10K milestone and repeat with a modeled 100K traffic mix.
+- [ ] Add cursor pagination and hard page limits to conversations, message history, Comments and reaction-member lists. Avoid deep `OFFSET` scans on growing tables.
+- [ ] Maintain `last_message_id/last_message_at` and per-participant unread state transactionally (or equivalent summary data) so the inbox does not join/count a conversation's entire message history on every request.
+- [ ] Validate/add composite and partial indexes matching active-row queries, including participant lookup, `(conversation_id, created_at DESC, id DESC)` for non-deleted messages, `(video_id, created_at DESC, id DESC)` for non-deleted root comments, reply lookup and reaction uniqueness/count paths. Create large production indexes concurrently with an approved migration plan.
+- [ ] Replace Comments' per-row block check with a set-based exclusion query and cap/paginate replies. Profile all hot paths with representative blocked/reported and high-engagement data.
+- [ ] Configure explicit pool maximum, idle/connection/statement timeouts per API/worker replica and reserve administrative headroom. Add PgBouncer or managed pooling before horizontal replica counts can exhaust PostgreSQL connections.
+- [ ] Enable `pg_stat_statements`, slow-query/lock/connection metrics and alerts; review top total-time and p95 queries regularly with `EXPLAIN`. Monitor table/index growth, dead tuples, cache hit, WAL, disk/IOPS and replica lag if replicas are introduced.
+- [ ] Keep autovacuum/ANALYZE enabled and tune high-churn tables from measurements. Automate encrypted backups and restoration drills before scaling writes.
+- [ ] Use Redis for bounded ephemeral caches, rate limits, presence and cross-replica fan-out—not as the sole copy of messages, permissions or balances. Invalidate by event/version and define TTL/failure behavior.
+- [ ] Scale vertically and optimize queries first; add read replicas for demonstrably read-heavy paths. Partition messages/comments only when table size and query/retention patterns justify it—PostgreSQL notes partitioning is normally worthwhile only for very large tables, commonly beyond server memory—not merely because MAU reaches a round number.
+- [ ] Gate the 100K-MAU phase on a repeatable load report, restore test, failure/recovery exercise and cost dashboard covering database, Redis, API, CDN/object storage, push and observability.
+
+## IADME-029 — Locality-based new-video notifications
+
+**Status:** Added on 2026-09-24 as a backlog request only. No notification campaign, trigger, preference, queue or production configuration has been created.
+
+**Outcome:** Notify interested users when one or more newly ready public videos become available in a locality relevant to them, without sending a separate alert for every upload or notifying users about content they cannot view.
+
+**Scope:** Backend ready/public video events, locality matching, bounded aggregation, notification preferences, in-app notification records and push delivery. This is distinct from manually authored official inbox messages in IADME-024.
+
+- [ ] Define which locality levels qualify (selected locality, nearby area, city or another followed area), how users select or change them and what happens when device location is unavailable or permission is denied.
+- [ ] Trigger only after videos are ready, public, moderation-eligible and visible to the recipient. Exclude drafts, processing/failed media, blocked/reported relationships and deleted/private content.
+- [ ] Aggregate multiple qualifying uploads into one useful notification within a defined time window; add quiet hours, per-user frequency caps and duplicate-safe campaign/event IDs.
+- [ ] Deep-link to a stable filtered feed or collection that can reconcile removed or no-longer-eligible videos instead of assuming every notified video remains available.
+- [ ] Respect push/marketing preferences and platform permission state. Preserve an in-app path where appropriate, and provide a clear way to mute locality upload alerts without disabling transactional notices.
+- [ ] Add queue/retry/delivery observability and load-test fan-out before broad rollout. Publishing one popular locality batch must not synchronously send to every user in the upload request.
+
+## IADME-030 — Quick feedback and store rating prompt
+
+**Status:** Added on 2026-09-24 as a backlog request only. No prompt, analytics event or store-review integration has been added.
+
+**Outcome:** At a suitable moment, ask users a short, friendly question such as “Are you enjoying this home-made app?” and offer a low-friction way to share feedback and, where appropriate, rate or review iAdMe in the app store.
+
+**Scope:** Mobile prompt timing, quick-feedback capture, store review APIs and prompt-frequency state.
+
+- [ ] Define eligibility using meaningful successful use rather than first launch; never interrupt authentication, upload, purchase, playback recovery or another time-sensitive flow.
+- [ ] Provide dismiss/not-now behavior and durable cooldown/maximum-frequency rules across sessions and app upgrades.
+- [ ] Capture the quick answer and optional feedback with consent, a documented retention purpose and a non-blocking failure path.
+- [ ] Use the official Android/iOS review mechanisms and recheck current store policies before implementation. Do not promise that the platform will display a review dialog on every request.
+- [ ] Do not use positive feedback as a gate that selectively permits only satisfied users to access the store review action; keep private feedback and store-rating behavior policy-compliant and transparent.
+- [ ] Test small screens, large text, screen readers, offline behavior, repeated launches and users who already answered, dismissed or rated.
+
+## IADME-031 — Per-reel playback issue reporting
+
+**Status:** Added on 2026-09-24 as a backlog request only. No reel menu, reporting endpoint, database record or admin email has been added.
+
+**Outcome:** Each reel has a three-dot menu whose first action lets a viewer report a problem specific to that video. Initial reasons are **Video stuck**, **Video slow**, **Low quality** and **Other**. An administrator receives an actionable email containing the report and enough safe context to investigate.
+
+**Scope:** Feed/Trending reel UI, authenticated issue submission, durable backend storage/queue, diagnostics and admin email delivery. This reports playback/quality bugs; content-safety reporting can remain a separate action and taxonomy.
+
+- [ ] Keep the menu reachable without blocking vertical swipe, playback controls, captions or accessibility actions; show confirmation and prevent accidental duplicate submissions.
+- [ ] Submit a server-resolved video identifier and media/version reference, surface, selected reason, optional bounded note, UTC time and app/build/platform context. Include safe playback/network diagnostics where available without collecting tokens, precise location or unrelated personal data.
+- [ ] Store the report durably before acknowledging it, assign a report ID and send email asynchronously with retry/idempotency. Email failure must not lose the underlying report.
+- [ ] Let the admin email link to an authorized diagnostic/admin view and include the video, report reason, occurrence context and reporter/account reference needed for support; do not expose private details in public links.
+- [ ] Rate-limit abuse, group repeated reports for the same media/build where useful and expose delivery/failure counts to operators.
+- [ ] Cover deleted/inaccessible videos, signed-out policy, offline/retry, rapid repeated taps, report-note validation and email redaction in automated and physical-device tests.
+
+## IADME-032 — Premium-video unlock count
+
+**Status:** Added on 2026-09-24 as a dependent backlog request. Do not implement until creator ecommerce monetization and the premium-video unlock model exist.
+
+**Outcome:** For a premium video with more than one valid unlock, show users how many times it has been unlocked. Hide the count when it is zero or one.
+
+**Scope:** Authoritative commerce aggregation, premium-video API fields and mobile presentation. This item does not define pricing, payouts, refunds, entitlements or the underlying creator monetization product.
+
+- [ ] Define exactly what counts as an unlock, including repeat access by the same buyer, bundles/promotions, refunds, chargebacks, fraud reversals and test/admin transactions.
+- [ ] Calculate the public aggregate on the backend from settled eligible events; never trust a client increment and never reveal purchaser identities.
+- [ ] Return the count only for premium videos and render it only when the value is greater than one, with localized singular/plural and compact large-number formatting.
+- [ ] Decide whether creators see a more detailed private metric separately from the public count and document any delay/caching semantics.
+- [ ] Test entitlement races, refunded/reversed transactions, deleted videos, cached feed responses and count updates without affecting playback or purchase access.
+
+## IADME-033 — iCube AI city/locality video rollout
+
+**Status:** Added on 2026-09-24 as a backlog request only. No AI video was generated, uploaded or published, no iCube account was accessed and production was not changed.
+
+**Outcome:** Create and publish an approved AI-generated video set covering all supported cities/localities in production under the iCube account, with correct geographic metadata and consistent presentation.
+
+**Scope:** Supported-area inventory, content generation, human review, upload/publishing operations, iCube account ownership and production verification.
+
+- [ ] Produce the authoritative city/locality coverage list and map every video to existing canonical location identifiers; define how duplicate names and areas without enough reliable material are handled.
+- [ ] Approve a reusable brief for language, duration, aspect ratio, captions, audio, branding, disclosure and prohibited claims. Verify rights for every visual, voice, music and source asset.
+- [ ] Require human factual, cultural, spelling, safety and quality review before upload; do not present generated scenes or claims as documentary fact.
+- [ ] Confirm the authorized iCube production account, credentials/roles, ownership and audit trail without placing secrets in source files or content metadata.
+- [ ] Upload idempotently with correct title/caption, locality/city/state/country tags, thumbnail and publication state. Detect duplicates and retain a rollback/unpublish manifest.
+- [ ] Pilot a small representative set and verify processing, Feed/Trending discovery, filters, playback and moderation before a separately authorized production-wide rollout.
+
+## IADME-034 — Swipeable onboarding cards
+
+**Status:** Added on 2026-09-24 as a backlog request only. The current arrow tutorial remains unchanged.
+
+**Outcome:** Replace the initial arrow-based tutorial with a short set of cards that users swipe left through to learn the essential app interactions, then continue to the Home page.
+
+**Scope:** First-run mobile onboarding presentation, completion state, navigation and accessibility.
+
+- [ ] Define a concise card set covering only essential actions, with final copy/illustrations, page indication and a clear final Continue/Get started action.
+- [ ] Support left-swipe progression without trapping users; provide accessible Next, Back and Skip controls and correct behavior for right-to-left languages.
+- [ ] Persist completion so onboarding does not reappear on every launch, while providing an intentional way to replay it from Help/Profile if desired.
+- [ ] Route to Home only after skip/completion and preserve valid authentication, deep-link and session-restoration behavior.
+- [ ] Test small/large screens, large text, screen readers, reduced motion, light/dark themes, interrupted onboarding, app resume and upgrades from the current tutorial state.
+
+## IADME-035 — Photo posts between reels
+
+**Status:** Added on 2026-09-24 as a backlog request only. No photo upload, media schema, processing pipeline or feed presentation has been added.
+
+**Outcome:** Let a user create a photo post containing up to five images and show eligible photo posts naturally between video reels in Feed/Trending.
+
+**Scope:** Multi-image upload/composition, backend media model and processing, feed ranking/pagination, photo-post viewer, moderation, storage/CDN delivery and lifecycle management.
+
+- [ ] Define one to five images per post, supported formats/size limits, ordering, crop/orientation behavior, caption/location fields and whether mixed photo/video posts are excluded from the first version.
+- [ ] Add resumable/retry-safe upload and server-side validation, metadata stripping, safe image decoding, optimized variants/thumbnails and cleanup for abandoned or failed uploads.
+- [ ] Represent the post as one feed item with stable pagination/ranking and a clear multi-image indicator. Horizontal photo navigation must not conflict with vertical reel swipes or accessibility gestures.
+- [ ] Reuse visibility, block/report, moderation, deletion, profile ownership and location-privacy rules. Define how existing reactions, comments, shares and notifications apply to photo posts.
+- [ ] Bound memory, disk, bandwidth and prefetching; preserve the current next-two-video fast path and do not let image preparation delay the active or next reel.
+- [ ] Test one through five images, portrait/landscape mixes, slow/offline upload recovery, rapid feed scrolling, cache eviction, deletion/moderation and current Android/iOS devices before release.
+
+## IADME-036 — Full dependency, Flutter and Razorpay upgrade
+
+**Status:** Added on 2026-09-25 as a backlog request only. No dependency resolution, package update, Flutter/Dart change, native SDK change, lockfile update, payment configuration, build or release has been performed.
+
+**Outcome:** Bring the actively maintained iAdMe projects onto supported, mutually compatible dependency versions—including Flutter and Dart—while preserving product behavior and handling the Razorpay integration safely across Android, iOS and the backend payment-verification path.
+
+**Scope:** Flutter/Dart toolchain, Dart packages, Android Gradle/Kotlin/Java dependencies, iOS CocoaPods/Xcode settings, backend/runtime packages, repository tooling and the complete Razorpay client/server integration. Generated artifacts and archived release evidence are not upgrade targets.
+
+- [ ] Inventory every active package manifest, lockfile, SDK constraint, native dependency and build tool across mobile, backend, workers/infrastructure and website projects. Separate direct from transitive dependencies and document unsupported, abandoned or security-affected packages before changing versions.
+- [ ] Select a supported Flutter stable/Dart pair and compatible Android/iOS toolchains. Read each major-version migration guide, upgrade in reviewable groups and record intentional version pins instead of forcing incompatible resolutions.
+- [ ] Update direct and transitive dependencies to the newest approved compatible versions, replace genuinely unmaintained packages where necessary and regenerate only the appropriate lockfiles/generated files through their official tooling.
+- [ ] Treat Razorpay as a dedicated acceptance track: use supported official client SDK/plugin versions; verify Android/iOS initialization and configuration; and test success, cancel, failure, timeout, app-background/resume, external-app return and duplicate-callback paths.
+- [ ] Keep payment truth on the backend. Verify order/payment/signature or webhook authenticity server-side, preserve idempotency across retries and duplicate callbacks, reconcile delayed webhooks and never grant entitlement solely from a client success response. Keep keys/secrets out of the app and repository.
+- [ ] Run formatting, static analysis, unit/integration tests, dependency/security checks and clean dev/staging/prod preflights. Build Android APK/AAB and iOS simulator/device/IPA artifacts only when separately authorized by the release workflow.
+- [ ] Regression-test authentication, Feed/Trending playback and background preparation, uploads, notifications, ads/consent, deep links, biometrics, messaging, account deletion and payments on representative Android/iOS devices. Preserve the next-two-reel fast path and bounded background/cache behavior.
+- [ ] Record before/after versions, migration decisions, known warnings, test evidence and rollback points. A successful compile alone does not complete this item; Razorpay sandbox and separately authorized real-environment verification must pass before release.
+
+## IADME-037 — Resolve and close GitHub issues
+
+**Status:** Added on 2026-09-25 as a backlog request only. No GitHub repository was queried or changed and no issue was labeled, commented on or closed.
+
+**Outcome:** Reach zero unresolved actionable GitHub issues across the in-scope iAdMe repositories by reproducing and fixing valid problems, verifying completed work and closing only issues that have clear resolution evidence or a documented non-action reason.
+
+**Scope:** Open-issue inventory, ownership, reproduction, deduplication, implementation linkage, validation, release/deployment status and GitHub issue closure. Pull requests, discussions and security advisories require their own handling unless explicitly included during triage.
+
+- [ ] Define the exact in-scope repositories and capture a dated inventory of every open issue, including automated diagnostic incidents created by IADME-017. Preserve issue numbers, labels, severity, affected environment/build and dependencies.
+- [ ] Classify each issue as reproducible defect, feature/backlog request, duplicate, already fixed, cannot reproduce with current evidence, external/provider limitation or invalid/out of scope. Link duplicates and retain the best canonical issue.
+- [ ] Prioritize security, payment, data-loss, authentication, crash and production-blocking issues before cosmetic or low-impact work. Do not mass-close valid issues merely to make the open count zero.
+- [ ] For each valid defect, reproduce against the stated build/environment, identify the cause, implement the scoped fix under separate authorization and verify automated plus appropriate physical-device or deployed-environment acceptance.
+- [ ] For already-fixed issues, confirm the relevant commit/build/deployment and reproduce the expected behavior before closure. “Implemented locally” must not be described as released or production-fixed.
+- [ ] Close an issue only with a concise final comment stating the resolution, evidence, version/build or deployment state and any remaining limitation. For duplicates, link the canonical issue; for external/unsupported cases, document the reason and available workaround.
+- [ ] Keep unresolved, intermittently reproducible or awaiting-user/device/provider evidence issues open with the next required action, owner and status label. Reopen automatically generated incidents when verified recurrence meets the existing grouping/threshold rules.
+- [ ] Produce a final audit listing closed issues and reasons, remaining open blockers, deferred feature requests moved to stable backlog IDs and any release work still required. Completion means zero unaccounted-for issues, not unverified blanket closure.
 
 ## Maintaining this list
 
