@@ -1,6 +1,10 @@
 # iAdMe Backlog
 
-Last updated: 2026-09-25
+Last updated: 2026-09-27
+
+**27 September local-jobs request:** IADME-040 records an in-app local job-vacancy section with an initial server-authoritative price of **5 stars per published post**, plus locality discovery, expiry, moderation, reporting and scam-safety requirements. This is a backlog entry only. No job listing, star balance, transaction, user account, notification, production data or application code was changed.
+
+**26 September acquisition, privacy and review requests:** IADME-038 records install-first shared reel links with post-install reel recovery, IADME-039 records the iOS App Tracking Transparency review path, and IADME-030 now includes a maximum monthly rating/review reminder with explicit store-page navigation. These are backlog entries only. No share page, deep link, tracking permission, SDK behavior, store metadata, review prompt or production service was changed.
 
 **25 September maintenance requests:** IADME-036 and IADME-037 record the requested full dependency/Flutter upgrade with explicit Razorpay validation and the cleanup of all GitHub issues through evidence-based triage and resolution. These are backlog entries only. No package, SDK, lockfile, native project, payment configuration, source code, GitHub issue, deployment or release was changed.
 
@@ -61,7 +65,7 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-027 | Add privacy-scoped search using PostgreSQL first | Backlog; research complete, not implemented | User/video/conversation search + FTS/trigram indexes |
 | IADME-028 | Prepare PostgreSQL and load testing for 10K to 100K MAU | Backlog; research complete, not implemented | Query/index/pool/observability/capacity work |
 | IADME-029 | Notify users when new videos are available in a relevant locality | Backlog; not implemented | Backend event/aggregation + locality preferences + push/in-app notifications |
-| IADME-030 | Ask for quick app feedback and an appropriate store rating/review | Backlog; not implemented | Mobile feedback UI + store review APIs + prompt policy |
+| IADME-030 | Ask for quick feedback and a monthly store rating/review until locally completed | Backlog expanded; not implemented | Mobile feedback UI + monthly prompt state + store page/review APIs + policy |
 | IADME-031 | Add a three-dot reel menu for video-specific playback issue reports | Backlog; not implemented | Mobile reel UI + reporting API/storage + admin email |
 | IADME-032 | Show premium-video unlock counts above one after creator monetization | Backlog; blocked on premium video/ecommerce monetization | Mobile display + authoritative commerce aggregation |
 | IADME-033 | Publish AI-generated city/locality videos from the iCube account | Backlog; production content rollout not started | Content generation/review + iCube publishing + production catalogue |
@@ -69,6 +73,9 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-035 | Allow photo posts of up to five images between reels | Backlog; not implemented | Mobile upload/feed UI + backend/media processing + moderation |
 | IADME-036 | Upgrade Flutter and all project dependencies with complete Razorpay validation | Backlog; upgrade work not started | Flutter/Dart + mobile/native packages + backend/tooling dependencies + Razorpay |
 | IADME-037 | Resolve, verify and close all eligible GitHub issues | Backlog; issue cleanup not started | GitHub issue inventory + reproduction/triage + fixes/evidence + closure |
+| IADME-038 | Make shared reel links install-first with post-install reel recovery | Backlog; not implemented | Share landing page + Universal/App Links + store routing + deferred deep link |
+| IADME-039 | Show the iOS App Tracking Transparency choice when required | Backlog; privacy review and implementation not started | iOS ATT + SDK/data-use audit + consent behavior + App Store metadata |
+| IADME-040 | Add local job vacancies with a 5-star publishing charge | Backlog; not implemented | Mobile jobs UI + backend listings/search + star ledger + moderation/safety |
 
 ## IADME-001 — Registration device and location details
 
@@ -502,18 +509,20 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-030 — Quick feedback and store rating prompt
 
-**Status:** Added on 2026-09-24 as a backlog request only. No prompt, analytics event or store-review integration has been added.
+**Status:** Added on 2026-09-24 and expanded on 2026-09-26 as a backlog request only. No prompt, analytics event, monthly scheduler or store-review integration has been added.
 
-**Outcome:** At a suitable moment, ask users a short, friendly question such as “Are you enjoying this home-made app?” and offer a low-friction way to share feedback and, where appropriate, rate or review iAdMe in the app store.
+**Outcome:** At a suitable moment, ask users a short, friendly question such as “Are you enjoying this home-made app?” and offer a low-friction way to share feedback and rate/review iAdMe. Until the user locally indicates completion, the app may remind them no more than once in a 30-day period; choosing **Rate and review** opens the correct Play Store or App Store listing through an explicit user action.
 
-**Scope:** Mobile prompt timing, quick-feedback capture, store review APIs and prompt-frequency state.
+**Scope:** Mobile prompt timing, quick-feedback capture, monthly prompt-frequency/completion state, official store review APIs and direct store-listing navigation.
 
 - [ ] Define eligibility using meaningful successful use rather than first launch; never interrupt authentication, upload, purchase, playback recovery or another time-sensitive flow.
-- [ ] Provide dismiss/not-now behavior and durable cooldown/maximum-frequency rules across sessions and app upgrades.
+- [ ] Enforce a durable maximum of one prompt per rolling 30 days across sessions and app upgrades. Provide **Not now**, **Don't ask again** and **I already rated** behavior, plus a remotely controllable pause for the campaign.
 - [ ] Capture the quick answer and optional feedback with consent, a documented retention purpose and a non-blocking failure path.
-- [ ] Use the official Android/iOS review mechanisms and recheck current store policies before implementation. Do not promise that the platform will display a review dialog on every request.
+- [ ] Use the official Android/iOS review mechanisms and recheck current store policies before implementation. Do not promise that the platform will display an in-app review dialog or that a submitted review can be observed.
+- [ ] When the user explicitly selects **Rate and review**, open the correct platform listing/review destination with a safe web fallback. Do not redirect to a store automatically on launch, after a timer or after a positive answer without a separate user tap.
+- [ ] Do not claim to know whether a store review was actually submitted: the app must treat its own **Rate and review** action, **I already rated** response or permanent dismissal as local completion because store-side review status may not be available to the app.
 - [ ] Do not use positive feedback as a gate that selectively permits only satisfied users to access the store review action; keep private feedback and store-rating behavior policy-compliant and transparent.
-- [ ] Test small screens, large text, screen readers, offline behavior, repeated launches and users who already answered, dismissed or rated.
+- [ ] Test small screens, large text, screen readers, offline/store-unavailable behavior, repeated launches, reinstall/account changes, clock changes and users who already answered, dismissed, opened the store or said they rated.
 
 ## IADME-031 — Per-reel playback issue reporting
 
@@ -621,6 +630,61 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [ ] Close an issue only with a concise final comment stating the resolution, evidence, version/build or deployment state and any remaining limitation. For duplicates, link the canonical issue; for external/unsupported cases, document the reason and available workaround.
 - [ ] Keep unresolved, intermittently reproducible or awaiting-user/device/provider evidence issues open with the next required action, owner and status label. Reopen automatically generated incidents when verified recurrence meets the existing grouping/threshold rules.
 - [ ] Produce a final audit listing closed issues and reasons, remaining open blockers, deferred feature requests moved to stable backlog IDs and any release work still required. Completion means zero unaccounted-for issues, not unverified blanket closure.
+
+## IADME-038 — Install-first shared reel links
+
+**Status:** Added on 2026-09-26 as a backlog request only. No share URL, web player, association file, store redirect, mobile deep link or production configuration has been changed.
+
+**Outcome:** A shared reel link opens that reel in iAdMe when the app is installed. When it is not installed, the link shows an install/open-app landing experience instead of playing the reel directly on the website, routes the user to the correct app store after an explicit tap and preserves enough context to open the originally shared reel after installation where supported.
+
+**Constraint:** A website cannot silently force an app installation or bypass browser, operating-system or store confirmation. “Install-first” means removing direct web playback for human viewers and making installation the primary supported path while retaining safe fallbacks.
+
+**Scope:** Stable share URLs, Android App Links, iOS Universal Links, store landing/routing, post-install/deferred deep-link recovery, social preview metadata and unavailable-content handling.
+
+- [ ] Keep one stable HTTPS share URL per public reel using an opaque identifier. Resolve visibility and availability on the server; do not put access tokens, user identity, precise location or other private data in the URL.
+- [ ] Configure and verify Android App Links and iOS Universal Links so an installed production app opens the intended reel directly, while dev/staging/prod domains and application identifiers cannot claim one another's links.
+- [ ] Replace browser reel playback for normal human visits with a lightweight branded page containing **Open in iAdMe** and platform-appropriate **Install iAdMe** actions. Store navigation must follow a user gesture and include a safe fallback for unsupported devices/desktops.
+- [ ] Preserve Open Graph/social-card title, thumbnail and description for eligible public reels without exposing the playable media URL or accidentally allowing crawlers to index private/deleted content.
+- [ ] Design post-install reel recovery using a supported privacy-preserving deferred-link or first-open mechanism. Avoid probabilistic device fingerprinting; if reliable deferred opening is unavailable on a platform/path, explain that the user can reopen the original link after installation.
+- [ ] After installation or ordinary app launch from the link, authenticate when required, then open the exact eligible reel without losing navigation state. Deleted, moderated, private, blocked or unavailable reels must show a safe unavailable state rather than widening access.
+- [ ] Test installed/not-installed, signed-in/signed-out, Android/iOS browsers, social-app in-app browsers, desktop, store cancellation, delayed installation, first launch, link replay, tampered IDs and unavailable reels. Record attribution separately from successful install or reel view; a redirect is not proof of installation.
+
+## IADME-039 — iOS App Tracking Transparency prompt and review readiness
+
+**Status:** Added on 2026-09-26 as a backlog request only. No iOS permission prompt, Info.plist entry, SDK initialization order, tracking behavior, consent screen or App Store privacy response has been changed.
+
+**Outcome:** If the app or an included SDK performs activity that qualifies as cross-app/site tracking, iOS users see Apple's App Tracking Transparency authorization dialog at a suitable moment and can choose **Ask App Not to Track** or **Allow** before tracking-dependent access occurs. The app remains usable when permission is denied.
+
+**Constraint:** The operating system supplies the dialog and button labels; the app supplies only a truthful purpose description and the timing of the request. An ATT prompt should follow the app's actual data use and current review requirements, not be added as a cosmetic approval step while tracking behavior or store disclosures remain inconsistent.
+
+**Scope:** iOS data-flow/SDK audit, ATT authorization, tracking-dependent initialization, ad/analytics consent interaction, privacy manifests and App Store privacy/review metadata.
+
+- [ ] Inventory the app and every embedded iOS SDK—including advertising, attribution, analytics and social SDKs—to identify identifier access, data sharing and any linking of user/device data across other companies' apps or websites. Document whether the approved production configuration requires ATT.
+- [ ] If tracking applies, add a clear `NSUserTrackingUsageDescription` and request the system authorization only at a contextual point before tracking-dependent data or the advertising identifier is accessed. Do not request it on first frame, repeatedly or before explaining why where a neutral explanation is useful.
+- [ ] Treat authorized, denied, restricted and not-determined states explicitly. Denied/restricted users must not access tracking-only identifiers or initialize tracking-dependent behavior and must retain functional login, playback, uploads, payments and appropriately configured contextual/non-personalized advertising.
+- [ ] Keep ATT separate from other consent/privacy obligations: one authorization must not be treated as consent for unrelated data uses, and refusing either prompt must not be manipulated through misleading copy or blocked core functionality.
+- [ ] Align App Store privacy answers, the tracking declaration, privacy policy, required SDK privacy manifests/signatures and review notes with the shipped binary and server-side data flows. If the audit finds no tracking, disable/remove tracking behavior and keep the metadata truthful rather than requesting unnecessary permission.
+- [ ] Test clean install and every authorization state on physical iOS devices, including parental/restricted accounts, app upgrades, reset permissions, ad/analytics behavior and absence of pre-authorization identifier access. Capture review evidence without recording the identifier itself.
+
+## IADME-040 — Local job vacancies with 5-star posts
+
+**Status:** Added on 2026-09-27 as a backlog request only. No job-vacancy screen, listing API/table, search index, star debit, moderation rule or production configuration has been added.
+
+**Outcome:** Users can discover relevant job vacancies in their locality and eligible users or employers can publish a job post for **5 in-app stars**. Listings remain useful, current and safe without exposing unnecessary personal information or letting client-side balance changes create free or duplicate posts.
+
+**Scope:** Mobile job discovery and posting UI, backend listing lifecycle, locality filtering/search, server-authoritative star ledger transaction, moderation/reporting, expiry and a safe application/contact path. Recruitment, employment verification and payments between employers and applicants remain outside the initial feature unless separately approved.
+
+- [ ] Define the first-version listing fields: job title, employer/business name, description, job category, locality/city/state, work arrangement, employment type, compensation range or disclosure choice, requirements, application/contact method, application deadline and automatic expiry. Do not publish exact home addresses or unnecessary applicant/employer personal data.
+- [ ] Define who may post, including account age/status, phone/email or business verification where appropriate, per-account active-listing limits and rate limits. Clearly identify unverified employers rather than implying that iAdMe guarantees a job or employer.
+- [ ] Show the **5-star** price and current balance before final confirmation. Create the listing and debit through one idempotent server-side transaction so double taps, retries or concurrent devices cannot charge twice, overspend a balance or publish without payment.
+- [ ] Charge only when a valid listing is accepted for publication. Do not charge for drafts or validation/technical failures; define consistent refund/credit rules for moderation rejection, duplicate removal, poster cancellation and platform failure, plus whether edits, expiry renewal and reposting cost another five stars.
+- [ ] Record an immutable star-ledger entry linked to the job post, account and idempotency key. Never trust a client-provided price or balance; make the initial five-star price server-configurable and audit every manual adjustment.
+- [ ] Add a dedicated Jobs surface with locality/category/work-type filters, stable cursor pagination, useful empty states and clear **Open**, **Filled**, **Expired**, **Removed** and **Pending review** states. Closed, expired or moderated listings must not continue appearing as available jobs.
+- [ ] Provide a privacy-conscious application/contact path. Avoid publicly exposing phone numbers or email addresses by default; consider an approved in-app response or relay flow, and let posters close a vacancy without deleting required audit/moderation history.
+- [ ] Add automated and user reporting for scams, impersonation, discriminatory/illegal content, misleading compensation, requests for upfront applicant payment, unsafe work and duplicate/spam listings. Support review queues, takedown, poster sanctions and an appeal trail.
+- [ ] Define optional job alerts separately from video-upload alerts in IADME-029, with locality/category preferences, frequency caps and opt-out. Do not send every new job to every nearby user.
+- [ ] Review applicable employment-listing, consumer-protection, privacy, tax/accounting and app-store rules for charging in-app stars before release, including how users acquire stars and whether the posting charge must use a particular store billing path.
+- [ ] Test insufficient balance, double submission, retry/restart, concurrent posting, moderation approval/rejection, refund decisions, edits/renewals, expiry, deletion, blocked users, location changes, search pagination and current Android/iOS accessibility layouts.
 
 ## Maintaining this list
 

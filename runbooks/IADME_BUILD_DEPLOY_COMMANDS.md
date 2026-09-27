@@ -236,7 +236,13 @@ numbers, and billing selectors keep their correct types and values.
 | `BILLING_PROVIDER` | `auto`; iOS uses Apple StoreKit. Android uses Google Play in prod release, Razorpay otherwise. |
 | `ADMOB_ANDROID_NATIVE_AD_UNIT_ID` | `ca-app-pub-2924641977385769/3473122948` |
 | `ADMOB_IOS_NATIVE_AD_UNIT_ID` | `ca-app-pub-2924641977385769/9941107182` |
+| `ADMOB_ANDROID_COMMENTS_AD_UNIT_ID` | `ca-app-pub-2924641977385769/9596782789` |
+| `ADMOB_IOS_COMMENTS_AD_UNIT_ID` | `ca-app-pub-2924641977385769/4671759166` |
 | `ADMOB_NATIVE_FEED_INTERVAL` | `2` content videos between ad slots |
+| `ADMOB_TEST_DEVICE_ID` | Empty by default; private local device testing only, never store AAB/IPA |
+| `ADMOB_OPEN_INSPECTOR_ON_START` | `false`; local diagnostic launch only |
+| `ADMOB_LOCAL_DIAGNOSTICS` | `false`; local ad response logging and Inspector control only |
+| `META_LOCAL_TEST_MODE` | `false`; local Android Meta SDK test mode only |
 | `REEL_PRELOAD_ENABLED` | `true`: prepare the next two eligible reels' opening segments |
 | `REEL_REPLAY_CACHE_ENABLED` | `true`: retain eligible watched HLS segments in the bounded disk cache |
 | `REEL_FAST_START_ENABLED` | `true`: reduce native startup waiting only for completed, locally prepared openings; normal recovery remains enabled |
@@ -410,7 +416,7 @@ during tests. Use a Google Play testing-track install for purchase acceptance.
 ## 16. Prepare a mobile release
 
 Edit `version:` in `pubspec.yaml` once before a new store upload. The format is
-`<app-version>+<build-number>`; the current source is `1.0.4+48`. Increase the build
+`<app-version>+<build-number>`; the current source is `1.0.4+49`. Increase the build
 number for each new App Store Connect / Google Play upload. Both platforms read
 that same version, and the launcher generates the matching `APP_RELEASE`.
 
