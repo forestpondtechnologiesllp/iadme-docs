@@ -1,6 +1,8 @@
 # iAdMe Backlog
 
-Last updated: 2026-09-27
+Last updated: 2026-09-28
+
+**28 September official Inbox completion:** IADME-024's bounded first phase is complete in source and local dev. Official notices live in a separate Profile Inbox above Wallet, with subject/full-message screens, newest-first ordering, registration welcome for existing and new users, email delivery and compact native ads after messages 1, 3, 5, etc. The three Inbox migrations are applied in local dev; staging/production deployment and a new mobile release remain separate follow-ups. The user chose to share existing Comments Native advanced ad units with Inbox in production, so ad reporting is combined.
 
 **27 September local-jobs request:** IADME-040 records an in-app local job-vacancy section with an initial server-authoritative price of **5 stars per published post**, plus locality discovery, expiry, moderation, reporting and scam-safety requirements. This is a backlog entry only. No job listing, star balance, transaction, user account, notification, production data or application code was changed.
 
@@ -59,7 +61,7 @@ The owner subsequently authorized [backend deployment to staging and production 
 | IADME-021 | Prepare the next video without exhausting device decoders | Backlog; design and device experiment required | Mobile playback + Android/iOS native behavior |
 | IADME-022 | Test HLS renditions for faster first-frame startup | Backlog; encoding experiment required | MediaConvert configuration + playback quality/performance |
 | IADME-023 | Remove the Android network-callback capability race | Included in build 40; affected-device acceptance pending | Android native network diagnostics/recovery |
-| IADME-024 | Let authorized admins message one or multiple user inboxes | Backlog expanded; not implemented | Admin UI + audience/campaign queue + RBAC/audit + per-message notification + inbox ads |
+| IADME-024 | Let authorized admins message one or multiple user inboxes | **Completed** bounded first phase in source/local dev; release pending | Separate Profile Inbox, admin campaign workflow, welcome/email delivery, notifications and native ads; broader approval and scale gates are later work |
 | IADME-025 | Optimize avatar and personalized-screen delivery | Backlog; research complete, not implemented | S3/CloudFront avatars + API/mobile caching and pagination |
 | IADME-026 | Add durable real-time message synchronization | Backlog; research complete, not implemented | FCM + foreground sync + optional WebSocket/Redis fan-out |
 | IADME-027 | Add privacy-scoped search using PostgreSQL first | Backlog; research complete, not implemented | User/video/conversation search + FTS/trigram indexes |
@@ -255,13 +257,13 @@ The follow-up mobile implementation replaces idle connection pools on native net
 
 1. A full-screen, vertically skippable native ad opportunity between reels after every two content videos in Feed and Trending.
 2. A compact native ad in Comments, requested only after the sheet opens and rendered only when ready without delaying comments.
-3. A compact native ad between rows in the Messages inbox, never inside an individual/private conversation.
+3. A compact native ad between rows in the separate Profile Inbox, never inside a private conversation or a full official message.
 
 Reaction sheets are excluded. Ads must also be omitted from empty, very short or transactional sheets where they would dominate the user task.
 
 - [ ] Measure current production fill, ad-source delivery, visible repetition, latency and revenue before enabling Meta demand.
 - [ ] Add Meta Audience Network as a bidding source alongside Google; complete Meta account/property/placement setup, platform-specific AdMob mapping and app-ads.txt entries.
-- [ ] Use separate ad units/placements and analytics for reels, Comments and the Messages inbox so fill, latency, revenue and UX can be evaluated independently.
+- [ ] Keep Feed/Trending units separate. The owner chose to share Comments Native advanced units with Profile Inbox, so those surfaces have combined AdMob reporting until dedicated units are introduced.
 - [ ] Preserve one skippable opportunity after every two videos. Let mediation select one eligible ad for each placement, and retain the existing shared three-upcoming-placement preload limit.
 - [ ] Comments and inbox ad requests start only when their surface is opened, are cancellable when it closes and never block or reorder user content. No blank slot is shown on no-fill or timeout.
 - [ ] Keep reaction sheets and individual conversations ad-free. Add regression tests that prevent future placement leakage into those surfaces.
@@ -413,24 +415,28 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-024 — Authorized admin-to-user inbox messaging
 
-**Status:** Backlog design expanded on 2026-09-25; not implemented. The user app already has one-to-one conversations, REST message sending, stored in-app notifications and optional FCM push. The missing product capability is a secured official/admin sender, multi-recipient workflow, registration welcome automation and the approved inbox ad placement; this item does not create a second user inbox.
+**Status: Completed — bounded first phase (2026-09-28).** Implemented in source and running in local dev, with all three migrations applied. Staging/production deployment and a new mobile release remain separate follow-ups. Admins with the separate `MESSAGE_ADMIN_EMAILS` capability can send to a frozen explicit audience of at most 100 users, immediately or within 30 days, with subject, preview, confirmation, audit, delivery/email counts and retry. All active human users receive one welcome. See `iadme-backend/docs/official-messages-2026-09-27.md` for behavior and limits.
 
-**Outcome:** An authorized Forestpond/iAdMe operator can send a clearly identified official message to one user or an explicitly selected audience, have it appear in each recipient's existing Messages inbox and create a corresponding in-app/push notification event. New registrations receive an automatic welcome message confirming the 100-star grant and, for fun, their truthful ordinal registration position. The inbox can show bounded native ads between conversation/message-preview rows without inserting ads into message bodies or private user-to-user conversations.
+**Outcome:** An authorized Forestpond/iAdMe operator can send a clearly identified official message to one user or an explicitly selected audience, have it appear in each recipient's separate Profile Inbox and registered email, and create a corresponding in-app/push notification event. New and existing registrations receive one welcome message. Bonus copy appears only when the authoritative ledger records it. The Inbox offers compact native ads between preview rows without inserting ads into message bodies or private user-to-user conversations.
 
-**Initial message classes and payload:** Define separate templates/policies for registration and reward confirmations, account/security/transactional notices, human support, product/service updates and optional marketing campaigns. The initial payload should be sanitized text plus approved app deep links and limited presentation metadata; attachments, arbitrary HTML, executable content, payment credentials, OTPs, secrets and unreviewed external links remain excluded unless separately designed and secured.
+**Message classes and payload:** The first phase supports registration welcome plus reward, account/security/transactional, human support, product and opt-in marketing notices. Admin copy is plain text with a support footer; attachments, arbitrary HTML, payment credentials, OTPs and unreviewed external links are excluded.
 
-- [ ] Create a dedicated verified official support/admin identity. Do not send as an employee's personal account or label human-authored messages as i³ AI.
-- [ ] Add a narrow server-side permission such as `messages:send_as_admin`; enforce it in the API, record immutable audit events and never trust a client-provided admin/sender flag.
-- [ ] Add an authenticated admin console/workflow with user lookup, single-recipient selection and multi-recipient audience building from explicitly approved filters. Include template selection, compose, preview, recipient count, test send, final confirmation, send-now/schedule controls and delivery/failure/retry visibility.
-- [ ] Require least-privilege roles for viewing audiences, drafting, approving and sending. For large or sensitive campaigns, support a second-person approval step and retain the exact audience definition, rendered template version, initiator/approver and send timestamps in an immutable audit trail.
-- [ ] Preserve ordinary conversation authorization, idempotent message creation, notification preferences, account status and abuse/rate limits. Define whether users may reply, mute or block each class of official message before implementation.
-- [ ] Separate support/transactional messages from marketing announcements. Marketing requires an explicit preference/opt-out path; urgent account notices must not be disguised promotions. Define retention, edit/delete behavior and which official classes permit user replies.
-- [ ] Create a campaign record for every multi-recipient send and queue bounded recipient batches. Never synchronously create/send thousands of rows in one admin request; make message creation and retries idempotent, freeze or version the selected audience and expose targeted, created, notified, failed and suppressed counts.
-- [ ] Create one deduplicated notification event for each successfully created official message. Store the in-app notification durably and attempt push where the user's category preference, device registration and OS permission allow it; push failure or suppression must not remove the inbox message or be reported as guaranteed delivery.
-- [ ] Add the automatic registration welcome template only after registration is durably complete. State that the user received 100 stars only after the authoritative reward transaction succeeds, link to the balance/reward explanation and use the registration event/message ID so retries cannot grant stars or send the welcome twice.
-- [ ] Assign the playful “You are our Xth registered user” value from one server-authoritative, race-safe registration sequence. Define whether test/admin/deleted accounts count, preserve the originally assigned number and do not derive it from a later mutable user-table count.
-- [ ] Show an official badge and sender name in the inbox and chat. Keep private conversation contents unavailable to ordinary admin search and list screens.
-- [ ] Show native ad opportunities only between eligible conversation/message-preview rows in the Messages inbox, using a separate inbox ad unit/placement and readiness-only rendering. Never place an ad inside message text, the registration welcome content or private user-to-user conversation threads; no-fill/timeout leaves no blank row. This follows the approved Messages-inbox surface in IADME-014.
+- [x] Create a protected official iAdMe identity with login disabled, separate from employee and i³ AI accounts.
+- [x] Gate admin preview, send, status and retry through `MESSAGE_ADMIN_EMAILS`, with server-side checks and append-only audit events.
+- [x] Provide an admin console for an explicit audience of 1–100 active users selected by registered email or user ID, with compose, preview, recipient count, confirmation, scheduling, status and retry.
+- [x] Keep official Inbox separate from private conversations; use idempotent campaign/delivery IDs, account-status checks and read-only notices.
+- [x] Separate marketing notices from support and account notices, require marketing opt-in and cap marketing to one notice per recipient per 24 hours.
+- [x] Persist each campaign with its resolved audience, process bounded recipient batches, and expose targeted, created, suppressed, failed, push and email counts.
+- [x] Persist one deduplicated in-app notification per delivered notice and attempt push only when enabled; push failure does not remove the Inbox message.
+- [x] Create one welcome for each eligible human account after the signup-bonus ledger is available; mention Stars only when the ledger records a bonus.
+- [x] Assign and preserve each human account's server-authoritative registration number, excluding system identities.
+- [x] Show sender, subject, date, preview and unread state in Profile Inbox, with full-message detail. Keep private conversation contents unavailable to ordinary admin search and list screens.
+- [x] Show native ad opportunities after messages 1, 3, 5, etc. in Profile Inbox using the existing Comments units selected by the owner. Never place an ad in a full message or private conversation; no-fill/timeout leaves no blank row.
+
+**Later expansion and release follow-ups:**
+
+- [ ] Deploy the three migrations and matching API/worker to staging and production, then distribute a new mobile build.
+- [ ] Add distinct roles for audience viewing, drafting, approving and sending, with second-person approval for large or sensitive campaigns.
 - [ ] Test single-user and multi-user sends, audience changes during a campaign, duplicate jobs, retries/restarts, opted-out or blocked/deleted recipients, notification preference/permission combinations, welcome/reward races, registration-number concurrency and inbox ad pagination/no-fill.
 - [ ] Require IADME-026 pagination/synchronization and IADME-028 load tests before broad messaging at the 100K-MAU stage.
 

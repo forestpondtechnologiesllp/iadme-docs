@@ -230,10 +230,10 @@ numbers, and billing selectors keep their correct types and values.
 | `APP_RELEASE` | Generated from app version/build: `iadme-mobile@<version>+<build>` for prod, with `dev-` or `staging-` prefix for the others. Do not manually maintain it in JSON. |
 | `GOOGLE_IOS_CLIENT_ID` | Existing iOS OAuth client ID saved in every profile |
 | `GOOGLE_WEB_CLIENT_ID` | Existing web/server OAuth client ID saved in every profile |
-| `FACEBOOK_LOGIN_ENABLED` | `false` in saved profiles; enable only with matching native/backend Meta credentials and the appropriate Meta access. |
+| `FACEBOOK_LOGIN_ENABLED` | `true` in every saved profile; the checked launcher rejects disabling it. Backend credentials and Meta access are still required. |
 | `FACEBOOK_APP_ID` | Meta app ID; must match the Client Token, server App Secret and native dashboard configuration. |
-| `FACEBOOK_CLIENT_TOKEN` | Empty in tracked profiles. Supply through ignored local JSON; required by the native SDK even with the login button hidden. Never put the App Secret here. |
-| `BILLING_PROVIDER` | `auto`; iOS uses Apple StoreKit. Android uses Google Play in prod release, Razorpay otherwise. |
+| `FACEBOOK_CLIENT_TOKEN` | Empty in tracked profiles. The launcher automatically loads it from ignored `config/facebook.local.json` for dev, staging and prod, and rejects a missing token. Never put the App Secret here. |
+| `BILLING_PROVIDER` | `auto`; iOS uses Apple StoreKit and Android uses Google Play in every environment. Razorpay checkout is removed from the mobile app. |
 | `ADMOB_ANDROID_NATIVE_AD_UNIT_ID` | `ca-app-pub-2924641977385769/3473122948` |
 | `ADMOB_IOS_NATIVE_AD_UNIT_ID` | `ca-app-pub-2924641977385769/9941107182` |
 | `ADMOB_ANDROID_COMMENTS_AD_UNIT_ID` | `ca-app-pub-2924641977385769/9596782789` |
@@ -285,12 +285,11 @@ these mobile profiles do not enable it for dev/staging.
 
 ### Working-tree Facebook Login follow-up — not released
 
-Dev runs automatically merge `config/facebook.local.json`. Staging/prod builds
-require an explicit `--dart-define-from-file=config/facebook.local.json` overlay
-(or another ignored, environment-specific overlay). Set
-`--dart-define=FACEBOOK_LOGIN_ENABLED=false` if credentials are supplied only to
-initialize the SDK while keeping public Facebook sign-in disabled. Existing
-commands below now require that native credential overlay for staging/prod.
+All dev, staging and prod runs/builds automatically merge the ignored
+`config/facebook.local.json` on the build machine. The checked launcher requires
+Facebook login to remain enabled and a valid Client Token; a missing credential
+fails before Flutter starts. The backend must use the matching Meta App ID and
+App Secret. The dev base Compose file loads `.env.dev` when available.
 The checked launcher generates ignored `ios/Flutter/Facebook.generated.xcconfig`;
 `--check` validates without building and redacts the Client Token.
 
@@ -300,9 +299,10 @@ followed by `database/migrations/20260919_add_facebook_account_linking.sql` for
 Profile → Settings → Connected accounts. Both migrations are required. They are
 separate from the historical release above. Local Docker uses the base compose
 plus `infra/docker/docker-compose.facebook-dev.yml` to read
-`services/api/.env.dev`. Do not enable Facebook against staging/production until
-that environment's backend and migration have been deployed and Meta access is
-ready. No deployment or Meta publishing is implied by a mobile build.
+`services/api/.env.dev`. Staging and production challenge endpoints and server
+credential presence were verified on September 27, 2026; a complete provider
+sign-in and Meta access for public users still require acceptance testing. No
+deployment or Meta publishing is implied by a mobile build.
 
 See `iadme-mobile/apps/iadme_app/config/README.md` and
 `iadme-mobile/docs/facebook-login-2026-09-18.md` for setup and testing gates.
@@ -400,9 +400,8 @@ The emulator overlay uses `http://10.0.2.2:3000`.
 dart tool/mobile.dart staging run -d 701d5e0e
 ```
 
-Android staging defaults to Razorpay through `auto`. To specifically exercise
-Google Play billing, add `--dart-define=BILLING_PROVIDER=google_play`; complete
-licensed-purchase testing requires a suitable Google Play testing-track install.
+Android staging uses Google Play Billing. Complete licensed-purchase testing
+requires a suitable Google Play testing-track install.
 
 ## 15. Run Android against production
 
@@ -456,7 +455,7 @@ registered-device build can use `--export-method=development` when needed.
 ## 19. Build the production Android AAB
 
 ```bash
-dart tool/mobile.dart prod aab --dart-define-from-file=config/facebook.local.json
+dart tool/mobile.dart prod aab
 ```
 
 Output: `build/app/outputs/bundle/release/app-release.aab`. Upload this to Google Play.
@@ -464,7 +463,7 @@ Output: `build/app/outputs/bundle/release/app-release.aab`. Upload this to Googl
 ## 20. Build the production Android APK
 
 ```bash
-dart tool/mobile.dart prod apk --dart-define-from-file=config/facebook.local.json
+dart tool/mobile.dart prod apk
 ```
 
 Output: `build/app/outputs/flutter-apk/app-release.apk`, for direct installation.
@@ -472,7 +471,7 @@ Output: `build/app/outputs/flutter-apk/app-release.apk`, for direct installation
 ## 21. Build the production IPA
 
 ```bash
-dart tool/mobile.dart prod ipa --dart-define-from-file=config/facebook.local.json
+dart tool/mobile.dart prod ipa
 ```
 
 Output: `build/ios/ipa/`, for App Store Connect / TestFlight.
