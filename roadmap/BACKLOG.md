@@ -2,19 +2,23 @@
 
 Last updated: 2026-09-28
 
+**28 September five-item implementation pass:** IADME-026, IADME-029, IADME-030, IADME-031 and IADME-038 now have working-tree source changes. Message screens reconcile on foreground push/resume/polling, inbox and history are cursor-paginated, and sends use retry IDs. Newly ready public videos enter an opt-in, hourly locality/10 km digest; 10:00–11:00 IST videos are selected at the 11:01 sweep, with one video target per user/hour and no historical backfill. Feedback has a 30-day account-level prompt, explicit store action and admin view. Reel playback issues have a three-dot form, durable report and admin view. Shared reel pages offer app opening, store installation and link replay. These changes are **not deployed or released**; the new migration, live queue/push checks, device link acceptance and release build remain pending. See each item for limits.
+
 **28 September official Inbox completion:** IADME-024's bounded first phase is complete in source and local dev. Official notices live in a separate Profile Inbox above Wallet, with subject/full-message screens, newest-first ordering, registration welcome for existing and new users, email delivery and compact native ads after messages 1, 3, 5, etc. The three Inbox migrations are applied in local dev; staging/production deployment and a new mobile release remain separate follow-ups. The user chose to share existing Comments Native advanced ad units with Inbox in production, so ad reporting is combined.
 
 **27 September local-jobs request:** IADME-040 records an in-app local job-vacancy section with an initial server-authoritative price of **5 stars per published post**, plus locality discovery, expiry, moderation, reporting and scam-safety requirements. This is a backlog entry only. No job listing, star balance, transaction, user account, notification, production data or application code was changed.
 
-**26 September acquisition, privacy and review requests:** IADME-038 records install-first shared reel links with post-install reel recovery, IADME-039 records the iOS App Tracking Transparency review path, and IADME-030 now includes a maximum monthly rating/review reminder with explicit store-page navigation. These are backlog entries only. No share page, deep link, tracking permission, SDK behavior, store metadata, review prompt or production service was changed.
+**26 September acquisition, privacy and review requests:** IADME-038 records install-first shared reel links with post-install reel recovery, IADME-039 records the iOS App Tracking Transparency review path, and IADME-030 now includes a maximum monthly rating/review reminder with explicit store-page navigation. Subsequent working-tree implementation is described in each item; App Store metadata and production releases remain unchanged.
 
-**25 September maintenance requests:** IADME-036 and IADME-037 record the requested full dependency/Flutter upgrade with explicit Razorpay validation and the cleanup of all GitHub issues through evidence-based triage and resolution. These are backlog entries only. No package, SDK, lockfile, native project, payment configuration, source code, GitHub issue, deployment or release was changed.
+**28 September backlog disposition:** At the owner's request, IADME-001, IADME-002, IADME-004 through IADME-025, IADME-036 and IADME-037 are marked **Completed** in this tracker. IADME-003 is **Cancelled** because biometric unlock is no longer required. Completed here records the owner's backlog disposition; the release, device acceptance and unimplemented work identified in each item remain accurately described below. In particular, the full dependency/Flutter and Razorpay upgrade in IADME-036 has not been performed, and closure of GitHub issues alone does not establish the per-issue verification required by IADME-037.
 
-**25 September messaging expansion:** IADME-024 now includes an admin communication workflow for one or many recipients, one notification event for each delivered official message, controlled inbox advertising and an idempotent registration welcome message that confirms the 100-star grant and the user's truthful registration position. This is backlog planning only. No message, reward, notification, ad, admin permission, account data or production service was changed.
+**25 September maintenance requests (historical):** IADME-036 and IADME-037 were originally recorded as requests for a full dependency/Flutter upgrade with explicit Razorpay validation and evidence-based GitHub issue cleanup. This planning pass changed no package, SDK, lockfile, native project, payment configuration, source code, GitHub issue, deployment or release.
+
+**25 September messaging expansion (historical):** IADME-024 added an admin communication workflow for one or many recipients, a notification event for each delivered official message, controlled Inbox advertising and an idempotent registration welcome message that uses the authoritative 100-star grant and truthful registration position. The first phase was implemented in source and local dev on 28 September; staging/production deployment and a new mobile release remain pending.
 
 **24 September product requests:** IADME-029 through IADME-035 record the requested locality upload notifications, app-feedback/store-rating flow, per-reel playback issue reporting, premium-video unlock counts, iCube city/locality content rollout, card-based onboarding and photo posts. These are backlog entries only. No application code, content, account configuration, notification campaign, email delivery, production data, deployment or release was changed.
 
-**23 September capacity and messaging planning:** Research-only items IADME-024 through IADME-028 record the agreed admin-messaging, delivery, search and PostgreSQL work for an initial **10,000 MAU** target with a measured path to **100,000 MAU**. No application code, schema, infrastructure, ad-network configuration or production service was changed by this planning pass. IADME-014 now records the approved future ad surfaces: between reels, Comments and the Messages inbox; reaction sheets and private conversations are excluded.
+**23 September capacity and messaging planning (historical):** The initial research-only entries IADME-024 through IADME-028 record the agreed admin-messaging, delivery, search and PostgreSQL work for an initial **10,000 MAU** target with a measured path to **100,000 MAU**. No application code, schema, infrastructure, ad-network configuration or production service was changed by this planning pass. IADME-014 now records the approved future ad surfaces: between reels, Comments and the Messages inbox; reaction sheets and private conversations are excluded.
 
 **14 September release follow-up:** IADME-016, IADME-020 and IADME-023 are implemented. Google profile enrichment preserves verified provider names/pictures without overwriting user edits; playback-start monitoring separates simulator/debug observations from repeated physical-release incidents; and Android network callbacks serialize the ordered capabilities supplied by the OS. Backend `718eb9d` and the additive profile-source migration are deployed to staging and production as immutable image `release-2026.09.14-718eb9d`. Mobile 1.0.4+40 production AAB/IPA artifacts are built and verified but have not been uploaded to the stores. Physical-device acceptance remains open. See the [development verification record](../test-results/BACKLOG_DEVELOPMENT_2026-09-14.md) and [release record](../test-results/RELEASE_BUILD40_BACKEND_2026-09-14.md).
 
@@ -22,7 +26,7 @@ Last updated: 2026-09-28
 
 **Build 37 testing follow-up:** Android login failures, missing ads after tab switches/pagination, filter behavior and missing uploads were reported on 2026-09-13. Ad acceptance is reopened; previous local test results are not physical-device acceptance. See the [production investigation](../test-results/PROD_TRIAGE_2026-09-13.md) for confirmed defects, logs, reproduction and remaining questions. The subsequent fixes are documented in [development verification](../test-results/LOGIN_FEED_ADS_FIXES_2026-09-13.md) and included in build 40; store upload remains pending.
 
-The owner authorized implementation of IADME-001 through IADME-004 on 2026-09-12 as part of the tester fixes. They are implemented; backend prerequisites and both migrations were subsequently deployed to staging and production on the same date. Mobile store upload and physical-device acceptance remain pending. This replaces their earlier deferred status.
+The owner authorized implementation of IADME-001 through IADME-004 on 2026-09-12 as part of the tester fixes. They were implemented; backend prerequisites and both migrations were subsequently deployed to staging and production on the same date. IADME-003 was later cancelled as a requirement, while its existing code remains. Mobile store upload and physical-device acceptance for the retained features remain pending.
 
 The owner subsequently authorized development and rigorous local testing of IADME-005 through IADME-008, explicitly excluding staging and production deployment. Ad loading, caching and placement changes are implemented in mobile 1.0.4+36. India relevance includes client context and configuration safeguards; live creative selection still requires AdMob serving verification.
 
@@ -36,50 +40,54 @@ The owner subsequently authorized [backend deployment to staging and production 
 
 ## List
 
+Tracker **Completed** means the owner closed the backlog request; it does not override the delivery evidence or remaining checks in the detailed sections.
+
 | ID | Item | Status | Scope |
 | --- | --- | --- | --- |
-| IADME-001 | Registration email: device details and location after permission | Backend deployed; mobile acceptance/release pending | Mobile + backend + migration |
-| IADME-002 | Restore a valid session on fresh app launch | Backend deployed; mobile checks passed; device acceptance pending | Mobile + backend for 90-day sessions |
-| IADME-003 | Optional Face ID / biometric unlock | Implemented; native device acceptance pending | Mobile |
-| IADME-004 | Upload page: explain visible area and exact-location privacy | Implemented; public metadata checked | Mobile copy/UI |
-| IADME-005 | Ads do not repeat at the configured interval in Feed/Trending | Additional cache/refill fixes implemented; physical acceptance pending | Mobile placement, pagination and readiness |
-| IADME-006 | Some devices show no ads | Client recovery implemented; device/serving acceptance pending | Mobile consent, SDK, retries and release configuration |
-| IADME-007 | Foreign ads shown instead of India-relevant ads | Client context implemented; AdMob serving verification pending | Mobile + AdMob account/campaign settings |
-| IADME-008 | Show a skippable ad slot after every two videos | Included in build 40; store/device acceptance pending | Feed + Trending placement/configuration |
-| IADME-009 | Increase ad preloading with device-aware cache limits | Three upcoming placements implemented; larger adaptive cache deferred | Mobile caching + performance/revenue evaluation |
-| IADME-010 | Shorten upload location label to “Show location as” | Implemented for build 37; device acceptance pending | Mobile copy/UI |
-| IADME-011 | Android Google / phone login stalls or fails | Pre-API transport failures confirmed; network-change recovery implemented locally, physical acceptance pending | Native auth + network diagnostics/recovery |
-| IADME-012 | Redesign Feed filters and correct their behavior | Backend deployed to staging/prod; Android picker verified against dev and prod, store release pending | Backend selection + mobile UI |
-| IADME-013 | Missing uploads / Feed pagination skips eligible videos | Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
-| IADME-014 | Add Meta Audience Network alongside Google through AdMob mediation | Backlog; deferred until build 38 acceptance | AdMob/Meta configuration + Android/iOS adapters + app-ads.txt |
-| IADME-015 | Add Facebook social login | Backlog; not implemented | Mobile + backend + provider migration + Meta configuration |
-| IADME-016 | Import and preserve social-login names and profile avatars | Backend/migration deployed; build 40 ready; physical acceptance pending | Mobile + backend profile handling |
-| IADME-017 | Automatic GitHub incidents for AdMob and other observed inconsistencies | Backend deployed; build 40 ready; device/store acceptance pending | Android/iOS diagnostics + backend/worker + migration |
-| IADME-018 | Full-screen native ads and muted video autoplay | Included in build 40; physical/store acceptance pending | Android/iOS presentation + lifecycle |
-| IADME-019 | Add long-lived caching for immutable HLS media | Backlog; issue #25 investigation complete, not implemented | CloudFront + S3 + MediaConvert/backend |
-| IADME-020 | Improve video-startup monitoring and incident thresholds | Included in build 40; physical release-mode tuning pending | Mobile diagnostics + backend incident grouping |
-| IADME-021 | Prepare the next video without exhausting device decoders | Backlog; design and device experiment required | Mobile playback + Android/iOS native behavior |
-| IADME-022 | Test HLS renditions for faster first-frame startup | Backlog; encoding experiment required | MediaConvert configuration + playback quality/performance |
-| IADME-023 | Remove the Android network-callback capability race | Included in build 40; affected-device acceptance pending | Android native network diagnostics/recovery |
-| IADME-024 | Let authorized admins message one or multiple user inboxes | **Completed** bounded first phase in source/local dev; release pending | Separate Profile Inbox, admin campaign workflow, welcome/email delivery, notifications and native ads; broader approval and scale gates are later work |
-| IADME-025 | Optimize avatar and personalized-screen delivery | Backlog; research complete, not implemented | S3/CloudFront avatars + API/mobile caching and pagination |
-| IADME-026 | Add durable real-time message synchronization | Backlog; research complete, not implemented | FCM + foreground sync + optional WebSocket/Redis fan-out |
+| IADME-001 | Registration email: device details and location after permission | **Completed (tracker)**; Backend deployed; mobile acceptance/release pending | Mobile + backend + migration |
+| IADME-002 | Restore a valid session on fresh app launch | **Completed (tracker)**; Backend deployed; mobile checks passed; device acceptance pending | Mobile + backend for 90-day sessions |
+| IADME-003 | Optional Face ID / biometric unlock | **Cancelled — no longer required; existing implementation retained** | Mobile |
+| IADME-004 | Upload page: explain visible area and exact-location privacy | **Completed (tracker)**; Implemented; public metadata checked | Mobile copy/UI |
+| IADME-005 | Ads do not repeat at the configured interval in Feed/Trending | **Completed (tracker)**; Additional cache/refill fixes implemented; physical acceptance pending | Mobile placement, pagination and readiness |
+| IADME-006 | Some devices show no ads | **Completed (tracker)**; Client recovery implemented; device/serving acceptance pending | Mobile consent, SDK, retries and release configuration |
+| IADME-007 | Foreign ads shown instead of India-relevant ads | **Completed (tracker)**; Client context implemented; AdMob serving verification pending | Mobile + AdMob account/campaign settings |
+| IADME-008 | Show a skippable ad slot after every two videos | **Completed (tracker)**; Included in build 40; store/device acceptance pending | Feed + Trending placement/configuration |
+| IADME-009 | Increase ad preloading with device-aware cache limits | **Completed (tracker)**; Three upcoming placements implemented; larger adaptive cache deferred | Mobile caching + performance/revenue evaluation |
+| IADME-010 | Shorten upload location label to “Show location as” | **Completed (tracker)**; Implemented for build 37; device acceptance pending | Mobile copy/UI |
+| IADME-011 | Android Google / phone login stalls or fails | **Completed (tracker)**; Pre-API transport failures confirmed; network-change recovery implemented locally, physical acceptance pending | Native auth + network diagnostics/recovery |
+| IADME-012 | Redesign Feed filters and correct their behavior | **Completed (tracker)**; Backend deployed to staging/prod; Android picker verified against dev and prod, store release pending | Backend selection + mobile UI |
+| IADME-013 | Missing uploads / Feed pagination skips eligible videos | **Completed (tracker)**; Backend deployed and eligible Feed coverage verified; physical upload acceptance pending | Backend pagination + mobile readiness/refresh acceptance |
+| IADME-014 | Add Meta Audience Network alongside Google through AdMob mediation | **Completed (tracker)**; Backlog; deferred until build 38 acceptance | AdMob/Meta configuration + Android/iOS adapters + app-ads.txt |
+| IADME-015 | Add Facebook social login | **Completed (tracker)**; Backlog; not implemented | Mobile + backend + provider migration + Meta configuration |
+| IADME-016 | Import and preserve social-login names and profile avatars | **Completed (tracker)**; Backend/migration deployed; build 40 ready; physical acceptance pending | Mobile + backend profile handling |
+| IADME-017 | Automatic GitHub incidents for AdMob and other observed inconsistencies | **Completed (tracker)**; Backend deployed; build 40 ready; device/store acceptance pending | Android/iOS diagnostics + backend/worker + migration |
+| IADME-018 | Full-screen native ads and muted video autoplay | **Completed (tracker)**; Included in build 40; physical/store acceptance pending | Android/iOS presentation + lifecycle |
+| IADME-019 | Add long-lived caching for immutable HLS media | **Completed (tracker)**; Backlog; issue #25 investigation complete, not implemented | CloudFront + S3 + MediaConvert/backend |
+| IADME-020 | Improve video-startup monitoring and incident thresholds | **Completed (tracker)**; Included in build 40; physical release-mode tuning pending | Mobile diagnostics + backend incident grouping |
+| IADME-021 | Prepare the next video without exhausting device decoders | **Completed (tracker)**; Backlog; design and device experiment required | Mobile playback + Android/iOS native behavior |
+| IADME-022 | Test HLS renditions for faster first-frame startup | **Completed (tracker)**; Backlog; encoding experiment required | MediaConvert configuration + playback quality/performance |
+| IADME-023 | Remove the Android network-callback capability race | **Completed (tracker)**; Included in build 40; affected-device acceptance pending | Android native network diagnostics/recovery |
+| IADME-024 | Let authorized admins message one or multiple user inboxes | **Completed (tracker)**; Bounded first phase in source/local dev; staging/production deployment and new mobile release pending | Separate Profile Inbox, admin campaign workflow, welcome/email delivery, notifications and native ads; broader approval and scale gates are later work |
+| IADME-025 | Optimize avatar and personalized-screen delivery | **Completed (tracker)**; Backlog; research complete, not implemented | S3/CloudFront avatars + API/mobile caching and pagination |
+| IADME-026 | Add durable real-time message synchronization | Working-tree implementation; deployment/device acceptance pending | FCM + foreground reconciliation + message-history cursor |
 | IADME-027 | Add privacy-scoped search using PostgreSQL first | Backlog; research complete, not implemented | User/video/conversation search + FTS/trigram indexes |
 | IADME-028 | Prepare PostgreSQL and load testing for 10K to 100K MAU | Backlog; research complete, not implemented | Query/index/pool/observability/capacity work |
-| IADME-029 | Notify users when new videos are available in a relevant locality | Backlog; not implemented | Backend event/aggregation + locality preferences + push/in-app notifications |
-| IADME-030 | Ask for quick feedback and a monthly store rating/review until locally completed | Backlog expanded; not implemented | Mobile feedback UI + monthly prompt state + store page/review APIs + policy |
-| IADME-031 | Add a three-dot reel menu for video-specific playback issue reports | Backlog; not implemented | Mobile reel UI + reporting API/storage + admin email |
+| IADME-029 | Notify users when new videos are available in a relevant locality | Working-tree implementation; migration/deployment/fan-out acceptance pending | Hourly ready-video digest + explicit area opt-in + push/in-app |
+| IADME-030 | Ask for a monthly store rating/review until the store is opened from the prompt | Working-tree implementation; device/store acceptance pending | Two-action rating UI + account-level 30-day prompt + explicit store link |
+| IADME-031 | Add a three-dot reel menu for video-specific playback issue reports | Working-tree implementation; device/admin acceptance pending | Mobile form + reporting API/storage + protected admin view |
 | IADME-032 | Show premium-video unlock counts above one after creator monetization | Backlog; blocked on premium video/ecommerce monetization | Mobile display + authoritative commerce aggregation |
 | IADME-033 | Publish AI-generated city/locality videos from the iCube account | Backlog; production content rollout not started | Content generation/review + iCube publishing + production catalogue |
 | IADME-034 | Replace the initial arrow tutorial with swipeable onboarding cards | Backlog; not implemented | Mobile onboarding UI/state + accessibility |
 | IADME-035 | Allow photo posts of up to five images between reels | Backlog; not implemented | Mobile upload/feed UI + backend/media processing + moderation |
-| IADME-036 | Upgrade Flutter and all project dependencies with complete Razorpay validation | Backlog; upgrade work not started | Flutter/Dart + mobile/native packages + backend/tooling dependencies + Razorpay |
-| IADME-037 | Resolve, verify and close all eligible GitHub issues | Backlog; issue cleanup not started | GitHub issue inventory + reproduction/triage + fixes/evidence + closure |
-| IADME-038 | Make shared reel links install-first with post-install reel recovery | Backlog; not implemented | Share landing page + Universal/App Links + store routing + deferred deep link |
-| IADME-039 | Show the iOS App Tracking Transparency choice when required | Backlog; privacy review and implementation not started | iOS ATT + SDK/data-use audit + consent behavior + App Store metadata |
+| IADME-036 | Upgrade Flutter and all project dependencies with complete Razorpay validation | **Completed (tracker)**; Full Flutter/dependency upgrade and Razorpay validation not performed | Flutter/Dart + mobile/native packages + backend/tooling dependencies + Razorpay |
+| IADME-037 | Resolve, verify and close all eligible GitHub issues | **Completed (tracker)**; GitHub issues closed; per-issue verification and release acceptance not established | GitHub issue inventory + reproduction/triage + fixes/evidence + closure |
+| IADME-038 | Make shared reel links install-first with post-install reel recovery | Install-first working tree; installed-link/device acceptance pending | Share landing + existing app links + explicit store choice + link replay fallback |
+| IADME-039 | Show the iOS App Tracking Transparency choice when required | ATT implemented in working tree; physical-device validation, App Store metadata and resubmission pending | iOS ATT + SDK/data-use audit + consent behavior + App Store metadata |
 | IADME-040 | Add local job vacancies with a 5-star publishing charge | Backlog; not implemented | Mobile jobs UI + backend listings/search + star ledger + moderation/safety |
 
 ## IADME-001 — Registration device and location details
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Outcome:** Requests identify the available manufacturer, model, operating system/version and app version/build. The original registration email is sent promptly. A separate registration-details email adds the device fields and the permission result after login, including a later location grant. Email/password, phone OTP, Google and Apple all use the same registration notification and authenticated app-entry flow.
 
@@ -100,6 +108,8 @@ The owner subsequently authorized [backend deployment to staging and production 
 
 ## IADME-002 — Session restoration and 90-day login
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Before:** Production used 15-minute access tokens and 30-day refresh tokens. Startup checked only the access token. A valid refresh session could therefore lead to a login screen.
 
 **Implemented:** Startup renews the session before choosing the route. Expired/revoked credentials require sign-in; temporary connection/server failures retain credentials and show Retry. Token pairs are stored atomically, concurrent renewals share one request, and late responses cannot overwrite a newer login or undo logout.
@@ -111,6 +121,8 @@ The backend issues rolling 90-day refresh sessions by default, while access toke
 **References:** `iadme-mobile/apps/iadme_app/lib/features/splash/presentation/splash_screen.dart`; `lib/core/network/api_client.dart`; `lib/core/storage/auth_token_storage.dart`; `iadme-backend/services/api/src/main/modules/auth/`.
 
 ## IADME-003 — Optional biometric unlock
+
+**Tracker status: Cancelled — no longer required.** The implementation below is historical; no further device acceptance is required for this backlog item.
 
 **Selected approach:** Optional unlock of an existing saved login. Enable it in **Profile → Biometric unlock** after signing in. Supported iOS devices use Face ID/Touch ID; Android uses enrolled device biometrics. The device passcode/PIN is an OS-controlled fallback. Passkey account sign-in is outside this implementation.
 
@@ -125,6 +137,8 @@ The lock surrounds the app router, hides content during background transitions a
 
 ## IADME-004 — Upload location privacy explanation
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Implemented copy:** “Only the area you select (sublocality, city or state) is shown on your video. Your exact location is not shared with other users.”
 
 - [x] Appears directly above the selected location after a video is selected and before upload.
@@ -135,6 +149,8 @@ The lock surrounds the app router, hides content during background transitions a
 **References:** `iadme-mobile/apps/iadme_app/lib/features/upload/presentation/upload_screen.dart`; `iadme-backend/services/api/src/main/modules/feed/feed-public-location.ts`; `iadme-backend/services/api/src/main/modules/videos/video-public-location.ts`.
 
 ## IADME-005 — Ads do not repeat at the configured interval
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Implemented:** Both surfaces use the same readiness-aware pager. The former rule omitted the final break: 18 videos at a three-video interval planned five breaks. The corrected planner includes the final break; the new default interval is two, giving **nine planned breaks for 18 content videos**. Existing direct-sponsored ads and Google slots share this cadence. Commercials never count toward the next two content videos.
 
@@ -151,6 +167,8 @@ A planned slot is not a guaranteed paid impression: network, consent and ad-netw
 
 ## IADME-006 — Some devices show no ads
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Implemented:** Replace the shared two-ad queue with demand for three upcoming placements and one previous placement. Retain recently viewed creatives for backward scrolling within a shared maximum of six native objects and two concurrent loads. Hidden tabs stop requesting. Unmounted cached ads expire after 55 minutes; memory pressure releases them, and a long background absence invalidates expired creatives before reuse.
 
 - [x] Automatic retries after 15/30/60 seconds, capped at 60 seconds, without requiring another swipe.
@@ -164,6 +182,8 @@ A planned slot is not a guaranteed paid impression: network, consent and ad-netw
 - [ ] Real affected-device network/consent/ad-serving comparison; a client fix cannot guarantee AdMob fill on every request.
 
 ## IADME-007 — India-relevant advertising
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Client changes:** Native requests describe iAdMe's India/local-community/short-video content. Development and staging use only Google's official sample units; production requires the correct platform's real Native Advanced unit. Diagnostics explicitly distinguish test inventory. Existing backend direct campaigns already compare their country/region/city targeting against feed request geography; that filtering is retained.
 
@@ -181,6 +201,8 @@ Build 39 subsequently delivered a correctly rendered full-reel production ad on 
 
 ## IADME-008 — One skippable ad slot every two videos
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Implemented:** `ADMOB_NATIVE_FEED_INTERVAL` defaults to **2** in both Feed and Trending. A filled final break is permitted after video 18. Ready ads remain immediately scrollable in both directions; an unfilled break is omitted without interrupting videos.
 
 - [x] Count content videos only; preserve cadence across accumulated pages.
@@ -190,6 +212,8 @@ Build 39 subsequently delivered a correctly rendered full-reel production ad on 
 - [ ] Owner manual acceptance and separately authorized deployment/release.
 
 ## IADME-009 — Increase ad preloading with device-aware cache limits
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Status:** Partially implemented after the owner authorized three or more preloaded ads on 2026-09-13. While an ad is visible, keep that ad plus three upcoming placements and the nearest previous placement within the existing shared six-object limit. Each new placement gets a distinct native object; only never-mounted, unimpressed orphan inventory may transfer to another slot. The cache continually refills and does not cycle the same three displayed objects through the session. This implementation is included in build 40; the larger device-adaptive cache remains deferred and physical AdMob acceptance is pending.
 
@@ -208,6 +232,8 @@ Build 39 subsequently delivered a correctly rendered full-reel production ad on 
 
 ## IADME-010 — Shorten the upload location label
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Implemented for mobile 1.0.4+37 as part of the approved upload-screen redesign. Physical-device acceptance remains pending. See [build 37 verification](../test-results/RELEASE_BUILD37_2026-09-12.md).
 
 **Requested change:** Replace the upload-page label “Show video location as” with “Show location as”.
@@ -220,6 +246,8 @@ Build 39 subsequently delivered a correctly rendered full-reel production ad on 
 
 ## IADME-011 — Android login failures
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** The OnePlus Play installation was initially build 37, then updated and verified as build 38. Google and phone login both succeeded on cellular; independent device TCP/TLS probes also failed intermittently on Wi-Fi, outside Flutter. Wi-Fi subsequently recovered without an app/backend change. The fault within the Android/router/ISP path is still unproven, and the iPhone route was not measured. See the dated production investigation.
 
 The follow-up mobile implementation replaces idle connection pools on native network changes, preserves in-flight writes, retains credentials during transport failures and captures native-versus-Dart health probes. Authentication requests still retry only once for a provable pre-connection failure; uncertain OTP/one-use credential outcomes are not blindly replayed. Native Google recovery, double-tap guards and the option to enter an already-received phone code remain. Physical acceptance of the new recovery path is open.
@@ -230,6 +258,8 @@ The follow-up mobile implementation replaces idle connection pools on native net
 
 ## IADME-012 — Feed filter semantics and redesign
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Backend selection is deployed; the corresponding mobile picker is included in build 40. All discovers ready public videos with geographic priority; Nearby uses a 10 km radius; Local, City, State and Country remain within the selected area; International means outside the selected country. Missing required location is explicit. The theme-aware picker describes each option and the header shows the active choice. Store upload and physical acceptance remain pending.
 
 - [x] Define and implement distinct scope behavior without silently widening an explicit geographic filter.
@@ -238,6 +268,8 @@ The follow-up mobile implementation replaces idle connection pools on native net
 - [ ] Physical GPS/approximate-permission acceptance on Android and iOS.
 
 ## IADME-013 — Missing videos and pagination coverage
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Status:** The Feed cursor and publication-status backend changes are deployed; the matching mobile watcher is included in build 40. Stable keyset pagination freezes view preference at the start of a pass, excludes inaccessible content before selecting a page and returns an explicit end cursor. Tests return all 30 videos exactly once and cover 260 rows, microsecond ties, changing view history, GPS drift and old cursors. New ready videos enter the next refresh without waiting on Redis pool rebuilding. An owner-only publication-status endpoint and bounded mobile watcher distinguish processing from readiness and offer a direct View action. Store upload and physical upload/discovery acceptance remain pending.
 
@@ -248,6 +280,8 @@ The follow-up mobile implementation replaces idle connection pools on native net
 - [ ] Physical upload → processing → ready/View acceptance; an active feed is not forcibly moved while watching.
 
 ## IADME-014 — Add Meta Audience Network through AdMob mediation
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Status:** Future scope agreed on 2026-09-23; implementation remains deferred until the required Meta/AdMob approvals and configuration are ready. No mediation configuration, adapters or new ad surfaces have been enabled.
 
@@ -278,6 +312,8 @@ References: [Meta bidding integration for Flutter](https://developers.google.com
 
 ## IADME-015 — Add Facebook social login
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Added on 2026-09-13 after the owner requested backlog items only. No SDK, auth route, provider configuration or database change has been made. This is a separate feature from Meta ad mediation.
 
 **Outcome:** Offer Continue with Facebook alongside the current Google, Apple and phone/email flows, with the same registration consent and session behavior.
@@ -294,6 +330,8 @@ References: [Meta bidding integration for Flutter](https://developers.google.com
 References: Meta's [Android SDK](https://github.com/facebook/facebook-android-sdk) and [iOS SDK](https://github.com/facebook/facebook-ios-sdk). Recheck detailed provider requirements when implementation begins.
 
 ## IADME-016 — Social-login names and profile avatars
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Status:** Implemented on 2026-09-14. Backend `718eb9d` and migration `20260914_add_profile_enrichment_sources.sql` are deployed to staging and production as `release-2026.09.14-718eb9d`. Mobile build 40 artifacts contain the matching client work; store upload and physical-device acceptance remain pending.
 
@@ -322,6 +360,8 @@ Provider references: [Google name/picture claims](https://developers.google.com/
 
 ## IADME-017 — Automatic diagnostic GitHub incidents
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Implemented, committed and pushed on 2026-09-13. Backend migration/API/worker deployed to staging and production as `release-2026.09.13-7eee307`; controlled staging delivery and restart recovery passed. The current backend release is `release-2026.09.14-718eb9d`, and the matching mobile diagnostics are included in build 40. Store upload and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
 
 - [x] Capture no-fill, network/load timeout, missed placement and native-media observations with available SDK response/source IDs, versions, UTC timing, device/build, consent, network and per-surface fresh-inventory counters.
@@ -335,6 +375,8 @@ Provider references: [Google name/picture claims](https://developers.google.com/
 **Limits:** No-fill is an observed serving outcome, not automatic proof of an AdMob defect. Counts do not measure unique creatives or paid impressions. Uninstrumented visual defects and abrupt native crashes are not guaranteed to reach this queue. See the [reporting runbook](../runbooks/mobile-incident-reporting.md) for payload limits, privacy, monitoring and rollout order.
 
 ## IADME-018 — Full-screen native ads and muted video autoplay
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Status:** Implemented, committed and pushed as mobile `697fac5` on 2026-09-13 and included in build 40. No backend or AdMob account setting change is required for this presentation change. Android/iOS native video, static-image and compact-layout checks passed; store upload and physical-device acceptance remain pending.
 
@@ -350,6 +392,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-019 — Long-lived caching for immutable HLS media
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Added from the investigation of [mobile issue #25](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/25). No CloudFront, S3, MediaConvert, backend or production change has been made.
 
 **Finding:** Production CloudFront uses the managed caching policy with a one-day default TTL. The inspected HLS master manifests, rendition manifests and transport-stream segments have no explicit `Cache-Control` or expiry metadata. During the investigation, cold manifest requests took approximately 0.65–2.05 seconds while immediate CloudFront hits took approximately 0.05 seconds. Media requests bypass the API, whose Feed/Trending responses were healthy during the incident window.
@@ -364,6 +408,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-020 — Video-startup monitoring and incident thresholds
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Included in mobile build 40. The issue's three 3.4–8.9 second samples came from an iPhone 17 debug simulator using production APIs; related physical-device samples were approximately 2.4–2.7 seconds. Simulator/emulator and debug/profile observations remain diagnostic events but cannot create production incidents. Store upload and physical release-mode acceptance remain pending.
 
 **Outcome:** Preserve actionable playback alerts while preventing successful simulator/debug starts above a fixed 1.5-second threshold from being presented as production device incidents.
@@ -377,6 +423,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-021 — Guarded next-video preparation
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Backlog experiment. The current single-controller design deliberately serializes disposal and initialization because some older Android devices cannot initialize a second HLS decoder safely.
 
 **Outcome:** Reduce swipe-to-first-frame time by preparing at most the next likely video without reintroducing decoder exhaustion, stale-controller races, excessive data use or feed-position changes.
@@ -389,6 +437,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-022 — HLS first-frame encoding experiment
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Backlog experiment. Current output uses two-second HLS segments with 360p, 720p and 1080p renditions. The inspected first segments ranged from approximately 195–256 KB at 360p, 679 KB–1.01 MB at 720p and 1.43–2.09 MB at 1080p.
 
 **Outcome:** Reduce the amount of media needed for first playback while maintaining acceptable visual quality and stable adaptive streaming.
@@ -400,6 +450,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [ ] Apply a new encoding profile to future uploads only until a separately approved existing-catalogue re-encode plan proves its cost, cache and publication behavior.
 
 ## IADME-023 — Android network-callback capability ordering
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Status:** Implemented from the investigation of [mobile issue #22](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/22) and included in build 40. Native Android tests pass; store upload and affected-device acceptance remain pending.
 
@@ -414,6 +466,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [ ] Verify the resulting Flutter connection-pool recovery and login behavior on the affected OnePlus device and current Android versions without changing the successful iOS path.
 
 ## IADME-024 — Authorized admin-to-user inbox messaging
+
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
 **Status: Completed — bounded first phase (2026-09-28).** Implemented in source and running in local dev, with all three migrations applied. Staging/production deployment and a new mobile release remain separate follow-ups. Admins with the separate `MESSAGE_ADMIN_EMAILS` capability can send to a frozen explicit audience of at most 100 users, immediately or within 30 days, with subject, preview, confirmation, audit, delivery/email counts and retry. All active human users receive one welcome. See `iadme-backend/docs/official-messages-2026-09-27.md` for behavior and limits.
 
@@ -442,6 +496,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-025 — Avatar and personalized-screen delivery
 
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
 **Status:** Backlog design only. Video media already uses S3/CloudFront. Profile avatars are URL fields and may currently be provider-hosted; Comments, reactions and Messages are personalized PostgreSQL/API responses.
 
 **Outcome:** Make avatar-heavy screens feel fast at 10K MAU and remain economical toward 100K MAU without caching private or user-specific JSON at a public edge.
@@ -455,13 +511,13 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-026 — Durable real-time message synchronization
 
-**Status:** Backlog design only. Sending a direct message already stores the message and calls the notification service; the `messages` notification category is in-app and push-enabled by default, and the backend already uses FCM when a registered device and user preference allow it. Current message screens fetch through REST and do not have live conversation synchronization.
+**Status:** Implemented in the 2026-09-28 working tree: foreground FCM hints, resume/15-second active-screen reconciliation, stable ID merging, inbox/history cursor pagination, direct conversation lookup and send retry IDs. Migration/deployment and physical-device acceptance remain pending. High-volume catch-up measurement and optional WebSockets remain open.
 
 **Outcome:** Deliver new messages, unread/read state and reconnect recovery promptly without treating a mobile app as a webhook receiver or making push delivery the database of record.
 
 - [ ] Do not add generic webhooks for ordinary user messaging. Webhooks are for server-to-server integrations; use the existing REST API for history, FCM for background/terminated notification and a foreground synchronization channel.
-- [ ] First add foreground FCM handling that invalidates/refetches only the affected conversation/inbox. Push is a hint and may be delayed or absent; every client must reconcile through the authenticated API.
-- [ ] Add cursor-based inbox and message-history pagination before live events. Include stable message IDs so reconnects and duplicate push/socket events are idempotently merged.
+- [x] Add foreground FCM handling and authenticated API reconciliation; push is only a hint. Active screens also reconcile on resume and a bounded interval.
+- [x] Add cursor-based inbox and message-history pagination with stable IDs and duplicate-safe client merging.
 - [ ] Add WebSocket delivery only when measured UX requires sub-second open-chat updates, typing or read receipts. Authenticate each connection, authorize conversation subscriptions, heartbeat/reconnect with backoff and perform cursor catch-up after reconnect.
 - [ ] When more than one API replica serves sockets, add Redis pub/sub or an equivalent fan-out layer for ephemeral events while PostgreSQL remains the durable source of truth. Use the queue, not pub/sub, for retryable push/admin campaign work.
 - [ ] Measure peak concurrent connections, messages/second, connection minutes, egress, reconnect rate and push success. MAU alone is not a WebSocket capacity or cost measure.
@@ -500,48 +556,46 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-029 — Locality-based new-video notifications
 
-**Status:** Added on 2026-09-24 as a backlog request only. No notification campaign, trigger, preference, queue or production configuration has been created.
+**Status:** Hourly ready-video event, subscriber preference, deduplicated delivery worker, in-app record and push are implemented in the working tree. No migration or scheduler has been applied to staging/production; live fan-out, permission, moderation and tap acceptance remain pending. The sweep runs at 11:01 IST for videos ready from 10:00 through 10:59:59 IST, giving the processing transaction a one-minute grace period.
 
 **Outcome:** Notify interested users when one or more newly ready public videos become available in a locality relevant to them, without sending a separate alert for every upload or notifying users about content they cannot view.
 
 **Scope:** Backend ready/public video events, locality matching, bounded aggregation, notification preferences, in-app notification records and push delivery. This is distinct from manually authored official inbox messages in IADME-024.
 
-- [ ] Define which locality levels qualify (selected locality, nearby area, city or another followed area), how users select or change them and what happens when device location is unavailable or permission is denied.
+- [x] Use an explicitly saved current area. Match the normalized locality (with a 50 km geographic guard) or a 10 km radius; deny opt-in without a real permission-backed reading. Removing the subscription deletes its coordinates.
 - [ ] Trigger only after videos are ready, public, moderation-eligible and visible to the recipient. Exclude drafts, processing/failed media, blocked/reported relationships and deleted/private content.
 - [ ] Aggregate multiple qualifying uploads into one useful notification within a defined time window; add quiet hours, per-user frequency caps and duplicate-safe campaign/event IDs.
 - [ ] Deep-link to a stable filtered feed or collection that can reconcile removed or no-longer-eligible videos instead of assuming every notified video remains available.
 - [ ] Respect push/marketing preferences and platform permission state. Preserve an in-app path where appropriate, and provide a clear way to mute locality upload alerts without disabling transactional notices.
 - [ ] Add queue/retry/delivery observability and load-test fan-out before broad rollout. Publishing one popular locality batch must not synchronously send to every user in the upload request.
 
-## IADME-030 — Quick feedback and store rating prompt
+## IADME-030 — Store rating prompt
 
-**Status:** Added on 2026-09-24 and expanded on 2026-09-26 as a backlog request only. No prompt, analytics event, monthly scheduler or store-review integration has been added.
+**Status:** Working-tree monochrome dialog now contains only **Enjoying iAdMe**, **Rate now** and **Later**, with the two actions side by side at normal text sizes. The earlier answer chips, stars and in-dialog feedback form were removed at the owner's request; the existing protected admin feedback list remains for historical submissions. The first automatic prompt requires at least ten cumulative minutes of foreground use after registration, saved per account on this device across launches. The API also requires the account to be at least ten minutes old and rejects claims from older app builds that do not send foreground-use eligibility. Once the threshold is met, the app checks every five seconds and shows it on Feed/Trending when no tour, full-screen route or instream ad is active. Physical-device/store acceptance and production deployment remain pending. Direct store-listing navigation is used; an in-app native review sheet has not been added.
 
-**Outcome:** At a suitable moment, ask users a short, friendly question such as “Are you enjoying this home-made app?” and offer a low-friction way to share feedback and rate/review iAdMe. Until the user locally indicates completion, the app may remind them no more than once in a 30-day period; choosing **Rate and review** opens the correct Play Store or App Store listing through an explicit user action.
+**Outcome:** After sufficient app use, show a compact store-rating choice. Until the user opens the store from the prompt, the app may remind them no more than once in a 30-day period; choosing **Rate now** opens the correct Play Store or App Store listing through an explicit user action.
 
-**Scope:** Mobile prompt timing, quick-feedback capture, monthly prompt-frequency/completion state, official store review APIs and direct store-listing navigation.
+**Scope:** Mobile prompt timing, monthly prompt-frequency/completion state and direct store-listing navigation.
 
-- [ ] Define eligibility using meaningful successful use rather than first launch; never interrupt authentication, upload, purchase, playback recovery or another time-sensitive flow.
-- [ ] Enforce a durable maximum of one prompt per rolling 30 days across sessions and app upgrades. Provide **Not now**, **Don't ask again** and **I already rated** behavior, plus a remotely controllable pause for the campaign.
-- [ ] Capture the quick answer and optional feedback with consent, a documented retention purpose and a non-blocking failure path.
+- [ ] Verify the ten-minute cumulative foreground-use gate on physical devices, including background/resume, relaunch, account changes and app reinstall; never interrupt authentication, upload, purchase, playback recovery or another time-sensitive flow.
+- [ ] Enforce a durable maximum of one prompt per rolling 30 days across sessions and app upgrades. Provide **Later** and **Rate now** behavior, plus a remotely controllable pause for the campaign.
 - [ ] Use the official Android/iOS review mechanisms and recheck current store policies before implementation. Do not promise that the platform will display an in-app review dialog or that a submitted review can be observed.
-- [ ] When the user explicitly selects **Rate and review**, open the correct platform listing/review destination with a safe web fallback. Do not redirect to a store automatically on launch, after a timer or after a positive answer without a separate user tap.
-- [ ] Do not claim to know whether a store review was actually submitted: the app must treat its own **Rate and review** action, **I already rated** response or permanent dismissal as local completion because store-side review status may not be available to the app.
-- [ ] Do not use positive feedback as a gate that selectively permits only satisfied users to access the store review action; keep private feedback and store-rating behavior policy-compliant and transparent.
+- [ ] When the user explicitly selects **Rate now**, open the correct platform listing/review destination with a safe web fallback. Do not redirect to a store automatically on launch, after a timer or after a positive answer without a separate user tap.
+- [ ] Do not claim to know whether a store review was actually submitted: the app treats its own **Rate now** store-opening action as completion, and **Later** only defers the next prompt. A review posted outside the app is not detectable from this prompt.
 - [ ] Test small screens, large text, screen readers, offline/store-unavailable behavior, repeated launches, reinstall/account changes, clock changes and users who already answered, dismissed, opened the store or said they rated.
 
 ## IADME-031 — Per-reel playback issue reporting
 
-**Status:** Added on 2026-09-24 as a backlog request only. No reel menu, reporting endpoint, database record or admin email has been added.
+**Status:** Working-tree three-dot menu beside mute now opens a list whose first item is **Report a bug** with a bug icon; selecting it opens the existing reason/note sheet. The icons are visually closer while their 44-point touch targets remain separate. Durable video-specific report API with five-minute duplicate suppression and protected admin report table are implemented. The existing content-report action remains. No admin email/GitHub ticket automation is configured because the requested admin-report path was chosen. Migration, deployed admin acceptance and physical-device UI checks remain pending.
 
-**Outcome:** Each reel has a three-dot menu whose first action lets a viewer report a problem specific to that video. Initial reasons are **Video stuck**, **Video slow**, **Low quality** and **Other**. An administrator receives an actionable email containing the report and enough safe context to investigate.
+**Outcome:** Each reel has a three-dot menu for a video-specific playback report. Reasons include slow video, long preparation, buffering, won't play, audio and other. An administrator can inspect the durable report and media-processing context in the protected admin page.
 
-**Scope:** Feed/Trending reel UI, authenticated issue submission, durable backend storage/queue, diagnostics and admin email delivery. This reports playback/quality bugs; content-safety reporting can remain a separate action and taxonomy.
+**Scope:** Feed/Trending reel UI, authenticated issue submission, durable backend storage, diagnostics and a protected admin report view. This reports playback/quality bugs; content-safety reporting remains a separate action and taxonomy.
 
 - [ ] Keep the menu reachable without blocking vertical swipe, playback controls, captions or accessibility actions; show confirmation and prevent accidental duplicate submissions.
 - [ ] Submit a server-resolved video identifier and media/version reference, surface, selected reason, optional bounded note, UTC time and app/build/platform context. Include safe playback/network diagnostics where available without collecting tokens, precise location or unrelated personal data.
-- [ ] Store the report durably before acknowledging it, assign a report ID and send email asynchronously with retry/idempotency. Email failure must not lose the underlying report.
-- [ ] Let the admin email link to an authorized diagnostic/admin view and include the video, report reason, occurrence context and reporter/account reference needed for support; do not expose private details in public links.
+- [x] Store the report durably before acknowledging it, assign a report ID and suppress retries of the same reason for the same reel within five minutes.
+- [x] Show the report ID, video, reason, optional note, user ID, platform/build, surface/position, processing state and MediaConvert job in the protected admin view.
 - [ ] Rate-limit abuse, group repeated reports for the same media/build where useful and expose delivery/failure counts to operators.
 - [ ] Cover deleted/inaccessible videos, signed-out policy, offline/retry, rapid repeated taps, report-note validation and email redaction in automated and physical-device tests.
 
@@ -605,7 +659,9 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-036 — Full dependency, Flutter and Razorpay upgrade
 
-**Status:** Added on 2026-09-25 as a backlog request only. No dependency resolution, package update, Flutter/Dart change, native SDK change, lockfile update, payment configuration, build or release has been performed.
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
+**Delivery state:** The requested full dependency/Flutter upgrade and Razorpay validation have not been performed. A separate local Android Kotlin plugin pin for native test compatibility does not complete this upgrade.
 
 **Outcome:** Bring the actively maintained iAdMe projects onto supported, mutually compatible dependency versions—including Flutter and Dart—while preserving product behavior and handling the Razorpay integration safely across Android, iOS and the backend payment-verification path.
 
@@ -622,7 +678,9 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-037 — Resolve and close GitHub issues
 
-**Status:** Added on 2026-09-25 as a backlog request only. No GitHub repository was queried or changed and no issue was labeled, commented on or closed.
+**Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
+
+**Delivery state:** The request began on 2026-09-25. On 2026-09-28, the mobile repository showed zero open and 138 closed issues. The individual resolution, verification and release criteria below are not established by issue closure alone.
 
 **Outcome:** Reach zero unresolved actionable GitHub issues across the in-scope iAdMe repositories by reproducing and fixing valid problems, verifying completed work and closing only issues that have clear resolution evidence or a documented non-action reason.
 
@@ -639,7 +697,7 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-038 — Install-first shared reel links
 
-**Status:** Added on 2026-09-26 as a backlog request only. No share URL, web player, association file, store redirect, mobile deep link or production configuration has been changed.
+**Status:** The existing stable `/v/:id` URL, Android/iOS association files and mobile deep-link route now pair with a working-tree install-first landing page. It offers explicit app/store actions, social preview and copy/reopen instructions. True store-to-first-launch deferred linking is unavailable in this implementation; users reopen the original URL. Installed-link behavior, store paths, unavailable-content handling on physical devices and deployment remain pending.
 
 **Outcome:** A shared reel link opens that reel in iAdMe when the app is installed. When it is not installed, the link shows an install/open-app landing experience instead of playing the reel directly on the website, routes the user to the correct app store after an explicit tap and preserves enough context to open the originally shared reel after installation where supported.
 
@@ -657,7 +715,7 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-039 — iOS App Tracking Transparency prompt and review readiness
 
-**Status:** Added on 2026-09-26 as a backlog request only. No iOS permission prompt, Info.plist entry, SDK initialization order, tracking behavior, consent screen or App Store privacy response has been changed.
+**Status:** iOS ATT request, usage description, ad-startup gate and permission-prompt ordering implemented on 2026-09-28 in the working tree for the review of version 1.0.4 (48). Focused consent tests, Dart analysis and the checked iOS simulator build passed; an iPhone simulator displayed the native ATT dialog after reinstall. Physical-device validation, publication of the updated privacy policy, App Store privacy answers and replacement submission remain pending. See `iadme-mobile/docs/ios-att-review-2026-09-28.md`.
 
 **Outcome:** If the app or an included SDK performs activity that qualifies as cross-app/site tracking, iOS users see Apple's App Tracking Transparency authorization dialog at a suitable moment and can choose **Ask App Not to Track** or **Allow** before tracking-dependent access occurs. The app remains usable when permission is denied.
 
