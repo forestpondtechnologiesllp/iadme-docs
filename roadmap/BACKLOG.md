@@ -1,6 +1,10 @@
 # iAdMe Backlog
 
-Last updated: 2026-09-28
+Last updated: 2026-09-30
+
+**30 September photo/Lambda completion:** IADME-035 implementation is **complete; production testing is pending**. Local automated checks passed, and the owner deployed `iadme-prod-photo-transform-v2:live` in `us-east-1` for `iadme-media-prod`. Read-only AWS checks confirmed version 1, the expected code hash and reserved concurrency 2. The standalone live image test and worker IAM verification remain pending. The production backend build/deployment and worker activation are **on hold at the owner's request**; do not resume them without a new instruction. See [Lambda verification and deployment status](../test-results/PRODUCTION_PHOTO_LAMBDA_2026-09-30.md).
+
+**29 September iCube comments request:** IADME-041 records a review of the current iCube comments worker and more creative, fact-based comments for both video and photo posts. This item is planned; no worker behavior or published comments were changed for this request.
 
 **28 September five-item implementation pass:** IADME-026, IADME-029, IADME-030, IADME-031 and IADME-038 now have working-tree source changes. Message screens reconcile on foreground push/resume/polling, inbox and history are cursor-paginated, and sends use retry IDs. Newly ready public videos enter an opt-in, hourly locality/10 km digest; 10:00–11:00 IST videos are selected at the 11:01 sweep, with one video target per user/hour and no historical backfill. Feedback has a 30-day account-level prompt, explicit store action and admin view. Reel playback issues have a three-dot form, durable report and admin view. Shared reel pages offer app opening, store installation and link replay. These changes are **not deployed or released**; the new migration, live queue/push checks, device link acceptance and release build remain pending. See each item for limits.
 
@@ -16,7 +20,9 @@ Last updated: 2026-09-28
 
 **25 September messaging expansion (historical):** IADME-024 added an admin communication workflow for one or many recipients, a notification event for each delivered official message, controlled Inbox advertising and an idempotent registration welcome message that uses the authoritative 100-star grant and truthful registration position. The first phase was implemented in source and local dev on 28 September; staging/production deployment and a new mobile release remain pending.
 
-**24 September product requests:** IADME-029 through IADME-035 record the requested locality upload notifications, app-feedback/store-rating flow, per-reel playback issue reporting, premium-video unlock counts, iCube city/locality content rollout, card-based onboarding and photo posts. These are backlog entries only. No application code, content, account configuration, notification campaign, email delivery, production data, deployment or release was changed.
+**29 September photo posts:** IADME-035 is implemented across mobile, backend and share/admin website. The additive migration and updated API/worker are running locally. Staging/production rollout, S3/CDN policy verification and physical-device acceptance remain pending. See [verification](../test-results/IADME035_PHOTO_POSTS_2026-09-29.md).
+
+**24 September product requests (historical):** IADME-029 through IADME-035 record the requested locality upload notifications, app-feedback/store-rating flow, per-reel playback issue reporting, premium-video unlock counts, iCube city/locality content rollout, card-based onboarding and photo posts. These are backlog entries only. No application code, content, account configuration, notification campaign, email delivery, production data, deployment or release was changed.
 
 **23 September capacity and messaging planning (historical):** The initial research-only entries IADME-024 through IADME-028 record the agreed admin-messaging, delivery, search and PostgreSQL work for an initial **10,000 MAU** target with a measured path to **100,000 MAU**. No application code, schema, infrastructure, ad-network configuration or production service was changed by this planning pass. IADME-014 now records the approved future ad surfaces: between reels, Comments and the Messages inbox; reaction sheets and private conversations are excluded.
 
@@ -78,12 +84,13 @@ Tracker **Completed** means the owner closed the backlog request; it does not ov
 | IADME-032 | Show premium-video unlock counts above one after creator monetization | Backlog; blocked on premium video/ecommerce monetization | Mobile display + authoritative commerce aggregation |
 | IADME-033 | Publish AI-generated city/locality videos from the iCube account | Backlog; production content rollout not started | Content generation/review + iCube publishing + production catalogue |
 | IADME-034 | Replace the initial arrow tutorial with swipeable onboarding cards | Backlog; not implemented | Mobile onboarding UI/state + accessibility |
-| IADME-035 | Allow photo posts of up to five images between reels | Backlog; not implemented | Mobile upload/feed UI + backend/media processing + moderation |
+| IADME-035 | Allow photo posts of up to five images between reels | **Implementation complete; production testing pending**. Lambda deployed; production backend rollout/activation on hold | Mobile upload/feed UI + backend/Lambda media processing + moderation |
 | IADME-036 | Upgrade Flutter and all project dependencies with complete Razorpay validation | **Completed (tracker)**; Full Flutter/dependency upgrade and Razorpay validation not performed | Flutter/Dart + mobile/native packages + backend/tooling dependencies + Razorpay |
 | IADME-037 | Resolve, verify and close all eligible GitHub issues | **Completed (tracker)**; GitHub issues closed; per-issue verification and release acceptance not established | GitHub issue inventory + reproduction/triage + fixes/evidence + closure |
 | IADME-038 | Make shared reel links install-first with post-install reel recovery | Install-first working tree; installed-link/device acceptance pending | Share landing + existing app links + explicit store choice + link replay fallback |
 | IADME-039 | Show the iOS App Tracking Transparency choice when required | ATT implemented in working tree; physical-device validation, App Store metadata and resubmission pending | iOS ATT + SDK/data-use audit + consent behavior + App Store metadata |
 | IADME-040 | Add local job vacancies with a 5-star publishing charge | Backlog; not implemented | Mobile jobs UI + backend listings/search + star ledger + moderation/safety |
+| IADME-041 | Review the iCube comments worker and add creative factual comments for videos and photos | Backlog; analysis and implementation pending | iCube comment eligibility, fact sources, templates/generation, scheduling and quality checks |
 
 ## IADME-001 — Registration device and location details
 
@@ -644,18 +651,25 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-035 — Photo posts between reels
 
-**Status:** Added on 2026-09-24 as a backlog request only. No photo upload, media schema, processing pipeline or feed presentation has been added.
+**Status:** **Implementation complete; production testing pending**, updated 2026-09-30. Photo posts and upload/UI refinements are implemented and locally verified; the production Lambda implementation is complete and its AWS function is deployed. [Photo-post verification](../test-results/IADME035_PHOTO_POSTS_2026-09-29.md) and [Lambda verification/deployment status](../test-results/PRODUCTION_PHOTO_LAMBDA_2026-09-30.md).
 
-**Outcome:** Let a user create a photo post containing up to five images and show eligible photo posts naturally between video reels in Feed/Trending.
+**Deployment hold:** The owner explicitly deferred the production backend build/deployment and worker activation. Lambda `iadme-prod-photo-transform-v2:live` in `us-east-1` points to Active version 1 and uses `iadme-media-prod`; its configuration and code hash were checked read-only. This does not establish a successful live image transformation or production app acceptance. Backend rollout, activation and the mobile release remain pending; resume production deployment only after a new owner instruction.
 
-**Scope:** Multi-image upload/composition, backend media model and processing, feed ranking/pagination, photo-post viewer, moderation, storage/CDN delivery and lifecycle management.
+**Outcome:** One reel or 1–5 photos per upload. A photo post costs 5 Stars total, has no premium viewing, and appears as one item in Feed/Trending.
 
-- [ ] Define one to five images per post, supported formats/size limits, ordering, crop/orientation behavior, caption/location fields and whether mixed photo/video posts are excluded from the first version.
-- [ ] Add resumable/retry-safe upload and server-side validation, metadata stripping, safe image decoding, optimized variants/thumbnails and cleanup for abandoned or failed uploads.
-- [ ] Represent the post as one feed item with stable pagination/ranking and a clear multi-image indicator. Horizontal photo navigation must not conflict with vertical reel swipes or accessibility gestures.
-- [ ] Reuse visibility, block/report, moderation, deletion, profile ownership and location-privacy rules. Define how existing reactions, comments, shares and notifications apply to photo posts.
-- [ ] Bound memory, disk, bandwidth and prefetching; preserve the current next-two-video fast path and do not let image preparation delay the active or next reel.
-- [ ] Test one through five images, portrait/landscape mixes, slow/offline upload recovery, rapid feed scrolling, cache eviction, deletion/moderation and current Android/iOS devices before release.
+- [x] Simple photo selection/reordering, 2000-character caption and the existing location/privacy choices; no mixed video/photo uploads.
+- [x] S3 uploads, dedicated image worker, byte validation, orientation correction, metadata stripping and optimized variants; no MediaConvert jobs for photos.
+- [x] Durable, idempotent reservation/publication/refund lifecycle, retry-safe mobile drafts, source cleanup and a seven-day soft-delete restoration window.
+- [x] Manual horizontal carousel, count/dots, boundary bounce and session position; vertical gestures navigate posts. No internal ads. Mixed cadence: Reel → Reel → Ad → Photo post → Reel → Ad, with availability/no-fill fallback.
+- [x] Retain existing reactions, avatar/name/distance pills and header geometry. Respect light/monochrome theme. Shared caption/details sheet pauses reels and resumes only previously playing content.
+- [x] Shared location/filter/ranking, profile ownership, reactions/targets/comments/shares/reporting and admin photo previews; compatibility protection for older clients.
+- [x] Separate bounded image cache, conservative prefetch, foreground-only photo view counting and preserved next-two reel fast path.
+- [x] Production-only Lambda transformation path with a hard cap of two simultaneous executions, one invocation per photo, no automatic EC2 fallback and no MediaConvert. Backend retains atomic publishing, billing, refunds and recovery; staging/dev keep local processing.
+- [x] Local Lambda validation: TypeScript build/typecheck, 117 passing backend unit tests (6 existing skips), 9 photo integration tests, CloudFormation validation and the native Linux Lambda runtime smoke test.
+- [x] AWS Lambda deployed by the owner; published alias/version, expected package hash, bucket, 1,024 MB memory, 60-second timeout and reserved concurrency 2 verified read-only.
+- [ ] Live Lambda acceptance: verify the production worker's invocation permission and perform a standalone disposable-image transformation test against S3, including both output variants and cleanup.
+- [ ] Production application activation/testing: after the owner lifts the deployment hold, roll out the backend and worker settings, then verify real one-photo/five-photo uploads, publication, the single 5-Star charge, retries/refunds and source cleanup.
+- [ ] Release acceptance: verify source-prefix privacy/lifecycle and actual S3/CDN delivery, then physical iOS/Android selection, interruption/restart, rapid scrolling, theme/large-text and live-ad behavior.
 
 ## IADME-036 — Full dependency, Flutter and Razorpay upgrade
 
@@ -749,6 +763,22 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [ ] Define optional job alerts separately from video-upload alerts in IADME-029, with locality/category preferences, frequency caps and opt-out. Do not send every new job to every nearby user.
 - [ ] Review applicable employment-listing, consumer-protection, privacy, tax/accounting and app-store rules for charging in-app stars before release, including how users acquire stars and whether the posting charge must use a particular store billing path.
 - [ ] Test insufficient balance, double submission, retry/restart, concurrent posting, moderation approval/rejection, refund decisions, edits/renewals, expiry, deletion, blocked users, location changes, search pagination and current Android/iOS accessibility layouts.
+
+## IADME-041 — Creative, fact-based iCube comments for videos and photos
+
+**Status:** Added on 2026-09-29. Backlog request only; worker analysis and implementation are pending.
+
+**Outcome:** Make iCube comments more interesting, varied and relevant on both reels and photo posts while keeping factual claims accurate.
+
+**Scope:** Review the existing comments worker, candidate selection, fact sources, comment templates/generation, evolving milestones, scheduling and duplicate prevention. Extend the resulting approach to both media types.
+
+- [ ] Analyse current worker behavior, including eligibility queries, available post/context and engagement facts, wording, frequency, retries, duplicate handling and processing/model cost where applicable.
+- [ ] Propose and implement a broader set of concise, creative comments with varied phrasing. Use verified post statistics or supported contextual facts; do not invent facts, rankings, achievements or details about the depicted content.
+- [ ] Support both videos and photo posts explicitly. Treat a photo carousel as one post, use the correct media wording, and keep video-only facts such as duration or premium unlocks out of photo comments.
+- [ ] Reduce repetition across posts and successive comments while preserving posting limits, milestone rules, idempotent retries and current moderation/visibility restrictions.
+- [ ] Review representative video/photo examples for accuracy, relevance, variety and tone; test new posts, milestone updates, retries, duplicate sweeps and deleted/blocked content before rollout.
+
+**Starting points:** `iadme-backend/services/api/src/main/modules/icube/icube-comments.queue.ts`, `icube-comments.service.ts` and `icube-comments.repository.ts` in the same directory.
 
 ## Maintaining this list
 
