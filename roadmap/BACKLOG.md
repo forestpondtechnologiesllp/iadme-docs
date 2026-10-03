@@ -1,6 +1,10 @@
 # iAdMe Backlog
 
-Last updated: 2026-09-30
+Last updated: 2026-10-03
+
+**3 October new planning requests:** IADME-042 through IADME-045 cover country-specific support beyond the current India-only product, creator monetization with a separate creator profile on iadme.app, two additional instances with staging/production separation and a SaaS website, and expanded advertising. All four are **not started; discussion required**. Target countries, monetization rules, instance roles/SaaS scope, costs and the meaning of “more ads” remain to be agreed.
+
+**3 October dev completion; production pending:** IADME-040 Listings/Local Market implementation and the requested Profile, Targets, Jobs-form and publication-receipt refinements are complete in dev. IADME-039's follow-up now defers tracking/ad-consent and notification prompts until successful login/session restoration and biometric unlock, with sequential prompts and logout/resume protection. Its 50 focused tests, static analysis and checked iOS dev simulator launch passed. **Production deployment/release remains pending for both items**; physical-device, live-delivery, privacy/legal and store acceptance requirements remain recorded below. This update authorizes no staging or production rollout. See [Listings dev evidence](../test-results/LISTINGS_DEV_2026-10-02.md) and [post-login permission verification](../../iadme-mobile/docs/post-login-permissions-2026-10-03.md).
 
 **30 September photo/Lambda completion:** IADME-035 implementation is **complete; production testing is pending**. Local automated checks passed, and the owner deployed `iadme-prod-photo-transform-v2:live` in `us-east-1` for `iadme-media-prod`. Read-only AWS checks confirmed version 1, the expected code hash and reserved concurrency 2. The standalone live image test and worker IAM verification remain pending. The production backend build/deployment and worker activation are **on hold at the owner's request**; do not resume them without a new instruction. See [Lambda verification and deployment status](../test-results/PRODUCTION_PHOTO_LAMBDA_2026-09-30.md).
 
@@ -10,7 +14,11 @@ Last updated: 2026-09-30
 
 **28 September official Inbox completion:** IADME-024's bounded first phase is complete in source and local dev. Official notices live in a separate Profile Inbox above Wallet, with subject/full-message screens, newest-first ordering, registration welcome for existing and new users, email delivery and compact native ads after messages 1, 3, 5, etc. The three Inbox migrations are applied in local dev; staging/production deployment and a new mobile release remain separate follow-ups. The user chose to share existing Comments Native advanced ad units with Inbox in production, so ad reporting is combined.
 
-**27 September local-jobs request:** IADME-040 records an in-app local job-vacancy section with an initial server-authoritative price of **5 stars per published post**, plus locality discovery, expiry, moderation, reporting and scam-safety requirements. This is a backlog entry only. No job listing, star balance, transaction, user account, notification, production data or application code was changed.
+**2 October Local Market UI decisions:** IADME-040 now specifies Profile with three icons per row (Inbox / Messages / Wallet first), Listings replacing the Messages bottom tab, a Video / Photo / Listing upload arch, photos-only listings (up to five), seller ratings, listing enquiries and a related-listings/preload worker. Visibility is now **one month**, replacing seven days; **30 days** is the proposed implementation. See [the design and decision record](LOCAL_MARKET_UI_2026-10-02.md). The screenshot follow-up preserves current profile functions in grouped submenus, removes seller ratings from Profile, and confirms Feed / Trending / Upload / Profile / Listings order. Implementation and dev activation were authorized later the same day. Latest owner corrections retain ScrollScore, the complete Feed rail and compact text with a details sheet; photos-only is confirmed. See the latest design decisions and dev acceptance evidence.
+
+**30 September Local Market expansion (historical; visibility superseded):** IADME-040 now covers lead-only local marketplace listings, including jobs, at **10 stars per post**, with **seven-day visibility**, both phone and email verification before publication requests, feed reuse without scroll score, advertiser enquiries, and explicit allowed/prohibited categories. This supersedes the original five-star job price. Retention/deletion timing and legal review remain pending. See [the complete discussion and implementation record](LOCAL_MARKET_PLAN_2026-09-30.md). Planning only; no application or production change.
+
+**27 September local-jobs request (historical; price superseded):** IADME-040 records an in-app local job-vacancy section with an initial server-authoritative price of **5 stars per published post**, plus locality discovery, expiry, moderation, reporting and scam-safety requirements. This is a backlog entry only. No job listing, star balance, transaction, user account, notification, production data or application code was changed.
 
 **26 September acquisition, privacy and review requests:** IADME-038 records install-first shared reel links with post-install reel recovery, IADME-039 records the iOS App Tracking Transparency review path, and IADME-030 now includes a maximum monthly rating/review reminder with explicit store-page navigation. Subsequent working-tree implementation is described in each item; App Store metadata and production releases remain unchanged.
 
@@ -88,9 +96,13 @@ Tracker **Completed** means the owner closed the backlog request; it does not ov
 | IADME-036 | Upgrade Flutter and all project dependencies with complete Razorpay validation | **Completed (tracker)**; Full Flutter/dependency upgrade and Razorpay validation not performed | Flutter/Dart + mobile/native packages + backend/tooling dependencies + Razorpay |
 | IADME-037 | Resolve, verify and close all eligible GitHub issues | **Completed (tracker)**; GitHub issues closed; per-issue verification and release acceptance not established | GitHub issue inventory + reproduction/triage + fixes/evidence + closure |
 | IADME-038 | Make shared reel links install-first with post-install reel recovery | Install-first working tree; installed-link/device acceptance pending | Share landing + existing app links + explicit store choice + link replay fallback |
-| IADME-039 | Show the iOS App Tracking Transparency choice when required | ATT implemented in working tree; physical-device validation, App Store metadata and resubmission pending | iOS ATT + SDK/data-use audit + consent behavior + App Store metadata |
-| IADME-040 | Add local job vacancies with a 5-star publishing charge | Backlog; not implemented | Mobile jobs UI + backend listings/search + star ledger + moderation/safety |
+| IADME-039 | Defer tracking/notification prompts until login; iOS ATT review readiness | **Implementation complete in dev; production release pending**; physical-device/privacy/store acceptance pending | Post-login permission timing + iOS ATT + SDK/data-use audit + App Store metadata |
+| IADME-040 | Add lead-only Local Market with 10-star posts and one-month expiry | **Implementation complete and active in dev; production deployment/release pending**; public-launch checks remain | Profile/navigation + marketplace feed + messaging/ratings + listings/search + star ledger + moderation/safety |
 | IADME-041 | Review the iCube comments worker and add creative factual comments for videos and photos | Backlog; analysis and implementation pending | iCube comment eligibility, fact sources, templates/generation, scheduling and quality checks |
+| IADME-042 | Add country-specific support beyond India | Not started; target countries and requirements to discuss | Country configuration + localization + currency/pricing + phone/location support |
+| IADME-043 | Define creator monetization and a separate creator profile on iadme.app | Not started; monetization details to discuss | Creator product/revenue model + dedicated website profile + account integration |
+| IADME-044 | Plan two additional instances, staging/prod separation and a SaaS website | Not started; architecture, SaaS scope and costs to discuss | Infrastructure isolation + two additional instances + SaaS website + cost planning |
+| IADME-045 | Expand advertising: add more ads | Not started; ad expansion approach to discuss | Ad inventory/networks + placements/frequency + revenue and user-experience evaluation |
 
 ## IADME-001 — Registration device and location details
 
@@ -610,6 +622,8 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 **Status:** Added on 2026-09-24 as a dependent backlog request. Do not implement until creator ecommerce monetization and the premium-video unlock model exist.
 
+**Dependency:** IADME-043 now records the broader creator monetization discussion and dedicated creator website profile. Agree that product's unlock model before implementing this count.
+
 **Outcome:** For a premium video with more than one valid unlock, show users how many times it has been unlocked. Hide the count when it is zero or one.
 
 **Scope:** Authoritative commerce aggregation, premium-video API fields and mobile presentation. This item does not define pricing, payouts, refunds, entitlements or the underlying creator monetization product.
@@ -727,15 +741,19 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [ ] After installation or ordinary app launch from the link, authenticate when required, then open the exact eligible reel without losing navigation state. Deleted, moderated, private, blocked or unavailable reels must show a safe unavailable state rather than widening access.
 - [ ] Test installed/not-installed, signed-in/signed-out, Android/iOS browsers, social-app in-app browsers, desktop, store cancellation, delayed installation, first launch, link replay, tampered IDs and unavailable reels. Record attribution separately from successful install or reel view; a redirect is not proof of installation.
 
-## IADME-039 — iOS App Tracking Transparency prompt and review readiness
+## IADME-039 — Post-login permission prompts and iOS ATT review readiness
 
-**Status:** iOS ATT request, usage description, ad-startup gate and permission-prompt ordering implemented on 2026-09-28 in the working tree for the review of version 1.0.4 (48). Focused consent tests, Dart analysis and the checked iOS simulator build passed; an iPhone simulator displayed the native ATT dialog after reinstall. Physical-device validation, publication of the updated privacy policy, App Store privacy answers and replacement submission remain pending. See `iadme-mobile/docs/ios-att-review-2026-09-28.md`.
+**Status: Implementation complete in dev; production release pending.** The original iOS ATT request, usage description, ad-startup gate and prompt ordering were implemented on 2026-09-28 for review of version 1.0.4 (48), with an iPhone simulator displaying the native ATT dialog after reinstall. The 2026-10-03 follow-up defers tracking/ad consent and notification permission until the user has a valid saved session, has left login/registration/OTP screens, and the foreground app is unlocked. Consent precedes notification registration; delayed responses cannot start the next prompt after logout or backgrounding. All 50 focused tests, changed-file analysis and the checked dev simulator launch passed. Existing simulator permission choices were preserved; fresh-install physical-device validation, updated privacy-policy publication, App Store privacy answers and replacement submission remain pending. See [post-login permission evidence](../../iadme-mobile/docs/post-login-permissions-2026-10-03.md) and `iadme-mobile/docs/ios-att-review-2026-09-28.md`.
 
 **Outcome:** If the app or an included SDK performs activity that qualifies as cross-app/site tracking, iOS users see Apple's App Tracking Transparency authorization dialog at a suitable moment and can choose **Ask App Not to Track** or **Allow** before tracking-dependent access occurs. The app remains usable when permission is denied.
 
 **Constraint:** The operating system supplies the dialog and button labels; the app supplies only a truthful purpose description and the timing of the request. An ATT prompt should follow the app's actual data use and current review requirements, not be added as a cosmetic approval step while tracking behavior or store disclosures remain inconsistent.
 
-**Scope:** iOS data-flow/SDK audit, ATT authorization, tracking-dependent initialization, ad/analytics consent interaction, privacy manifests and App Store privacy/review metadata.
+**Scope:** Authenticated foreground timing for tracking/ad consent and Android/iOS notification permission, iOS data-flow/SDK audit, ATT authorization, tracking-dependent initialization, ad/analytics consent interaction, privacy manifests and App Store privacy/review metadata.
+
+- [x] Defer tracking/ad-consent and notification prompts throughout login, registration, recovery and OTP; wait for biometric unlock, serialize the prompts, preserve existing OS choices and retry eligible deferred work on resume. Gate direct ad callers as well as app startup.
+- [x] Hold push-tap navigation until authenticated entry and associate device registration/token-refresh recovery with the current account. Validate missing/expired tokens, stale session lookups, logout, lock and resume.
+- [ ] Include the completed permission changes in a separately authorized production mobile release and complete physical-device/store acceptance below.
 
 - [ ] Inventory the app and every embedded iOS SDK—including advertising, attribution, analytics and social SDKs—to identify identifier access, data sharing and any linking of user/device data across other companies' apps or websites. Document whether the approved production configuration requires ATT.
 - [ ] If tracking applies, add a clear `NSUserTrackingUsageDescription` and request the system authorization only at a contextual point before tracking-dependent data or the advertising identifier is accessed. Do not request it on first frame, repeatedly or before explaining why where a neutral explanation is useful.
@@ -744,25 +762,34 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [ ] Align App Store privacy answers, the tracking declaration, privacy policy, required SDK privacy manifests/signatures and review notes with the shipped binary and server-side data flows. If the audit finds no tracking, disable/remove tracking behavior and keep the metadata truthful rather than requesting unnecessary permission.
 - [ ] Test clean install and every authorization state on physical iOS devices, including parental/restricted accounts, app upgrades, reset permissions, ad/analytics behavior and absence of pre-authorization identifier access. Capture review evidence without recording the identifier itself.
 
-## IADME-040 — Local job vacancies with 5-star posts
+## IADME-040 — Lead-only Local Market with 10-star posts
 
-**Status:** Added on 2026-09-27 as a backlog request only. No job-vacancy screen, listing API/table, search index, star debit, moderation rule or production configuration has been added.
+**Status: Implementation complete and active in dev; production deployment/release pending.** Implemented and activated on 2026-10-02 under the owner's explicit dev-only instruction, including the subsequent Profile, Targets, Jobs-form and publication-receipt changes. Private storage, migrations, API and worker are active; local admin/policy pages and the simulator app are available. Remaining physical-device, live-delivery and public-launch checks are listed below. Staging and production were not changed. [Dev acceptance evidence](../test-results/LISTINGS_DEV_2026-10-02.md).
 
-**Outcome:** Users can discover relevant job vacancies in their locality and eligible users or employers can publish a job post for **5 in-app stars**. Listings remain useful, current and safe without exposing unnecessary personal information or letting client-side balance changes create free or duplicate posts.
+**Outcome:** Users discover local listings and contact independent advertisers. Every post, including jobs, costs **10 stars** and is visible for **30 days** from automatic publication. Admin review happens afterward. The original five-star job price and seven-day visibility are superseded.
 
-**Scope:** Mobile job discovery and posting UI, backend listing lifecycle, locality filtering/search, server-authoritative star ledger transaction, moderation/reporting, expiry and a safe application/contact path. Recruitment, employment verification and payments between employers and applicants remain outside the initial feature unless separately approved.
+**Authoritative planning record:** [Local Market discussion, legal positioning and implementation plan](LOCAL_MARKET_PLAN_2026-09-30.md). This records confirmed owner decisions separately from recommendations and pending legal/product decisions. [2 October UI and rating decisions](LOCAL_MARKET_UI_2026-10-02.md) take precedence for navigation, photos-only media, seller ratings, expiry and related-listings/preload behavior.
 
-- [ ] Define the first-version listing fields: job title, employer/business name, description, job category, locality/city/state, work arrangement, employment type, compensation range or disclosure choice, requirements, application/contact method, application deadline and automatic expiry. Do not publish exact home addresses or unnecessary applicant/employer personal data.
-- [ ] Define who may post, including account age/status, phone/email or business verification where appropriate, per-account active-listing limits and rate limits. Clearly identify unverified employers rather than implying that iAdMe guarantees a job or employer.
-- [ ] Show the **5-star** price and current balance before final confirmation. Create the listing and debit through one idempotent server-side transaction so double taps, retries or concurrent devices cannot charge twice, overspend a balance or publish without payment.
-- [ ] Charge only when a valid listing is accepted for publication. Do not charge for drafts or validation/technical failures; define consistent refund/credit rules for moderation rejection, duplicate removal, poster cancellation and platform failure, plus whether edits, expiry renewal and reposting cost another five stars.
-- [ ] Record an immutable star-ledger entry linked to the job post, account and idempotency key. Never trust a client-provided price or balance; make the initial five-star price server-configurable and audit every manual adjustment.
-- [ ] Add a dedicated Jobs surface with locality/category/work-type filters, stable cursor pagination, useful empty states and clear **Open**, **Filled**, **Expired**, **Removed** and **Pending review** states. Closed, expired or moderated listings must not continue appearing as available jobs.
-- [ ] Provide a privacy-conscious application/contact path. Avoid publicly exposing phone numbers or email addresses by default; consider an approved in-app response or relay flow, and let posters close a vacancy without deleting required audit/moderation history.
-- [ ] Add automated and user reporting for scams, impersonation, discriminatory/illegal content, misleading compensation, requests for upfront applicant payment, unsafe work and duplicate/spam listings. Support review queues, takedown, poster sanctions and an appeal trail.
-- [ ] Define optional job alerts separately from video-upload alerts in IADME-029, with locality/category preferences, frequency caps and opt-out. Do not send every new job to every nearby user.
-- [ ] Review applicable employment-listing, consumer-protection, privacy, tax/accounting and app-store rules for charging in-app stars before release, including how users acquire stars and whether the posting charge must use a particular store billing path.
-- [ ] Test insufficient balance, double submission, retry/restart, concurrent posting, moderation approval/rejection, refund decisions, edits/renewals, expiry, deletion, blocked users, location changes, search pagination and current Android/iOS accessibility layouts.
+- [x] Require both phone and email verification before an advertiser can publish, with server-side eligibility enforcement and Profile → Account → Verify email or phone.
+- [x] Design then implement the three-column Profile grid and submenus, Listings in the old Messages tab, and the three-circle upload arch. Preserve normal video/photo composers.
+- [x] Open Profile Inbox and Messages directly, retain the Wallet submenu, remove redundant History listing entries, and show targeted/bookmarked listings under Targets with correct navigation and refresh.
+- [x] Reuse the full vertical feed with up to five photos, filters, age pill, reaction rail and seller name/avatar. Keep ScrollScore and the full shared Feed action rail, with a compact seller rating and full details in a sheet; disable marketplace scroll rewards.
+- [x] Add listing-linked Enquire with the editable default “is this still available,” correct conversation deep links and reply notifications.
+- [x] Add eligible-conversation seller ratings and a related-listings worker with bounded next-two photo preloading, as described in the 2 October design record.
+- [x] Implement server-authoritative, atomic, idempotent 10-star publication charging, with disclosed refund/rejection and repost rules.
+- [x] Enforce 30-day listing visibility and lifecycle states across feed, search, profiles, share links and media access.
+- [x] Implement automatic media/public-detail cleanup 7 days after closure/expiry, with documented holds and separate minimal chat/review/ledger retention. Public-launch retention-policy approval remains open.
+- [x] Enforce allowed/prohibited launch categories in posting and moderation; display rules in dev UI, Help and local policy pages. Public policy publication remains open.
+- [x] Provide reporting, blocking, rate limits, review/appeal operations and privacy-conscious contact.
+- [x] Communicate lead-only role, no transaction commission or deal guarantees, and advertiser responsibilities throughout screens, Help, FAQ, Terms and privacy policies.
+- [x] Replace ambiguous Jobs pay/hours text with structured amount/range and period choices, employment/work-schedule options and day/week hours. Remove application closing date and request an eligible store-review prompt after the advertiser closes a listing.
+- [x] Create an owner-only official Inbox receipt and queue account email after successful listing, video or photo publication. Failed/draft posts receive no publication receipt; repeated processing callbacks do not duplicate Inbox records. Actual mailbox delivery remains an acceptance check.
+- [ ] Review applicable legal, tax/accounting and app-store obligations before launch; disclaimers do not waive mandatory platform obligations.
+- [x] Complete dev acceptance checks for real storage, billing, worker processing, messages, ratings, native navigation and cleanup.
+- [ ] Complete remaining physical-device, real email/SMS/push and public-launch checks before a separately authorized release.
+- [ ] Deploy the required storage/policies, migrations, API/worker and matching mobile changes to production only under separate release authorization.
+
+**Publication acceptance dependency:** Live dev video-upload/email acceptance is pending a dedicated dev MediaConvert pipeline; the existing staging-linked configuration was disabled. Video receipt behavior is integration-tested, and listing/photo processing is unaffected. See the dev evidence above. Production remains pending; this dependency does not authorize using staging resources for dev.
 
 ## IADME-041 — Creative, fact-based iCube comments for videos and photos
 
@@ -779,6 +806,58 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 - [ ] Review representative video/photo examples for accuracy, relevance, variety and tone; test new posts, milestone updates, retries, duplicate sweeps and deleted/blocked content before rollout.
 
 **Starting points:** `iadme-backend/services/api/src/main/modules/icube/icube-comments.queue.ts`, `icube-comments.service.ts` and `icube-comments.repository.ts` in the same directory.
+
+## IADME-042 — Country-specific support beyond India
+
+**Status:** Added on 2026-10-03. Not started; target countries and requirements need discussion. The owner reports that the current app supports India only.
+
+**Outcome:** Adapt iAdMe for explicitly supported countries while preserving the existing India experience.
+
+**Scope:** Country configuration, supported languages, currencies and price presentation, phone verification, location hierarchy, content discovery and country-dependent service availability.
+
+- [ ] Agree the first additional countries and rollout order, and define how a user's country is selected or changed, including travel and missing-location cases.
+- [ ] Audit India-specific assumptions across mobile, backend and website: currency/Stars pricing, phone codes, locality/city/state fields, dates/time zones, language, listings, jobs, payments and ads.
+- [ ] Record each country's required configuration, provider availability and applicable policy/store requirements; identify decisions and dependencies before implementation.
+- [ ] Define country-specific acceptance cases and a staged rollout plan, including regression checks for India and cross-country discovery.
+
+## IADME-043 — Creator monetization and a separate creator profile
+
+**Status:** Added on 2026-10-03. Not started; monetization details are explicitly awaiting discussion. A separate creator profile page on **iadme.app** is requested.
+
+**Outcome:** Define how creators can earn through iAdMe and give each creator a dedicated website profile linked to their app identity.
+
+**Scope:** Creator eligibility, revenue model, creator-facing experience, a separate website profile, account linkage and the backend records required by the agreed monetization model.
+
+- [ ] Discuss the monetization model, eligibility, pricing, any platform share, settlement/payout approach and refund handling. These are open decisions, not approved commercial terms.
+- [ ] Design the dedicated creator profile on iadme.app: URL structure, public fields, creator content/offers, editing ownership, privacy and app links. Confirm which monetization actions belong on the page.
+- [ ] Map the chosen model to account roles, payment/entitlement records, reporting and applicable store/payment requirements before implementation.
+- [ ] Resolve the dependency for IADME-032 premium-video unlock counts once the creator monetization and unlock model are agreed.
+
+## IADME-044 — Two additional instances, environment separation and SaaS website
+
+**Status:** Added on 2026-10-03. Not started; architecture, costs and SaaS requirements need discussion. The owner requested **two additional instances**, separation of staging and production, and a SaaS website; the exact role of each instance remains to be agreed.
+
+**Outcome:** Establish an agreed hosting and cost plan for isolated staging/production services and the proposed SaaS website.
+
+**Scope:** Existing infrastructure inventory, two additional compute instances, staging/production boundaries, SaaS product/website requirements and recurring/one-time costs.
+
+- [ ] Inventory current services and agree where the two additional instances fit. Specify separation of application services, databases, queues, storage, secrets, domains and deployment access across staging and production.
+- [ ] Define what the SaaS website provides, its intended customers, account/tenant model and relationship to iadme.app and the creator-profile work in IADME-043.
+- [ ] Prepare a dated cost comparison using agreed regions, instance sizes and traffic assumptions. Include compute, database, load balancing, storage/CDN/egress, queues, backups, monitoring and any SaaS-specific services; show baseline, growth and migration costs.
+- [ ] Agree the budget, migration/rollback sequence, backup/restore checks and environment-isolation tests before provisioning or moving workloads.
+
+## IADME-045 — Expand advertising
+
+**Status:** Added on 2026-10-03. Not started; the owner requested “Add more ads.” The expansion approach needs discussion.
+
+**Outcome:** Increase useful advertising opportunities and revenue with an agreed impact on the app experience.
+
+**Scope:** Potential additional ad inventory/networks, placement surfaces, formats and frequency. This extends the advertising work recorded in IADME-005 through IADME-009 and IADME-014.
+
+- [ ] Clarify whether “more ads” means more filled inventory/ad partners, additional placements/formats, higher frequency, or a combination. Record the selected approach before changing serving behavior.
+- [ ] Review existing placement performance, fill, revenue, repetition, loading cost and user engagement to identify the most useful expansion.
+- [ ] Agree placement/frequency limits and country relevance, preserving post-login consent timing and the previously agreed boundaries around private conversations and reaction sheets.
+- [ ] Define a limited rollout with revenue, retention, latency and ad-quality measures, plus a way to revert the change. Any additional network/SDK or provider configuration depends on the agreed plan.
 
 ## Maintaining this list
 
