@@ -81,9 +81,12 @@ closure does not imply those features shipped or a complete dependency upgrade.
   had bucket access and the scoped production Lambda invocation policy.
 - The existing media bucket is shared by staging and production. Its current
   CloudFront allow rule was preserved, with an added deny for private
-  `photo-sources/*` originals. A two-day source-only lifecycle rule is prepared
-  but **not applied, pending explicit owner approval after automatic review
-  rejected the deletion policy**. Normal worker cleanup remains active.
+  `photo-sources/*` originals. After explicit owner approval, the two-day
+  source-only lifecycle rule was applied and read-back verified on 12 October
+  at 07:12 UTC. It expires only `photo-sources/` originals and aborts incomplete
+  uploads in that prefix after one day; published `photos/` and all video prefixes
+  are excluded. Automatic review initially held the deletion policy until this
+  approval was supplied. Normal worker cleanup remains active.
 
 ## Migrations and rollback
 

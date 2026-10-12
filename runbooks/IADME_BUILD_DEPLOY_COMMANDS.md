@@ -29,9 +29,10 @@ Mobile release version is `1.0.4+50`; signed AAB and IPA verification passed.
 Both packages, `SHA256SUMS`, release notes and signing evidence are in
 `artifacts/releases/1.0.4-build50/`. The owner will upload both stores manually.
 See `docs/test-results/RELEASE_BUILD50_2026-10-12.md` for scope, verification,
-rollback, artifact status and outstanding acceptance checks. The optional S3
-source-cleanup lifecycle rule awaits explicit approval; normal worker cleanup
-is active and CloudFront access to originals is denied.
+rollback, artifact status and outstanding acceptance checks. After explicit owner
+approval, the two-day S3 `photo-sources/` cleanup rule was applied and verified;
+published photos and videos are excluded. Normal worker cleanup is active and
+CloudFront access to originals is denied.
 
 ## Historical release — September 21, 2026, build-44 follow-up
 
