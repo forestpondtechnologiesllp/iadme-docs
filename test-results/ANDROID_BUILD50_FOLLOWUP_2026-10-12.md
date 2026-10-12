@@ -1,6 +1,15 @@
 # Android build-50 follow-up — 12 October 2026
 
-## Status and scope
+## Later release status
+
+This document records the first local follow-up. Its deployment hold and fixed
+header breakpoint are superseded by the measured responsive layout and staged
+price rollout in [build 51 release evidence](RELEASE_BUILD51_2026-10-12.md).
+Backend `d1bddc6` is now deployed to staging and production, with production kept
+at 5 Stars by explicit owner choice until the app update. Staging validates 10.
+The photo-quality analysis below remains applicable; encoders are unchanged.
+
+## Original status and scope
 
 The owner reported a second-row age/mute/menu header, an overly inset action rail, a photo-caption keyboard that remained open, a requested photo price increase from 5 to 10 Stars, and soft-looking uploaded photos. The screenshots came from a OnePlus 9 Pro (LE2121). ADB confirmed that `app.iadme.mobile` was installed by Google Play with version `1.0.4`, code `50`. This establishes installation on one device, not public production rollout.
 

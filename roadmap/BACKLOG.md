@@ -4,17 +4,18 @@ Last updated: 2026-10-12
 
 ## Current delivery status — 12 October 2026
 
-**Staging and production backend deployment is complete.** Both environments run `release-2026.10.12-build50-7bcd738`, with all 13 release migrations applied and verified. API, main worker and the separate bounded reel-shop worker passed health/soak checks. The website changes are also deployed. See [build 50 release evidence](../test-results/RELEASE_BUILD50_2026-10-12.md) for image digest, backups, migrations, tests and limitations.
+**Staging and production backend deployment is complete.** Both now run `release-2026.10.12-layout-photo-d1bddc6`. All 13 build-50 release migrations remain applied and verified; this follow-up adds no migrations. API, main worker and the separate bounded reel-shop worker passed health checks. Production photo posts remain **5 Stars until the app update**, by explicit owner choice; staging validates the 10-Star activation. The website changes from build 50 remain deployed. See [build 51 release evidence](../test-results/RELEASE_BUILD51_2026-10-12.md) for the current image, backups, responsive-layout tests, signed artifacts and staged pricing, and [build 50 evidence](../test-results/RELEASE_BUILD50_2026-10-12.md) for the original feature/migration rollout.
 
 | Delivery | Confirmed state | Remaining work |
 | --- | --- | --- |
 | Backend / website | IADME-024, 026, 029, 030/031, 035, 038 and 040 deployed; prior auth/profile/diagnostic changes retained | Feature-specific device, delivery and public-launch acceptance below |
 | Photo processing / storage | Production Lambda active; live transformation passed with the worker role; private originals denied through CloudFront; owner-approved two-day `photo-sources/` cleanup applied and verified | Physical-device production upload acceptance |
 | Reel shop | Backend, admin/website support and bounded worker deployed; mobile support included in build 50 | Remote inventory starts empty/disabled; catalogue activation is separate |
-| Android 1.0.4 (50) | Signed AAB built and verified; build 50 installed from Google Play on the connected Android phone (12 October ADB verification) | Public production rollout is not confirmed; reported layout/photo follow-up tracked in IADME-046 |
-| iOS 1.0.4 (50) | Signed App Store IPA built and verified | Owner's manual upload, TestFlight/App Store acceptance and rollout are not confirmed |
+| Android 1.0.4 (50) | Signed AAB built and verified; build 50 installed from Google Play on the connected Android phone (12 October ADB verification) | Public production rollout is not confirmed; use build 51 for the next upload |
+| iOS 1.0.4 (50) | Archived signed App Store IPA; superseded by build 51 | Use build 51 for the next upload |
+| Android / iOS 1.0.4 (51) | Signed AAB/IPA built and verified with responsive layout, keyboard and quoted-price fixes | Owner will upload manually; production 10-Star activation remains held until the app update |
 
-The matching mobile changes, post-login permissions (IADME-039), Meta mediation, Facebook login and next-two/background reel preparation are included in build 50. Android installation is confirmed on one phone; inclusion in a verified binary does not establish public store release or complete feature acceptance. Existing next-two preparation remains prioritized; the approximately 200 MB allowance is disk cache, and OS background execution is not guaranteed.
+The matching mobile changes, post-login permissions (IADME-039), Meta mediation, Facebook login and next-two/background reel preparation are included in build 50 and retained in build 51. Android build-50 installation is confirmed on one phone; inclusion in a verified binary does not establish public store release or complete feature acceptance. Existing next-two preparation remains prioritized; the approximately 200 MB allowance is disk cache, and OS background execution is not guaranteed.
 
 - [x] Commit and push the release source to configured repository remotes; the infrastructure repository has no remote.
 - [x] Rehearse migrations, retain server backups/rollback files, and deploy the same immutable backend image to staging then production.
@@ -76,7 +77,7 @@ Tracker **Completed** means the owner closed the backlog request; it does not ov
 | IADME-043 | Define creator monetization and a separate creator profile on iadme.app | Not started; monetization details to discuss | Creator product/revenue model + dedicated website profile + account integration |
 | IADME-044 | Plan two additional instances, staging/prod separation and a SaaS website | Not started; architecture, SaaS scope and costs to discuss | Infrastructure isolation + two additional instances + SaaS website + cost planning |
 | IADME-045 | Expand advertising: add more ads | Not started; ad expansion approach to discuss | Ad inventory/networks + placements/frequency + revenue and user-experience evaluation |
-| IADME-046 | Correct Android build-50 header/rail layout, photo keyboard and 10-Star publishing; review photo quality | **Implemented and tested locally/on a separate Android diagnostic app**; backend/mobile release pending; quality alternatives documented, encoding unchanged | Mobile UI + quoted photo price + legacy refunds + quality assessment |
+| IADME-046 | Correct Android build-50 header/rail layout, photo keyboard and 10-Star publishing; review photo quality | **Backend deployed; responsive layout verified on small/large profiles and native Android/iOS tests**; signed build-51 AAB/IPA verified; manual store rollout pending; production price held at 5; encoding unchanged | Mobile UI + quoted photo price + legacy refunds + quality assessment |
 
 ## IADME-001 — Registration device and location details
 
@@ -313,7 +314,7 @@ The follow-up mobile implementation replaces idle connection pools on native net
 
 **Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
-**Status:** First deployed on 2026-09-14 with `20260914_add_profile_enrichment_sources.sql`; retained in the current staging/production release `release-2026.10.12-build50-7bcd738`. Mobile build 50 contains the client work, including later Facebook profile support. Store rollout and physical-device acceptance remain pending.
+**Status:** First deployed on 2026-09-14 with `20260914_add_profile_enrichment_sources.sql`; retained in the current staging/production release `release-2026.10.12-layout-photo-d1bddc6`. Mobile build 50 contains the client work, including later Facebook profile support. Store rollout and physical-device acceptance remain pending.
 
 **Original investigation findings (before the implementation below):**
 
@@ -342,7 +343,7 @@ Provider references: [Google name/picture claims](https://developers.google.com/
 
 **Tracker status: Completed by owner.** Delivery and acceptance details below remain as recorded.
 
-**Status:** Implemented, committed and pushed on 2026-09-13. Backend migration/API/worker deployed to staging and production as `release-2026.09.13-7eee307`; controlled staging delivery and restart recovery passed. The current backend release is `release-2026.10.12-build50-7bcd738`, and the matching mobile diagnostics are included in build 50. Store upload and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
+**Status:** Implemented, committed and pushed on 2026-09-13. Backend migration/API/worker deployed to staging and production as `release-2026.09.13-7eee307`; controlled staging delivery and restart recovery passed. The current backend release is `release-2026.10.12-layout-photo-d1bddc6`, and the matching mobile diagnostics are included in build 50. Store upload and physical acceptance remain pending. The owner requested AdMob support data for no-fill as well as tickets for other observed inconsistencies.
 
 - [x] Capture no-fill, network/load timeout, missed placement and native-media observations with available SDK response/source IDs, versions, UTC timing, device/build, consent, network and per-surface fresh-inventory counters.
 - [x] Queue diagnostics securely while offline and retain counted repeats instead of dropping all repeats for five minutes. Bound storage, redact sensitive values and reuse event UUIDs across uncertain acknowledgements.
@@ -830,18 +831,22 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-046 — Android build-50 follow-up and photo pricing/quality
 
-**Status:** Added 2026-10-12 after testing the Play-installed build 50. Mobile/backend fixes are implemented and regression-tested. A separate `iAdMe Diagnostics` app passed focused UI checks on the connected OnePlus 9 Pro with the owner's approval. The Play install and its data were preserved. These changes are **not deployed and are not in the archived build-50 AAB/IPA**. See [follow-up evidence and quality assessment](../test-results/ANDROID_BUILD50_FOLLOWUP_2026-10-12.md).
+**Status:** Backend `d1bddc6` is deployed to staging/production after isolated regression and live staging checks. Production remains **5 Stars until the app update**, as explicitly requested; staging uses 10. Mobile `f5439a7` passed the expanded layout matrix, native device/simulator checks and release preflight. Signed build-51 AAB/IPA, signing/production-setting checks, checksums and release notes are complete for owner-managed uploads. The Play-installed build 50 and its data were preserved. See [build 51 release evidence](../test-results/RELEASE_BUILD51_2026-10-12.md) and the [photo-quality assessment](../test-results/ANDROID_BUILD50_FOLLOWUP_2026-10-12.md).
 
-**Outcome:** Keep age/mute/menu inline at normal text size, shift the Feed/Trending action rail slightly right, dismiss the photo-caption keyboard on outside taps, and charge a confirmed 10 Stars for new photo posts while preserving older reservations/refunds.
+**Outcome:** Keep age/mute/menu inline when measured text fits, shift the Feed/Trending rail slightly right, keep large-text controls separated and reachable, dismiss the photo-caption keyboard on outside taps, and confirm the authoritative photo price while preserving older reservations/refunds.
 
-- [x] Correct the over-wide header breakpoint; retain 44dp controls and wrapping at large accessibility text sizes. Move the shared Feed/Trending rail from 14dp to 6dp right inset on the reported phone.
-- [x] Add outside-tap/Done keyboard dismissal to the photo composer and verify it on the physical Android device.
-- [x] Implement server-quoted photo pricing, explicit price confirmation and 10-Star new reservations; retries and refunds use the original ledger debit (including existing 5-Star drafts). No database migration is needed.
-- [x] Verify focused mobile/backend regressions, including price changes, quote failure, legacy refunds, concurrency and retry behavior. Keep heavy work sequential with bounded Gradle resources.
+- [x] Measure header/timer/text instead of relying on a fixed breakpoint; retain 44dp controls, allow large-text wrapping, grow navigation and prevent caption/rail/timer collisions. Move the rail from 14dp to 6dp right inset on the reported phone. Preserve complete numeric counts when they need to fit a narrow rail.
+- [x] Verify 120 combinations across ten small/large iOS/Android viewport and safe-area profiles, text scales 1/1.3/2/3 and Feed/Trending/composer; 63 focused regressions and 36 release/accessibility checks also passed.
+- [x] Run native Feed/Trending/composer at 1×/2×/3× on the connected OnePlus 9 Pro, iPhone SE simulator and iPhone 17 Pro Max simulator. Repeat Android/large-iPhone checks after the final count fix. Small/large Android models are represented by automated profiles; only the connected Android model is physically tested. No physical iPhone certification is claimed.
+- [x] Verify photo outside-tap/Done keyboard dismissal on the connected phone; preserve its Play install and saved data using the approved separate diagnostic app.
+- [x] Deploy server-quoted pricing and original-ledger refunds with explicit 5/10-Star rollout configuration. Preserve legacy build-50 uploads at 5 in production. Retain verified backups; all six staging/production service containers use the tested immutable image. No new migration is needed.
+- [x] Pass 48 isolated backend test executions plus live staging S3/processing/CDN, idempotent 10-Star debit/refund and stale-quote checks. Production config/health/Feed/Trending and stale-quote rejection passed without publication or wallet debit.
 - [x] Trace photo quality: mobile 1920px/quality 92, server display 1920px WebP 82, thumbnail 480px WebP 70, feed decode width 1080px. Document 2560px/WebP 90 and detail/lossless alternatives. Encoder settings remain unchanged.
-- [ ] Coordinate backend and a new mobile release before activating 10 Stars. Build 50 displays 5 and sends no price quote; the new backend will reject new unquoted posts without charging. Existing reservations continue at their original price. New AAB/IPA and manual owner store upload are still required for this follow-up.
-- [ ] Complete real upload/payment and playback acceptance on the new release. Device evidence here uses production widgets with synthetic local state; it does not publish content or charge a wallet.
-- [ ] Select and validate a photo-quality policy using original photos and the actual delivered variants, including pencil/text detail and transfer/memory measurements. Quality settings and original-photo retention remain unchanged while alternatives are considered.
+- [x] Build and verify signed 1.0.4 (51) AAB/IPA, exact versions/production settings/signing, checksums and release notes.
+- [ ] Owner uploads both stores manually and completes store rollout/acceptance.
+- [ ] Activate 10 Stars after the mobile update is available. At activation, old unquoted clients will be rejected before charging; new clients refresh changed prices and require confirmation. Existing reservations retain their original price.
+- [ ] Complete real mobile upload/payment and release-mode playback acceptance. Native UI evidence uses synthetic local state; live staging backend tests separately exercise real storage and a synthetic wallet.
+- [ ] Select and validate a photo-quality policy using original photos and actual delivered variants, including pencil/text detail and transfer/memory measurements. Quality settings and original-photo retention remain unchanged.
 
 ## Maintaining this list
 

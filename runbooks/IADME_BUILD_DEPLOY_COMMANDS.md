@@ -11,9 +11,31 @@ examples: replace them for the intended backend release. Mobile-only builds
 start at section 9 and do not require backend redeployment. Mobile configuration
 is saved in the app's `config/` directory; no Dart-define exports are required.
 
-## Latest backend release — October 12, 2026, build 50
+## Latest backend release — October 12, 2026, build-51 follow-up
 
-Staging and production use backend commit `7bcd7386c10dfd6080c7cf0b8319993bb945eb1d`,
+Staging and production run backend `d1bddc637c41de00c5ebd9c1daecff3c6414378c`,
+image `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.10.12-layout-photo-d1bddc6`,
+pinned to `sha256:bc26f0c33c965b8caec2df0d88c5302c0a6780a6bd63fdabadd78f0e1f192856`.
+API, main worker and affiliate worker passed health checks in both environments.
+No new migrations: the 13 build-50 release migrations remain recorded. Private
+backups/rollback configuration are in each environment's
+`backups/release-20261012-layout-photo-v1/`.
+
+Production explicitly uses `PHOTO_POST_COST_STARS=5` until the owner releases the
+new mobile app. Staging uses `10` and passed real synthetic upload/CDN/debit/refund
+checks. API and workers must use the same price within an environment. Activation
+at 10 rejects old unquoted reservations before charging; existing drafts retain
+their original debit/refund. Lambda, image encoders and source retention are unchanged.
+
+Mobile source is `1.0.4+51`, commit `f5439a7`. Expanded layout/native checks and
+production preflights passed. Signed AAB/IPA, checksums, production-setting and
+signature verification, and release notes are complete in
+`artifacts/releases/1.0.4-build51/`. The owner will upload AAB/IPA manually.
+See `docs/test-results/RELEASE_BUILD51_2026-10-12.md` for current evidence.
+
+## Previous backend release — October 12, 2026, build 50
+
+The original build-50 staging/production deployment used backend commit `7bcd7386c10dfd6080c7cf0b8319993bb945eb1d`,
 image `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.10.12-build50-7bcd738`,
 pinned to `sha256:2226e98cf6c990c14d89bba6c495ac9834c3c5bbebd2194c3f0b58825d4a0996`.
 All 13 pending migrations (September 27–October 8) were rehearsed on PostgreSQL 18,
@@ -25,7 +47,7 @@ worker passed health checks. Production photo processing uses the verified
 `iadme-prod-photo-transform-v2:live` Lambda. Listing photos use separate private
 staging and production buckets. Remote reel-shop catalogs start empty/disabled.
 
-Mobile release version is `1.0.4+50`; signed AAB and IPA verification passed.
+That mobile release version was `1.0.4+50`; signed AAB and IPA verification passed.
 Both packages, `SHA256SUMS`, release notes and signing evidence are in
 `artifacts/releases/1.0.4-build50/`. The owner will upload both stores manually.
 See `docs/test-results/RELEASE_BUILD50_2026-10-12.md` for scope, verification,
@@ -438,7 +460,7 @@ during tests. Use a Google Play testing-track install for purchase acceptance.
 ## 16. Prepare a mobile release
 
 Edit `version:` in `pubspec.yaml` once before a new store upload. The format is
-`<app-version>+<build-number>`; the current source is `1.0.4+50`. Increase the build
+`<app-version>+<build-number>`; the current source is `1.0.4+51`. Increase the build
 number for each new App Store Connect / Google Play upload. Both platforms read
 that same version, and the launcher generates the matching `APP_RELEASE`.
 
@@ -502,8 +524,8 @@ Output: `build/ios/ipa/`, for App Store Connect / TestFlight.
 Historical build 43 was an **iOS-only artifact request**, version `1.0.4+43`. Its production
 release label is `iadme-mobile@1.0.4+43`. Archive the IPA, signing/version checks,
 source/config evidence, and release notes in `artifacts/releases/1.0.4-build43/`.
-No Android build was part of that build-43 request. Current build 45 has both
-signed AAB and IPA files; physical-device verification is still pending.
+No Android build was part of that build-43 request. Build 45 also had both signed AAB and IPA files. The current build 51 and its
+verification limits are documented at the top of this guide.
 
 The prepared-start and sampled-diagnostic switches are saved in every profile
 and validated by `tool/mobile.dart`; do not reintroduce shell exports or omit them
