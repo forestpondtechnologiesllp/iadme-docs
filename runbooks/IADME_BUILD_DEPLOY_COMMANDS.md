@@ -11,7 +11,29 @@ examples: replace them for the intended backend release. Mobile-only builds
 start at section 9 and do not require backend redeployment. Mobile configuration
 is saved in the app's `config/` directory; no Dart-define exports are required.
 
-## Latest release — September 21, 2026, build-44 follow-up
+## Latest backend release — October 12, 2026, build 50
+
+Staging and production use backend commit `7bcd7386c10dfd6080c7cf0b8319993bb945eb1d`,
+image `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.10.12-build50-7bcd738`,
+pinned to `sha256:2226e98cf6c990c14d89bba6c495ac9834c3c5bbebd2194c3f0b58825d4a0996`.
+All 13 pending migrations (September 27–October 8) were rehearsed on PostgreSQL 18,
+applied in one transaction per environment, and recorded with checksums in
+`release_schema_migrations`. Do not reapply the historical migration examples.
+Private backups and rollback configuration are in each server environment's
+`backups/release-20261012-build50/`. API, worker and separate capped affiliate
+worker passed health checks. Production photo processing uses the verified
+`iadme-prod-photo-transform-v2:live` Lambda. Listing photos use separate private
+staging and production buckets. Remote reel-shop catalogs start empty/disabled.
+
+Mobile release version is `1.0.4+50`; signed AAB and IPA verification passed.
+Both packages, `SHA256SUMS`, release notes and signing evidence are in
+`artifacts/releases/1.0.4-build50/`. The owner will upload both stores manually.
+See `docs/test-results/RELEASE_BUILD50_2026-10-12.md` for scope, verification,
+rollback, artifact status and outstanding acceptance checks. The optional S3
+source-cleanup lifecycle rule awaits explicit approval; normal worker cleanup
+is active and CloudFront access to originals is denied.
+
+## Historical release — September 21, 2026, build-44 follow-up
 
 Image: `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.09.21-build45-followup`.
 Digest: `sha256:f831e0b065fed67d836afdd796b34aad7a750cb50309f0ef834cd0f2414da2c7`.
@@ -415,7 +437,7 @@ during tests. Use a Google Play testing-track install for purchase acceptance.
 ## 16. Prepare a mobile release
 
 Edit `version:` in `pubspec.yaml` once before a new store upload. The format is
-`<app-version>+<build-number>`; the current source is `1.0.4+49`. Increase the build
+`<app-version>+<build-number>`; the current source is `1.0.4+50`. Increase the build
 number for each new App Store Connect / Google Play upload. Both platforms read
 that same version, and the launcher generates the matching `APP_RELEASE`.
 
