@@ -822,7 +822,7 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 ## IADME-043 — Creator monetization and a separate creator profile
 
-**Status:** Added on 2026-10-03. Not started; monetization details are explicitly awaiting discussion. A separate creator profile page on **iadme.app** is requested.
+**Status:** Added on 2026-10-03. Implementation not started. The 2026-10-12 pricing and monetization discussion is captured in the [detailed implementation reference](CREATOR_MONETIZATION_IMPLEMENTATION_SPEC_2026-10-12.md), which distinguishes owner-confirmed decisions, working recommendations and remaining commercial choices. The separate creator profile page on **iadme.app** still requires design.
 
 **Outcome:** Define how creators can earn through iAdMe and give each creator a dedicated website profile linked to their app identity.
 
