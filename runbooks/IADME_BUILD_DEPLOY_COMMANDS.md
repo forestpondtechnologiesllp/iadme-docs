@@ -11,7 +11,32 @@ examples: replace them for the intended backend release. Mobile-only builds
 start at section 9 and do not require backend redeployment. Mobile configuration
 is saved in the app's `config/` directory; no Dart-define exports are required.
 
-## Latest backend release — October 12, 2026, build-51 follow-up
+## Latest backend release — October 14, 2026, build 52
+
+Staging and production run backend `9736dde5f709d3197a038f4e52ea35421d8d22d9`,
+image `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.10.14-build52-9736dde`,
+pinned to `sha256:8a8dad3b14a37be0020dd9c219e396b327ecefb75f878e0473c2f1a194784a3d`.
+API, worker and affiliate worker use the same image and passed public health/readiness,
+rate-limit isolation, payment-route removal and follow-up stability checks. Shared Redis
+API abuse controls are active; the unverified payment-credit route is removed.
+There are no new migrations; all 13 existing release ledger entries were verified.
+Private backups and rollback configuration are in each environment's
+`backups/release-20261014-build52-v1/`.
+
+Production explicitly remains `PHOTO_POST_COST_STARS=5`; staging uses `10`.
+A later change to production pricing requires separate owner activation.
+The owner approved backend rollout after staging passed with Meta verification pending.
+
+Mobile source is `1.0.4+52`, commit `54c1d5994959d216c72784619505ae28147a40e0`.
+Signed AAB/IPA, production-setting/signature checks and checksums are complete in
+`artifacts/releases/1.0.4-build52/`. Both packages are for manual owner upload. New changes include listing
+photo caching and keyboard fixes, compact-ad recovery, cold video startup fixes,
+both-tab queue preparation and Refresh. The simulator keyboard/Google sample-ad checks,
+148 focused mobile tests, 120 layout cases and 43 backend tests passed. Current Meta
+live fill remains unverified: Airtel blocks Ad Inspector on this connection, and the
+owner accepted leaving that check pending. See `docs/test-results/RELEASE_BUILD52_2026-10-14.md`.
+
+## Previous backend release — October 12, 2026, build-51 follow-up
 
 Staging and production run backend `d1bddc637c41de00c5ebd9c1daecff3c6414378c`,
 image `ghcr.io/forestpondtechnologiesllp/iadme-api:release-2026.10.12-layout-photo-d1bddc6`,
@@ -460,7 +485,7 @@ during tests. Use a Google Play testing-track install for purchase acceptance.
 ## 16. Prepare a mobile release
 
 Edit `version:` in `pubspec.yaml` once before a new store upload. The format is
-`<app-version>+<build-number>`; the current source is `1.0.4+51`. Increase the build
+`<app-version>+<build-number>`; the current source is `1.0.4+52`. Increase the build
 number for each new App Store Connect / Google Play upload. Both platforms read
 that same version, and the launcher generates the matching `APP_RELEASE`.
 
@@ -524,7 +549,7 @@ Output: `build/ios/ipa/`, for App Store Connect / TestFlight.
 Historical build 43 was an **iOS-only artifact request**, version `1.0.4+43`. Its production
 release label is `iadme-mobile@1.0.4+43`. Archive the IPA, signing/version checks,
 source/config evidence, and release notes in `artifacts/releases/1.0.4-build43/`.
-No Android build was part of that build-43 request. Build 45 also had both signed AAB and IPA files. The current build 51 and its
+No Android build was part of that build-43 request. Build 45 also had both signed AAB and IPA files. The current build 52 and its
 verification limits are documented at the top of this guide.
 
 The prepared-start and sampled-diagnostic switches are saved in every profile

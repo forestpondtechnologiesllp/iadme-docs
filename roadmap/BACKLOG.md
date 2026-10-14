@@ -1,21 +1,39 @@
 # iAdMe Backlog
 
-Last updated: 2026-10-12
+Last updated: 2026-10-14
 
-## Current delivery status — 12 October 2026
+## Build 52 release — 14 October 2026
 
-**Staging and production backend deployment is complete.** Both now run `release-2026.10.12-layout-photo-d1bddc6`. All 13 build-50 release migrations remain applied and verified; this follow-up adds no migrations. API, main worker and the separate bounded reel-shop worker passed health checks. Production photo posts remain **5 Stars until the app update**, by explicit owner choice; staging validates the 10-Star activation. The website changes from build 50 remain deployed. See [build 51 release evidence](../test-results/RELEASE_BUILD51_2026-10-12.md) for the current image, backups, responsive-layout tests, signed artifacts and staged pricing, and [build 50 evidence](../test-results/RELEASE_BUILD50_2026-10-12.md) for the original feature/migration rollout.
+**Backend deployed to staging and production.** Source `9736dde` runs as `release-2026.10.14-build52-9736dde`, pinned to `sha256:8a8dad3b14a37be0020dd9c219e396b327ecefb75f878e0473c2f1a194784a3d`. Shared API abuse limits and removal of the unverified payment-credit route passed staging and production checks. API, main worker and affiliate worker run the same image with zero restarts; the existing 13 migration entries were verified, with no new migration. Production photo pricing stays **5 Stars**; staging stays 10.
+
+Mobile source `54c1d59` is version `1.0.4+52`. Signed AAB/IPA, production-setting/signature checks and checksums are complete; see the [build 52 release record](../test-results/RELEASE_BUILD52_2026-10-14.md). The owner uploads both packages manually. Simulator keyboard and Google sample-ad checks passed, along with the automated suites. The owner explicitly accepted proceeding with Meta live verification pending because Airtel blocks Ad Inspector. Builds run sequentially with limited workers, and local dev services remain running. See [follow-up evidence](../test-results/BUILD51_FOLLOWUP_2026-10-14.md).
+
+- [x] Include the listing field/correction-highlight fix, bounded private photo cache and signed-link renewal in verified build 52 after simulator acceptance; owner store rollout remains pending.
+- [x] Include bounded Inbox/Comments ad recovery and diagnostics in verified build 52. Feed still inserts ads after two videos when the networks return inventory; investigate provider no-fill separately from app rendering.
+- [x] Include cold-start playlist ordering and bounded duplicate-read fallback in verified build 52 for [mobile issue #162](https://github.com/forestpondtechnologiesllp/iadme-mobile/issues/162); two physical profile samples passed at 1,106/344 ms, with store-release and varied-network performance acceptance still open.
+- [x] Include both-tab queue warming in verified build 52, with active next-two priority, inactive return/next-two disk preparation and existing resource guards.
+- [x] Include Refresh above Report a bug in verified build 52, with client coalescing/cooldown and authoritative per-user server quotas.
+- [x] Deploy shared Redis API abuse controls and remove the legacy unverified payment-credit route. Both environments passed quota/isolation, removed-route, authentication, public readiness, role consistency and stability checks; database/configuration backups are retained.
+- [x] Complete 148 focused Flutter tests, 120 responsive layout cases, 43 backend tests, static checks and one passing isolated iPhone profile run. Record the later screenshot-capture disconnect separately.
+- [x] Complete simulator keyboard acceptance with one compile worker: native typing produced no blue patch; tapping outside hid the software keyboard. Google compact sample creative rendered. Preserve the cancelled/deleted attempts separately.
+- [ ] Resolve Meta serving evidence: app approved/verified and placement mappings match, but the debugger reports an invalid bundle while platform onboarding still awaits bids. Google sample-ad rendering and historical Meta test ads do not clear this live-serving check. Ad Inspector is currently blocked by Airtel DNS filtering and a TLS hostname mismatch; alternate-network verification remains pending.
+- [x] Prepare and verify signed build-52 AAB/IPA, release notes and checksums; owner explicitly approved building with Meta verification left pending because an alternate connection is unavailable. Owner uploads manually. Keep production photo price at 5 Stars until explicit activation.
+
+## Feature delivery carried forward from 12 October 2026
+
+**The October 12 backend feature rollout is complete and retained in the October 14 image above.** The previous image was `release-2026.10.12-layout-photo-d1bddc6`. All 13 build-50 release migrations remain applied and verified; this follow-up adds no migrations. API, main worker and the separate bounded reel-shop worker passed health checks. Production photo posts remain **5 Stars until the app update**, by explicit owner choice; staging validates the 10-Star activation. The website changes from build 50 remain deployed. See [build 51 release evidence](../test-results/RELEASE_BUILD51_2026-10-12.md) for the previous image/backups, responsive-layout tests, build-51 artifacts and staged pricing, and [build 50 evidence](../test-results/RELEASE_BUILD50_2026-10-12.md) for the original feature/migration rollout.
 
 | Delivery | Confirmed state | Remaining work |
 | --- | --- | --- |
 | Backend / website | IADME-024, 026, 029, 030/031, 035, 038 and 040 deployed; prior auth/profile/diagnostic changes retained | Feature-specific device, delivery and public-launch acceptance below |
 | Photo processing / storage | Production Lambda active; live transformation passed with the worker role; private originals denied through CloudFront; owner-approved two-day `photo-sources/` cleanup applied and verified | Physical-device production upload acceptance |
 | Reel shop | Backend, admin/website support and bounded worker deployed; mobile support included in build 50 | Remote inventory starts empty/disabled; catalogue activation is separate |
-| Android 1.0.4 (50) | Signed AAB built and verified; build 50 installed from Google Play on the connected Android phone (12 October ADB verification) | Public production rollout is not confirmed; use build 51 for the next upload |
-| iOS 1.0.4 (50) | Archived signed App Store IPA; superseded by build 51 | Use build 51 for the next upload |
-| Android / iOS 1.0.4 (51) | Signed AAB/IPA built and verified with responsive layout, keyboard and quoted-price fixes | Owner will upload manually; production 10-Star activation remains held until the app update |
+| Android 1.0.4 (50) | Signed AAB built and verified; build 50 installed from Google Play on the connected Android phone (12 October ADB verification) | Public production rollout is not confirmed; use build 52 for the next upload |
+| iOS 1.0.4 (50) | Archived signed App Store IPA; superseded by build 51 | Use build 52 for the next upload |
+| Android / iOS 1.0.4 (51) | Signed AAB/IPA built and verified; iOS build 51 confirmed installed on the connected iPhone on October 14 | Public rollout is not confirmed. Owner manages store uploads; the October 14 follow-up is not in build 51. Production photo price remains 5 until explicit activation |
+| Android / iOS 1.0.4 (52) | Signed AAB/IPA built and verified from `54c1d59`; release notes and checksums complete | Owner-managed store uploads/rollout; Meta live-serving verification remains pending |
 
-The matching mobile changes, post-login permissions (IADME-039), Meta mediation, Facebook login and next-two/background reel preparation are included in build 50 and retained in build 51. Android build-50 installation is confirmed on one phone; inclusion in a verified binary does not establish public store release or complete feature acceptance. Existing next-two preparation remains prioritized; the approximately 200 MB allowance is disk cache, and OS background execution is not guaranteed.
+The matching mobile changes, post-login permissions (IADME-039), Meta mediation, Facebook login and next-two/background reel preparation are included in build 50 and retained in builds 51 and 52. Android build-50 installation is confirmed on one phone; inclusion in a verified binary does not establish public store release or complete feature acceptance. Existing next-two preparation remains prioritized; the approximately 200 MB allowance is disk cache, and OS background execution is not guaranteed.
 
 - [x] Commit and push the release source to configured repository remotes; the infrastructure repository has no remote.
 - [x] Rehearse migrations, retain server backups/rollback files, and deploy the same immutable backend image to staging then production.
@@ -635,7 +653,7 @@ See [full-screen ad validation](../test-results/FULLSCREEN_NATIVE_ADS_2026-09-13
 
 **Deployment:** The owner superseded the earlier hold on 2026-10-12. API/worker and migrations are deployed to both environments. Lambda `iadme-prod-photo-transform-v2:live` version 1 passed a live image transformation using the production worker role; production uses Lambda with concurrency capped at two. Original objects are denied through CloudFront. The owner explicitly approved the two-day `photo-sources/` lifecycle cleanup on 2026-10-12; it is applied and verified, with published photos and videos excluded. Normal worker cleanup remains active. Full physical-device acceptance and public store rollout remain open. See [build 50 evidence](../test-results/RELEASE_BUILD50_2026-10-12.md).
 
-**Outcome:** One reel or 1–5 photos per upload. The deployed build-50 backend charges 5 Stars total per photo post, with no premium viewing, and posts appear as one item in Feed/Trending. The owner requested 10 Stars on 12 October; this is implemented but not deployed (IADME-046).
+**Outcome:** One reel or 1–5 photos per upload. The deployed build-50 backend charges 5 Stars total per photo post, with no premium viewing, and posts appear as one item in Feed/Trending. The owner requested 10 Stars on 12 October; price-quote support is deployed, while production activation at 10 remains explicitly deferred (IADME-046).
 
 - [x] Simple photo selection/reordering, 2000-character caption and the existing location/privacy choices; no mixed video/photo uploads.
 - [x] S3 uploads, dedicated image worker, byte validation, orientation correction, metadata stripping and optimized variants; no MediaConvert jobs for photos.
